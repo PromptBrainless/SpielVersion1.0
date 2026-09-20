@@ -107,6 +107,7 @@ Mindestens:
 | `szeneWald` Ankunft | ein Satz |
 | `epilog(held)` | ein Satz **pro** Lösungsweg |
 | Todesszene | wenn `todesort === "<neu>"` |
+| Reputation/Erinnerung | `aendereRuf(held, szeneId, ziel, delta)` oder `merkeDir(held, szeneId, npcId, flagId)` **pro Lösungsweg**, wo die Quest Vertrauen oder Misstrauen erzeugt. Eintrag in `taten.ts` ( TATEN-Liste ), nicht am Held vorbei Zahlen setzen. `synchronisiereLog` läuft bei jedem `present`. |
 
 Bestehende Endtitel der Hauptgeschichte nicht anfassen. Epilog-Bits sind
 Zusatzzeilen, keine neuen `ending:`-Strings.
@@ -133,5 +134,6 @@ Zusatzzeilen, keine neuen `ending:`-Strings.
 2. `quest-<slug>.ts` (Modul kompiliert gegen die Flags)
 3. `knowledge.ts`
 4. `script.ts` (Import, Label, Echo, Epilog, Tod)
-5. `check-knowledge-gates.mjs`
-6. `docs/QUESTREGISTER.md` + `docs/quests/<slug>.md`
+5. `taten.ts` (merkeDir / aendereRuf pro Lösungsweg)
+6. `check-knowledge-gates.mjs`
+7. `docs/QUESTREGISTER.md` + `docs/quests/<slug>.md`

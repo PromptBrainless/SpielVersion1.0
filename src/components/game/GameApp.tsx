@@ -5,18 +5,22 @@ import { ART, PORTRAITS } from "@/game/art";
 import { cloneHeld, type EffektId, type Held, type SceneView } from "@/game/types";
 import { hasSavedGame, loadGame, saveGame } from "@/game/save";
 import { hatEffekt, setzeEffekt } from "@/game/effekte";
+import { setzeTageszeit, type Tageszeit } from "@/game/tageszeit";
 import { wendeHerkunftAn } from "@/game/herkunft";
 import {
-  ladeKarten,
-  loescheKarte,
-  patchFuerSicht,
-  setzeSpielleiterAktiv,
-  speichereKarte,
-  spielleiterAktiv,
+  anzahlAuflagen,
+  auflageFuerSicht,
+  auflageLeer,
+  loescheAuflage,
+  merkeAuflage,
+  rueckgaengigAuflage,
+  setzeWeltAktiv,
+  weltAktiv,
   wendePatchAn,
   type KartePatch,
-} from "@/game/spielleiter";
-import { loadFilePack, readAuthorMode, upsertPatch, writeAuthorMode } from "@/game/text-pack";
+} from "@/game/welt";
+import { deriveKnowledge } from "@/game/knowledge";
+import { loadFilePack } from "@/game/text-pack";
 import { CreateHero } from "./CreateHero";
 import { RulesScreen } from "./RulesScreen";
 import { SceneStage } from "./SceneStage";
@@ -35,7 +39,6 @@ export function GameApp() {
   const [leiterOpen, setLeiterOpen] = useState(false);
   const [patch, setPatch] = useState<KartePatch>({});
   const [schluessel, setSchluessel] = useState("");
-  const [authorMode, setAuthorMode] = useState(() => readAuthorMode());
   const [lageIndex, setLageIndex] = useState<number | null>(null);
   const runtimeRef = useRef<Runtime | null>(null);
   const liveRef = useRef<Held | null>(null);
@@ -63,18 +66,22 @@ export function GameApp() {
 
   useEffect(() => {
     if (!view) return;
-    const gefunden = patchFuerSicht(view);
+    const gefunden = auflageFuerSicht(view);
     setSchluessel(gefunden.schluessel);
     setPatch(gefunden.patch);
   }, [view]);
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setLeiterOpen(false);
+        return;
+      }
       if (!(event.altKey && event.key.toLowerCase() === "s")) return;
       event.preventDefault();
       setLeiterOpen((open) => {
         const next = !open;
-        if (next) setzeSpielleiterAktiv(true);
+        if (next) setzeWeltAktiv(true);
         return next;
       });
     }
@@ -91,7 +98,7 @@ export function GameApp() {
       setSaveMessage(null);
       setKnowledgeOpen(false);
       setLageIndex(null);
-      setLeiterOpen(spielleiterAktiv() || readAuthorMode());
+      setLeiterOpen(weltAktiv());
       setMode("play");
       const runtime = new Runtime(setView, setHeld);
       runtimeRef.current = runtime;
@@ -132,28 +139,35 @@ export function GameApp() {
   const onPatch = useCallback(
     (next: KartePatch) => {
       setPatch(next);
-      if (schluessel) speichereKarte(schluessel, next);
-      const karte = view?.original;
-      if (karte) {
-        upsertPatch(karte, {
-          title: next.title,
-          lines: next.lines,
-          choices: next.choices,
-        });
-      }
+      if (schluessel) merkeAuflage(schluessel, next, view?.original ?? view ?? undefined);
     },
     [schluessel, view],
   );
 
   const onResetKarte = useCallback(() => {
     setPatch({});
-    if (schluessel) loescheKarte(schluessel);
+    if (schluessel) loescheAuflage(schluessel);
+  }, [schluessel]);
+
+  const onRueckgaengig = useCallback(() => {
+    if (!schluessel) return;
+    const restored = rueckgaengigAuflage(schluessel);
+    if (restored) setPatch(restored);
   }, [schluessel]);
 
   const onEffekt = useCallback((id: EffektId, an: boolean) => {
     const live = liveRef.current;
     if (!live) return;
     setzeEffekt(live, id, an);
+    const next = cloneHeld(live);
+    setHeld(next);
+    setView((current) => (current ? { ...current, held: next } : current));
+  }, []);
+
+  const onTageszeit = useCallback((zeit: Tageszeit) => {
+    const live = liveRef.current;
+    if (!live) return;
+    setzeTageszeit(live, zeit);
     const next = cloneHeld(live);
     setHeld(next);
     setView((current) => (current ? { ...current, held: next } : current));
@@ -205,13 +219,6 @@ export function GameApp() {
         onRules={() => setMode("rules")}
         onLoad={loadAdventure}
         canLoad={canLoad}
-        authorMode={authorMode}
-        onToggleAuthor={() => {
-          const next = !authorMode;
-          writeAuthorMode(next);
-          setAuthorMode(next);
-          if (next) setzeSpielleiterAktiv(true);
-        }}
       />
     );
   }
@@ -249,14 +256,19 @@ export function GameApp() {
       onLeiter={() => {
         setLeiterOpen((open) => {
           const next = !open;
-          if (next) setzeSpielleiterAktiv(true);
+          if (next) setzeWeltAktiv(true);
           return next;
         });
       }}
       onPatch={onPatch}
       onResetKarte={onResetKarte}
-      authorMode={authorMode}
+      onRueckgaengig={onRueckgaengig}
+      authorMode={leiterOpen}
+      wissenAnzahl={shown.held ? deriveKnowledge(shown.held).size : 0}
+      weltAnzahl={anzahlAuflagen()}
+      weltPunkt={!auflageLeer(patch)}
       onEffekt={onEffekt}
+      onTageszeit={onTageszeit}
       onHerkunft={onHerkunft}
       onLageVorlegen={onLageVorlegen}
       lageIndex={lageIndex}

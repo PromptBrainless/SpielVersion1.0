@@ -69,7 +69,7 @@ export async function gasseKonflikt(rt: Runtime, held: Held) {
   }
 
   if (id === "holm") {
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "die Liste Holm zustecken");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "die Liste Holm zustecken", undefined, "schleichen");
     if (ergebnis.erfolg) {
       held.loesungswegGasse = "weitergegeben";
       await rt.present({
@@ -102,7 +102,7 @@ export async function gasseKonflikt(rt: Runtime, held: Held) {
   }
 
   if (id === "zwang") {
-    const ergebnis = probe(held, "Stärke", held.staerke, MITTEL, "Vahl unter vier Augen festlegen");
+    const ergebnis = probe(held, "Stärke", held.staerke, MITTEL, "Vahl unter vier Augen festlegen", undefined, "kaempfen");
     if (ergebnis.erfolg) {
       held.loesungswegGasse = "erpresst";
       held.vahlKonfrontiert = true;
@@ -136,7 +136,7 @@ export async function gasseKonflikt(rt: Runtime, held: Held) {
     return;
   }
 
-  const ergebnis = probe(held, "Charisma", held.charisma, SCHWER, "Vahl vor dem Rat stellen");
+  const ergebnis = probe(held, "Charisma", held.charisma, SCHWER, "Vahl vor dem Rat stellen", undefined, "reden");
   if (ergebnis.erfolg) {
     held.loesungswegGasse = "veroeffentlicht";
     held.vahlKonfrontiert = true;

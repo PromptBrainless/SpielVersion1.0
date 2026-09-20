@@ -4,6 +4,7 @@ import { ortZustand, wendeEffektListenAn, wendeOrtWechselAn } from "./seiten-zus
 import { synchronisiereLog } from "./taten";
 
 type PresentInput = {
+  id?: string;
   title?: string;
   art?: ArtKey;
   portrait?: PortraitKey | null;
@@ -53,7 +54,7 @@ export class Runtime {
     const art = this.lastArt;
     const ort = ortZustand(art);
     if (input.held) {
-      synchronisiereLog(input.held, input.title ?? this.lastTitle);
+      synchronisiereLog(input.held, input.id ?? input.title ?? this.lastTitle);
       if (input.art && input.art !== vorherArt) {
         wendeOrtWechselAn(input.held, vorherArt, input.art);
       }
@@ -68,6 +69,7 @@ export class Runtime {
     };
     const shown = applyPatch(original, lookupPatch(original));
     const view: SceneView = {
+      id: input.id,
       title: shown.title,
       art,
       portrait: input.portrait === null ? undefined : (input.portrait ?? this.lastPortrait),

@@ -34,6 +34,7 @@ export const FLUSS: FlussKnoten[] = [
       { id: "gasse", label: "Gerbereigasse" },
       { id: "glockenweg", label: "Hang" },
       { id: "wald", label: "Wald" },
+      { id: "warten", label: "Warten" },
     ],
   },
   {
@@ -70,6 +71,13 @@ export const FLUSS: FlussKnoten[] = [
     art: "village",
     zeilen: ["Das Kesseljahr."],
     weiter: [{ id: "dorf", label: "Zurück" }],
+  },
+  {
+    id: "warten",
+    titel: "Warten",
+    art: "village",
+    zeilen: ["Die Zeit wendet sich. Das Dorf bleibt."],
+    weiter: [{ id: "dorf", label: "Weiter" }],
   },
   {
     id: "glockenweg",

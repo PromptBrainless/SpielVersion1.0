@@ -3,7 +3,7 @@ import { exportiereModul } from "./export-modul";
 
 const Lines = z.array(z.string().min(1)).min(1);
 
-const LagerHubSchema = z.object({
+export const LagerHubSchema = z.object({
   id: z.literal("lager-steinbruch"),
   title: z.string(),
   art: z.literal("camp"),
@@ -16,7 +16,7 @@ const LagerHubSchema = z.object({
   choiceTor: z.string(),
 });
 
-const LagerWegeSchema = z.object({
+export const LagerWegeSchema = z.object({
   schleich: z.object({
     extraMara: z.string(),
     extraGlocke: z.string(),

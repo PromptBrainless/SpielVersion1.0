@@ -357,7 +357,7 @@ async function gasseVahl(rt: Runtime, held: Held) {
     return;
   }
 
-  const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Vahl nach der geschlossenen Gasse fragen");
+  const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Vahl nach der geschlossenen Gasse fragen", undefined, "reden");
   if (ergebnis.erfolg) {
     held.vahlGrossvater = true;
     await rt.present({
@@ -424,7 +424,7 @@ async function gasseOrt(rt: Runtime, held: Held) {
   });
   if (suche !== 0) return;
 
-  const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "unter dem Stein suchen");
+  const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "unter dem Stein suchen", undefined, "wahrnehmung");
   if (ergebnis.erfolg) {
     held.gasseSpielzeugGefunden = true;
     await rt.present({

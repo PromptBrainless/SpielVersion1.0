@@ -19,6 +19,7 @@
   --font-display: "Cormorant Garamond", "Times New Roman", serif;
   --font-body: "Source Serif 4", "Georgia", serif;
   --font-sans: "Source Serif 4", "Georgia", serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
 
   --radius-xs: 4px;
   --radius-sm: 8px;
@@ -69,6 +70,17 @@
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

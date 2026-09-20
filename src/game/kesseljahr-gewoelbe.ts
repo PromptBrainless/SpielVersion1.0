@@ -1,5 +1,6 @@
 import { probe } from "./engine";
 import type { Runtime } from "./runtime";
+import { erzwingePhase, leseTageszeit } from "./tageszeit";
 import { LEICHT, MITTEL, SCHWER, type Held } from "./types";
 
 export async function gasseGewoelbe(rt: Runtime, held: Held) {
@@ -67,7 +68,7 @@ export async function gasseGewoelbe(rt: Runtime, held: Held) {
 
   let drin = false;
   if (id === "pfarrer") {
-    const ergebnis = probe(held, "Charisma", held.charisma, priesterSchwierigkeit, "den Pfarrer um das Gewölbe bitten");
+    const ergebnis = probe(held, "Charisma", held.charisma, priesterSchwierigkeit, "den Pfarrer um das Gewölbe bitten", undefined, "reden");
     if (ergebnis.erfolg) {
       drin = true;
       await rt.present({
@@ -93,7 +94,9 @@ export async function gasseGewoelbe(rt: Runtime, held: Held) {
       });
     }
   } else {
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, sneakSchwer, "ins Gewölbe schleichen");
+    const warNacht = leseTageszeit(held) === "nacht";
+    if (!warNacht) erzwingePhase(held, "nacht");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, sneakSchwer, "ins Gewölbe schleichen", undefined, "schleichen");
     if (ergebnis.erfolg) {
       drin = true;
       await rt.present({
@@ -101,7 +104,9 @@ export async function gasseGewoelbe(rt: Runtime, held: Held) {
         held,
         probe: ergebnis,
         lines: [
-          "Der Vorhang gibt nach, wo das Holz nicht knarrt. Du gehst seitlich, nicht geradeaus.",
+          warNacht
+            ? "Der Vorhang gibt nach, wo das Holz nicht knarrt. Du gehst seitlich, nicht geradeaus."
+            : "Du wartest, bis das Tal die Läden schließt. Dann gibt der Vorhang nach, wo das Holz nicht knarrt.",
           "Unten riecht es nach Kalk und nassem Tuch. Niemand folgt.",
         ],
       });
@@ -142,7 +147,7 @@ export async function gasseGewoelbe(rt: Runtime, held: Held) {
     ],
   });
 
-  const suche = probe(held, "Geschicklichkeit", held.geschick, sucheSchwierigkeit, "Ilse Brandtners Liste finden");
+  const suche = probe(held, "Geschicklichkeit", held.geschick, sucheSchwierigkeit, "Ilse Brandtners Liste finden", undefined, "wahrnehmung");
   if (suche.erfolg) {
     held.ilsesAufzeichnungenGefunden = true;
     await rt.present({

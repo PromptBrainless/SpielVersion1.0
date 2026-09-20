@@ -13,6 +13,7 @@ import type { Runtime } from "./runtime";
 import { INTRO_ARTIFACT_CONTENT } from "./content";
 import { LAGER_CONTENT, LAGER_WEGE, mitPreis } from "./lager-content";
 import { schliesseLager } from "./taten";
+import { rueckeZeitVor, leseTageszeit, wendeNaechstePhaseAn } from "./tageszeit";
 import { rufAus } from "./reputation";
 import { dorfMuehle } from "./quest-muehle";
 import { dorfTruebesWasser, kernWasser } from "./quest-brunnen";
@@ -63,6 +64,7 @@ export async function spielen(rt: Runtime, held: Held, resume = false) {
 
 async function szeneIntro(rt: Runtime, held: Held) {
   await rt.present({
+    id: "intro-weg",
     title: "Der Weg nach Lindendorf",
     art: "road",
     portrait: null,
@@ -178,7 +180,7 @@ async function introArtefakt(rt: Runtime, held: Held) {
   const attribut = contentChoice.attribute ?? "Stärke";
   const wert = [held.staerke, held.geschick, held.charisma][wahl] ?? held.staerke;
   const schwierigkeit = contentChoice.difficulty ?? MITTEL;
-  const ergebnis = probe(held, attribut, wert, schwierigkeit, "das silberne Artefakt", "nebel");
+  const ergebnis = probe(held, attribut, wert, schwierigkeit, "das silberne Artefakt", "nebel", wege[wahl] === "kampf" ? "kaempfen" : wege[wahl] === "schleich" ? "schleichen" : "reden");
   held.artefaktWeg = wege[wahl] ?? "kampf";
 
   if (ergebnis.erfolg) {
@@ -203,6 +205,7 @@ async function introArtefakt(rt: Runtime, held: Held) {
 
 async function szeneDorf(rt: Runtime, held: Held) {
   await rt.present({
+    id: "dorf-platz",
     title: "Dorfplatz",
     art: "village",
     portrait: null,
@@ -249,6 +252,7 @@ async function szeneDorf(rt: Runtime, held: Held) {
       ...(held.holmBesucht ? ["Nach dem roten Wachs fragen"] : []),
       glockenwegLabel,
       "Richtung Wald aufbrechen",
+      "Warten, bis die Zeit sich wendet",
     ];
     const wahl = await rt.present({
       title: "Lindendorf",
@@ -268,14 +272,31 @@ async function szeneDorf(rt: Runtime, held: Held) {
     } else if (gewaehlt === "Brunnen und Dorfplatz") {
       rumorenGehoert = (await dorfPlatz(rt, held, rumorenGehoert)) || rumorenGehoert;
     } else if (gewaehlt === "Zur Mühle gehen") {
+      rueckeZeitVor(held);
       await dorfMuehle(rt, held);
     } else if (gewaehlt === "Zur Gerbereigasse gehen") {
+      rueckeZeitVor(held);
       await dorfGasse(rt, held);
     } else if (gewaehlt === "Schmiede und Apotheke") {
       await dorfSchmiedeApotheke(rt, held);
     } else if (gewaehlt === "Nach dem roten Wachs fragen") {
       await dorfHolmSiegel(rt, held);
+    } else if (gewaehlt === "Warten, bis die Zeit sich wendet") {
+      const vorher = leseTageszeit(held);
+      const welt = wendeNaechstePhaseAn(held);
+      await rt.present({
+        art: "village",
+        held,
+        lines: [
+          vorher === "nacht"
+            ? "Du bleibst. Die Nacht geht, ohne dass jemand sie begräbt. Der nächste Tag kommt ohne Versprechen."
+            : welt.zeitphase === "nacht"
+              ? "Du bleibst. Die Läden gehen zu. Was nachts kommt, trägt keinen Namen."
+              : "Du bleibst. Das Licht ändert sich, die Fragen nicht.",
+        ],
+      });
     } else if (gewaehlt === glockenwegLabel) {
+      rueckeZeitVor(held);
       await szeneGlockenweg(rt, held);
     } else {
       if (!held.holmBesucht) {
@@ -346,6 +367,7 @@ async function szeneDorf(rt: Runtime, held: Held) {
           "Der Weg wird zum Pfad, der Pfad zur Spur zwischen Farnen.",
         ],
       });
+      rueckeZeitVor(held);
       return;
     }
   }
@@ -436,7 +458,7 @@ async function dorfBuergermeister(rt: Runtime, held: Held) {
       ],
     });
   } else if (wahl === 1) {
-    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Vertrauen des Bürgermeisters");
+    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Vertrauen des Bürgermeisters", undefined, "reden");
     if (ergebnis.erfolg) {
       held.auftragErhalten = true;
       held.buergermeisterVertraut = true;
@@ -467,7 +489,7 @@ async function dorfBuergermeister(rt: Runtime, held: Held) {
       });
     }
   } else if (wahl === 2) {
-    const ergebnis = probe(held, "Charisma", held.charisma, SCHWER, "Gold erpressen");
+    const ergebnis = probe(held, "Charisma", held.charisma, SCHWER, "Gold erpressen", undefined, "reden");
     if (ergebnis.erfolg) {
       held.auftragErhalten = true;
       const gold = goldPlus(held, 8, "erpresster Vorschuss");
@@ -577,7 +599,7 @@ async function dorfTaverne(
     }
     await rt.present({ held, lines });
   } else if (wahl === 1) {
-    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "den Raum für dich gewinnen");
+    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "den Raum für dich gewinnen", undefined, "reden");
     if (ergebnis.erfolg) {
       const gold = goldPlus(held, 1, "Biergeld eines Betrunkenen, der an dich glaubt");
       await rt.present({
@@ -669,7 +691,7 @@ async function dorfMarasLetzterGast(rt: Runtime, held: Held) {
   });
 
   if (wahl === 0) {
-    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Maras letzten Gast verstehen");
+    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Maras letzten Gast verstehen", undefined, "reden");
     if (ergebnis.erfolg) {
       held.letzterGastGefunden = true;
       await rt.present({
@@ -701,7 +723,7 @@ async function dorfMarasLetzterGast(rt: Runtime, held: Held) {
       });
     }
   } else if (wahl === 1) {
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "den letzten Gast zurückverfolgen");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "den letzten Gast zurückverfolgen", undefined, "wahrnehmung");
     if (ergebnis.erfolg) {
       held.letzterGastGefunden = true;
       await rt.present({
@@ -760,7 +782,7 @@ async function dorfMaraHintertuer(rt: Runtime, held: Held) {
   });
 
   if (wahl === 0) {
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "die markierte Hintertür prüfen");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "die markierte Hintertür prüfen", undefined, "wahrnehmung");
     if (ergebnis.erfolg) {
       held.maraGeholfen = true;
       await rt.present({
@@ -900,7 +922,7 @@ async function dorfWitweKern(rt: Runtime, held: Held) {
   const attribut = wahl === 0 ? "Stärke" : wahl === 1 ? "Geschicklichkeit" : "Charisma";
   const wert = wahl === 0 ? held.staerke : wahl === 1 ? held.geschick : held.charisma;
   const schwierigkeit = wahl === 0 ? LEICHT : MITTEL;
-  const ergebnis = probe(held, attribut, wert, schwierigkeit, "Kerns leere Schublade prüfen");
+  const ergebnis = probe(held, attribut, wert, schwierigkeit, "Kerns leere Schublade prüfen", undefined, "wahrnehmung");
   if (ergebnis.erfolg) {
     held.kernGeholfen = true;
     await rt.present({
@@ -972,7 +994,7 @@ async function dorfHolmSiegel(rt: Runtime, held: Held) {
     const attribut = wahl === 0 ? "Geschicklichkeit" : "Charisma";
     const wert = wahl === 0 ? held.geschick : held.charisma;
     const schwierigkeit = wahl === 0 ? MITTEL : LEICHT;
-    const ergebnis = probe(held, attribut, wert, schwierigkeit, "das gebrochene Siegel verstehen");
+    const ergebnis = probe(held, attribut, wert, schwierigkeit, "das gebrochene Siegel verstehen", undefined, "wahrnehmung");
     if (ergebnis.erfolg) {
       held.holmSiegelGefunden = true;
       await rt.present({
@@ -1022,7 +1044,7 @@ async function dorfRoteSchnur(rt: Runtime, held: Held) {
   });
 
   if (wahl === 0) {
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "dem roten Faden folgen");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "dem roten Faden folgen", undefined, "wahrnehmung");
     if (ergebnis.erfolg) {
       held.schnurGeholfen = true;
       await rt.present({
@@ -1091,7 +1113,7 @@ async function dorfSchmied(rt: Runtime, held: Held) {
   const attribut = wahl === 0 ? "Stärke" : wahl === 1 ? "Geschicklichkeit" : "Charisma";
   const wert = wahl === 0 ? held.staerke : wahl === 1 ? held.geschick : held.charisma;
   const schwierigkeit = wahl === 1 ? LEICHT : MITTEL;
-  const ergebnis = probe(held, attribut, wert, schwierigkeit, "das stumpfe Eisen richten");
+  const ergebnis = probe(held, attribut, wert, schwierigkeit, "das stumpfe Eisen richten", undefined, "klettern");
   if (ergebnis.erfolg) {
     held.schmiedGeholfen = true;
     await rt.present({
@@ -1127,7 +1149,7 @@ async function dorfSchmied(rt: Runtime, held: Held) {
 }
 
 async function dorfBrunnen(rt: Runtime, held: Held) {
-  const ergebnis = probe(held, "Charisma", held.charisma, LEICHT, "die Leute zum Reden bringen");
+  const ergebnis = probe(held, "Charisma", held.charisma, LEICHT, "die Leute zum Reden bringen", undefined, "reden");
   if (ergebnis.erfolg) {
     const gold = goldPlus(held, 2, "Almosen der Müllerin");
     await rt.present({
@@ -1199,7 +1221,7 @@ async function dorfFalscherMehlsack(rt: Runtime, held: Held) {
   });
 
   if (wahl === 0) {
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "die fremde Mehlsacknaht prüfen");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "die fremde Mehlsacknaht prüfen", undefined, "wahrnehmung");
     if (ergebnis.erfolg) {
       held.mehlsackGefunden = true;
       await rt.present({
@@ -1231,7 +1253,7 @@ async function dorfFalscherMehlsack(rt: Runtime, held: Held) {
       });
     }
   } else if (wahl === 1) {
-    const ergebnis = probe(held, "Charisma", held.charisma, LEICHT, "die Müllerin zum Melden bewegen");
+    const ergebnis = probe(held, "Charisma", held.charisma, LEICHT, "die Müllerin zum Melden bewegen", undefined, "reden");
     held.mehlsackGemeldet = true;
     await rt.present({
       title: "Am Brunnen",
@@ -1325,7 +1347,7 @@ async function dorfBettler(rt: Runtime, held: Held) {
   }
 
   if (wahl === 1) {
-    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "den Bettler ernst nehmen");
+    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "den Bettler ernst nehmen", undefined, "reden");
     if (ergebnis.erfolg) {
       held.bettlerGeholfen = true;
       await rt.present({
@@ -1408,7 +1430,7 @@ async function szeneGlockenweg(rt: Runtime, held: Held) {
     "Auf halber Höhe steht eine verwitterte Figur ohne Gesicht. Jemand hat ihr einen Mantel umgelegt. Der Mantel ist neuer als die Kapelle.",
   ];
   if (held.glockeGescheitert) lines.push("Das Seil schwingt noch. Unten im Tal hat man es gehört.");
-  await rt.present({ title: "Alter Glockenweg", art: "chapel", portrait: null, held, lines });
+  await rt.present({ id: "glockenweg", title: "Alter Glockenweg", art: "chapel", portrait: null, held, lines });
 
   const wahl = await rt.present({
     title: "Alter Glockenweg",
@@ -1463,7 +1485,7 @@ async function glockenwegSanna(rt: Runtime, held: Held) {
   const attribut = wahl === 0 ? "Geschicklichkeit" : "Charisma";
   const wert = wahl === 0 ? held.geschick : held.charisma;
   const schwierigkeit = wahl === 0 ? LEICHT : MITTEL;
-  const ergebnis = probe(held, attribut, wert, schwierigkeit, "Sannas verlorenen Brief finden");
+  const ergebnis = probe(held, attribut, wert, schwierigkeit, "Sannas verlorenen Brief finden", undefined, "wahrnehmung");
   if (ergebnis.erfolg) {
     held.sannaGeholfen = true;
     await rt.present({
@@ -1516,7 +1538,7 @@ async function glockenwegSalz(rt: Runtime, held: Held) {
   const attribut = wahl === 0 ? "Stärke" : "Geschicklichkeit";
   const wert = wahl === 0 ? held.staerke : held.geschick;
   const schwierigkeit = wahl === 0 ? MITTEL : LEICHT;
-  const ergebnis = probe(held, attribut, wert, schwierigkeit, "den Salzsack bergen");
+  const ergebnis = probe(held, attribut, wert, schwierigkeit, "den Salzsack bergen", undefined, "klettern");
   if (ergebnis.erfolg) {
     held.salzGerettet = true;
     const gold = goldPlus(held, 2, "Jorrens Dank");
@@ -1550,7 +1572,7 @@ async function glockenwegGlocke(rt: Runtime, held: Held) {
     await rt.present({ held, lines: ["Du lässt das Seil hängen. Der Wind erledigt den Rest."] });
     return;
   }
-  const ergebnis = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "das Glockenseil lösen");
+  const ergebnis = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "das Glockenseil lösen", undefined, "klettern");
   if (ergebnis.erfolg) {
     held.glockeGestoppt = true;
     await rt.present({ held, probe: ergebnis, lines: ["Der Knoten gibt nach. Die Glocke bleibt still.", "Stille ist hier keine Ruhe. Sie ist ein Vorteil."] });
@@ -1605,6 +1627,7 @@ async function szeneWald(rt: Runtime, held: Held) {
     ankunftszeilen.push("Die Gerbereigasse bleibt leer. Offiziell aus Gründen, die das Dorf nicht vorliest.");
   }
   await rt.present({
+    id: "wald",
     title: "Wald",
     art: "forest",
     portrait: null,
@@ -1629,7 +1652,7 @@ async function szeneWald(rt: Runtime, held: Held) {
   let spurenGefunden = false;
 
   if (wahl === 0) {
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "Spuren lesen", "nebel");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "Spuren lesen", "nebel", "wahrnehmung");
     if (ergebnis.erfolg) {
       spurenGefunden = true;
       const stochern = await rt.present({
@@ -1651,7 +1674,7 @@ async function szeneWald(rt: Runtime, held: Held) {
       await rt.present({ held, probe: ergebnis, lines });
     }
   } else if (wahl === 1) {
-    const ergebnis = probe(held, "Stärke", held.staerke, MITTEL, "Unterholz durchbrechen", "nebel");
+    const ergebnis = probe(held, "Stärke", held.staerke, MITTEL, "Unterholz durchbrechen", "nebel", "klettern");
     if (ergebnis.erfolg) {
       const lines = [
         "Du machst dir einen Weg. Laut, aber schnell.",
@@ -1672,7 +1695,7 @@ async function szeneWald(rt: Runtime, held: Held) {
       });
     }
   } else {
-    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Hilfe im Wald", "nebel");
+    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Hilfe im Wald", "nebel", "reden");
     if (ergebnis.erfolg) {
       const item = nimm(held, HEILTRANK);
       spurenGefunden = true;
@@ -1724,7 +1747,7 @@ async function szeneWald(rt: Runtime, held: Held) {
 
   if (graben === 0) {
     const schwierigkeit = held.verwundet ? SCHWER : MITTEL;
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, schwierigkeit, "Sprung über den Graben", "nebel");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, schwierigkeit, "Sprung über den Graben", "nebel", "klettern");
     if (ergebnis.erfolg) {
       await rt.present({
         held,
@@ -1740,7 +1763,7 @@ async function szeneWald(rt: Runtime, held: Held) {
       });
     }
   } else if (graben === 1) {
-    const ergebnis = probe(held, "Stärke", held.staerke, MITTEL, "Stamm bewegen", "nebel");
+    const ergebnis = probe(held, "Stärke", held.staerke, MITTEL, "Stamm bewegen", "nebel", "klettern");
     if (ergebnis.erfolg) {
       await rt.present({
         held,
@@ -1878,6 +1901,7 @@ async function szeneLager(rt: Runtime, held: Held) {
   if (hat(held, SCHLUESSEL)) choices.push(lager.choiceTor);
 
   const wahl = await rt.present({
+    id: "lager-hub",
     title: lager.title,
     art: lager.art,
     portrait: "kess",
@@ -1918,12 +1942,13 @@ async function lagerSchleichen(rt: Runtime, held: Held) {
     extra.push(weg.extraWunde);
   }
 
-  const ergebnis = probe(held, "Geschicklichkeit", held.geschick, schwierigkeit, "Anschleichen", "nebel");
+  const ergebnis = probe(held, "Geschicklichkeit", held.geschick, schwierigkeit, "Anschleichen", "nebel", "schleichen");
   if (ergebnis.erfolg) {
     schliesseLager(held, "schleich", true, "lager-schleich");
     const log = [goldPlus(held, 6, "aus der unbewachten Kiste")];
     if (chance(2) && !hat(held, HEILTRANK)) log.push(nimm(held, HEILTRANK));
     await rt.present({
+      id: "lager-schleich",
       art: "sneak",
       portrait: null,
       held,
@@ -1957,6 +1982,7 @@ async function lagerReden(rt: Runtime, held: Held, erwischt = false) {
   const lines = [...weg.lines];
   if (held.letzterGastGefunden) lines.splice(2, 0, weg.gast);
   const wahl = await rt.present({
+    id: "lager-reden",
     title: weg.title,
     art: "camp",
     portrait: "kess",
@@ -1966,7 +1992,7 @@ async function lagerReden(rt: Runtime, held: Held, erwischt = false) {
   });
 
   if (wahl === 0) {
-    const ergebnis = probe(held, "Charisma", held.charisma, schwierigkeit, "Drohung");
+    const ergebnis = probe(held, "Charisma", held.charisma, schwierigkeit, "Drohung", undefined, "reden");
     if (ergebnis.erfolg) {
       schliesseLager(held, "ueberreden", true, "lager-drohen");
       await rt.present({ held, probe: ergebnis, lines: weg.drohenErfolg });
@@ -2001,7 +2027,7 @@ async function lagerReden(rt: Runtime, held: Held, erwischt = false) {
     await lagerKampf(rt, held, false);
   } else {
     const luegeSchwer = held.banditenGewarnt ? SCHWER : MITTEL;
-    const ergebnis = probe(held, "Charisma", held.charisma, luegeSchwer, "Lüge von der Wache");
+    const ergebnis = probe(held, "Charisma", held.charisma, luegeSchwer, "Lüge von der Wache", undefined, "reden");
     if (ergebnis.erfolg) {
       schliesseLager(held, "ueberreden", true, "lager-luege");
       await rt.present({ held, probe: ergebnis, lines: weg.luegeErfolg });
@@ -2016,6 +2042,7 @@ async function lagerReden(rt: Runtime, held: Held, erwischt = false) {
 async function lagerKampf(rt: Runtime, held: Held, ueberrascht = true) {
   const weg = LAGER_WEGE.kampf;
   await rt.present({
+    id: "lager-kampf",
     title: weg.title,
     art: "combat",
     portrait: "kess",
@@ -2027,7 +2054,7 @@ async function lagerKampf(rt: Runtime, held: Held, ueberrascht = true) {
   if (held.schmiedGeholfen) s1 = Math.max(LEICHT, s1 - 1);
   if (held.verwundet) s1 = Math.min(18, s1 + 1);
 
-  const erster = probe(held, "Stärke", held.staerke, s1, "erster Schlag");
+  const erster = probe(held, "Stärke", held.staerke, s1, "erster Schlag", undefined, "kaempfen");
   let s2 = MITTEL;
   if (erster.erfolg) {
     await rt.present({ held, probe: erster, lines: [weg.ersterErfolg] });
@@ -2041,7 +2068,7 @@ async function lagerKampf(rt: Runtime, held: Held, ueberrascht = true) {
   await vielleichtHeiltrank(rt, held);
   if (tot(held)) return;
 
-  const zweiter = probe(held, "Stärke", held.staerke, s2, "den Steinbruch halten");
+  const zweiter = probe(held, "Stärke", held.staerke, s2, "den Steinbruch halten", undefined, "kaempfen");
   if (zweiter.erfolg) {
     schliesseLager(held, "kampf", true, "lager-kampf");
     const gold = goldPlus(held, 5, "von den Gürteln der Fliehenden");
@@ -2050,7 +2077,7 @@ async function lagerKampf(rt: Runtime, held: Held, ueberrascht = true) {
     const dmg = schaden(held, 5, "zu viele Klingen, zu wenig Platz");
     await rt.present({ held, probe: zweiter, lines: [dmg, weg.taumeln] });
     if (tot(held)) return;
-    const flucht = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "mit der Beute entkommen", "nebel");
+    const flucht = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "mit der Beute entkommen", "nebel", "schleichen");
     schliesseLager(held, "kampf", flucht.erfolg, "lager-flucht");
     await rt.present({
       art: "forest",
@@ -2065,6 +2092,7 @@ async function lagerKampf(rt: Runtime, held: Held, ueberrascht = true) {
 async function lagerSeitetor(rt: Runtime, held: Held) {
   const weg = LAGER_WEGE.tor;
   const wahl = await rt.present({
+    id: "lager-tor",
     title: weg.title,
     art: "gate",
     portrait: null,
@@ -2074,7 +2102,7 @@ async function lagerSeitetor(rt: Runtime, held: Held) {
   });
 
   if (wahl === 0) {
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "Beute am Seitentor");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "Beute am Seitentor", undefined, "schleichen");
     if (ergebnis.erfolg) {
       schliesseLager(held, "seitentor", true, "lager-seitentor");
       const gold = goldPlus(held, 6, "Kirchensilber");
@@ -2084,7 +2112,7 @@ async function lagerSeitetor(rt: Runtime, held: Held) {
       await lagerKampf(rt, held, false);
     }
   } else if (wahl === 1) {
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "Zelte sabotieren");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "Zelte sabotieren", undefined, "verstecken");
     if (ergebnis.erfolg) {
       schliesseLager(held, "schleich_ablenkung", true, "lager-zelte");
       const gold = goldPlus(held, 4, "in der Verwirrung");
@@ -2095,7 +2123,7 @@ async function lagerSeitetor(rt: Runtime, held: Held) {
       if (!tot(held)) await lagerKampf(rt, held, false);
     }
   } else {
-    const ergebnis = probe(held, "Stärke", held.staerke, MITTEL, "Kess stellen");
+    const ergebnis = probe(held, "Stärke", held.staerke, MITTEL, "Kess stellen", undefined, "kaempfen");
     if (ergebnis.erfolg) {
       schliesseLager(held, "kampf", true, "lager-kess-hinten");
       const gold = goldPlus(held, 5, "Kess' Beutel");

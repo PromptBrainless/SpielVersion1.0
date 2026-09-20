@@ -53,7 +53,7 @@ Sieben Phasen. Eine Phase auslassen = die Quest ist nicht fertig.
 | **2 Steckbrief** | Eine Quest vollständig spezifiziert (Matrixen + 4 Ausgänge). |
 | **3 Kollision** | Kein Namensdiebstahl, kein Flag-Diebstahl, kein Index-Dispatch. |
 | **4 Modul** | `src/game/quest-<slug>.ts` im Mühle-Muster. |
-| **5 Draht** | `types`, `createHeld`, `knowledge`, Hub-Label, Wald, Epilog, Tod, Checker. |
+| **5 Draht** | `types`, `createHeld`, `knowledge`, Hub-Label, Wald, Epilog, Tod, Checker, **Ruf/Erinnerung in `taten.ts`**. |
 | **6 Qualität** | `typecheck`, `check:knowledge`, `check:questreihe`, ein Erfolg- und ein Misserfolg-Pfad. |
 
 Implementiere **eine Quest pro Arbeitsblock**. Eine Reihe wird nicht in einem
@@ -103,6 +103,7 @@ oder drei austauschbare Informanten braucht.
 | `src/game/types.ts` | Flags + Lösungsweg-Union + `createHeld`-Defaults |
 | `src/game/knowledge.ts` | Keys, `deriveKnowledge`, Journal-Sätze |
 | `src/game/script.ts` | Import, **Label**-Einstieg, Wald-/Epilog-/Todes-Haken |
+| `src/game/taten.ts` | Lösungsweg → `merkeDir` / `aendereRuf`, nie direkt Zahlen |
 | `scripts/check-knowledge-gates.mjs` | Neue Keys und der Einstiegs-Label-String |
 | `docs/QUESTREGISTER.md` | Namen, Flags, Label, Art, Haken |
 

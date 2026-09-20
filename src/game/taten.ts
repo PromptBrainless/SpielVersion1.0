@@ -18,6 +18,18 @@ const TATEN: Array<{ an: (held: Held) => boolean; npc: string; flag: string; ruf
   { an: (h) => h.salzGerettet, npc: "jorren", flag: "salz", ruf: 6 },
   { an: (h) => h.glockeGestoppt, npc: "kess", flag: "glocke-still", ruf: -4 },
   { an: (h) => h.artefaktErhalten, npc: "fremder", flag: "artefakt", ruf: 0 },
+  { an: (h) => h.loesungswegMuehle === "verhandelt", npc: "bertok", flag: "muehle-verhandelt", ruf: 8 },
+  { an: (h) => h.loesungswegMuehle === "verraten", npc: "bertok", flag: "muehle-verraten", ruf: -12 },
+  { an: (h) => h.loesungswegMuehle === "kampf", npc: "rennik", flag: "muehle-kampf", ruf: -8 },
+  { an: (h) => h.loesungswegMuehle === "schleich", npc: "bertok", flag: "muehle-schleich", ruf: 4 },
+  { an: (h) => h.loesungswegBrunnen === "geoeffnet", npc: "grovin", flag: "brunnen-offen", ruf: -6 },
+  { an: (h) => h.loesungswegBrunnen === "zerstoert", npc: "grovin", flag: "brunnen-zerstoert", ruf: -10 },
+  { an: (h) => h.loesungswegBrunnen === "verhandelt", npc: "kern", flag: "brunnen-verhandelt", ruf: 6 },
+  { an: (h) => h.loesungswegBrunnen === "bestochen", npc: "dennek", flag: "brunnen-bestochen", ruf: -8 },
+  { an: (h) => h.loesungswegGasse === "veroeffentlicht", npc: "vahl", flag: "gasse-liste", ruf: -10 },
+  { an: (h) => h.loesungswegGasse === "vernichtet", npc: "grete", flag: "gasse-asche", ruf: -8 },
+  { an: (h) => h.loesungswegGasse === "weitergegeben", npc: "holm", flag: "gasse-holm", ruf: 4 },
+  { an: (h) => h.loesungswegGasse === "erpresst", npc: "vahl", flag: "gasse-erpresst", ruf: -6 },
 ];
 
 export function synchronisiereLog(held: Held, szeneId: string): void {

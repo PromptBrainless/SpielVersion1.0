@@ -202,11 +202,11 @@ async function dennekGespraech(rt: Runtime, held: Held) {
   if (id === "gehen" || id == null) return;
 
   if (id === "charisma") {
-    const ergebnis = probe(held, "Charisma", held.charisma, schwer, "Denneks Ausflucht prüfen");
+    const ergebnis = probe(held, "Charisma", held.charisma, schwer, "Denneks Ausflucht prüfen", undefined, "reden");
     await dennekProbe(rt, held, ergebnis);
     return;
   }
-  const ergebnis = probe(held, "Stärke", held.staerke, MITTEL, "Dennek festlegen");
+  const ergebnis = probe(held, "Stärke", held.staerke, MITTEL, "Dennek festlegen", undefined, "kaempfen");
   await dennekProbe(rt, held, ergebnis);
 }
 
@@ -252,7 +252,7 @@ async function brunnenUntersuchen(rt: Runtime, held: Held) {
     });
     return;
   }
-  const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "den Brunnenrand prüfen");
+  const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "den Brunnenrand prüfen", undefined, "wahrnehmung");
   if (ergebnis.erfolg) {
     held.spurAmBrunnen = true;
     await rt.present({
@@ -285,7 +285,7 @@ async function brunnenUntersuchen(rt: Runtime, held: Held) {
 
 async function ablaufgraben(rt: Runtime, held: Held) {
   if (!held.spurAmBrunnen) {
-    const suche = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "den Ablaufgraben finden");
+    const suche = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "den Ablaufgraben finden", undefined, "wahrnehmung");
     if (!suche.erfolg) {
       await rt.present({
         art: "forest",
@@ -341,7 +341,7 @@ async function ablaufgraben(rt: Runtime, held: Held) {
 
   let grovinBereit = false;
   if (weg === 0) {
-    const ergebnis = probe(held, "Stärke", held.staerke, LEICHT, "durch das Gestrüpp");
+    const ergebnis = probe(held, "Stärke", held.staerke, LEICHT, "durch das Gestrüpp", undefined, "klettern");
     if (!ergebnis.erfolg) {
       const wunde = schaden(held, 1, "Dornen");
       await rt.present({
@@ -363,7 +363,7 @@ async function ablaufgraben(rt: Runtime, held: Held) {
       });
     }
   } else {
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, sneakSchwer, "sich der Zisterne nähern");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, sneakSchwer, "sich der Zisterne nähern", undefined, "schleichen");
     if (!ergebnis.erfolg) {
       grovinBereit = true;
       await rt.present({
@@ -512,7 +512,7 @@ async function grovinZisterne(rt: Runtime, held: Held, bewaffnet: boolean) {
   }
 
   if (id === "handeln") {
-    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Grovin ein Versprechen geben");
+    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Grovin ein Versprechen geben", undefined, "reden");
     if (ergebnis.erfolg) {
       held.loesungswegBrunnen = "verhandelt";
       held.grovinVersprechen = true;
@@ -540,7 +540,7 @@ async function grovinZisterne(rt: Runtime, held: Held, bewaffnet: boolean) {
   }
 
   if (id === "oeffnen") {
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, oeffnenSchwer, "die Wassersperre umlegen");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, oeffnenSchwer, "die Wassersperre umlegen", undefined, "klettern");
     if (ergebnis.erfolg) {
       held.loesungswegBrunnen = "geoeffnet";
       await rt.present({
@@ -577,7 +577,7 @@ async function grovinZisterne(rt: Runtime, held: Held, bewaffnet: boolean) {
     return;
   }
 
-  const ergebnis = probe(held, "Stärke", held.staerke, kampfSchwer, "die Umleitung zerstören");
+  const ergebnis = probe(held, "Stärke", held.staerke, kampfSchwer, "die Umleitung zerstören", undefined, "kaempfen");
   if (ergebnis.erfolg) {
     held.loesungswegBrunnen = "zerstoert";
     held.grovinGeflohen = true;

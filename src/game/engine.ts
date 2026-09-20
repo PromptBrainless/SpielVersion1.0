@@ -6,6 +6,7 @@ import {
   tot,
 } from "./types";
 import { attributMitEffekt, hatEffekt, setzeEffekt } from "./effekte";
+import { zeitModifikator, type ProbenAktion } from "./tageszeit";
 
 export function w10(): number {
   return 1 + Math.floor(Math.random() * 10);
@@ -25,8 +26,12 @@ export function probe(
   schwierigkeit: number,
   beschreibung = "",
   lage?: "nebel",
+  aktion?: ProbenAktion,
 ): ProbeResult {
-  const wert = attributMitEffekt(held, attributName, attributWert) + situationsModifikator(held, lage);
+  const wert =
+    attributMitEffekt(held, attributName, attributWert) +
+    situationsModifikator(held, lage) +
+    zeitModifikator(held, aktion, attributName);
   const wurf = w10();
   const summe = wurf + wert;
   return {

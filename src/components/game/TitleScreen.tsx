@@ -1,4 +1,4 @@
-import { BookOpen, FolderOpen, PenLine, Play, ScrollText, Wrench } from "lucide-react";
+import { BookOpen, FolderOpen, Globe, Play, ScrollText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ART } from "@/game/art";
 
@@ -7,15 +7,11 @@ export function TitleScreen({
   onRules,
   onLoad,
   canLoad,
-  authorMode,
-  onToggleAuthor,
 }: {
   onStart: () => void;
   onRules: () => void;
   onLoad: () => void;
   canLoad: boolean;
-  authorMode: boolean;
-  onToggleAuthor: () => void;
 }) {
   return (
     <div className="relative isolate min-h-dvh overflow-x-hidden overflow-y-auto bg-bg text-fg">
@@ -49,16 +45,12 @@ export function TitleScreen({
             <ScrollText className="size-4" aria-hidden />
             Kurzregeln lesen
           </Button>
-          <Button variant={authorMode ? "default" : "secondary"} size="lg" onClick={onToggleAuthor}>
-            <PenLine className="size-4" aria-hidden />
-            {authorMode ? "Textmodus an — im Spiel Zeilen ändern" : "Texte im Spiel bearbeiten"}
-          </Button>
           <a
             href="/editor"
             className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-border bg-surface-2 px-4 text-sm text-fg"
           >
-            <Wrench className="size-4" aria-hidden />
-            Werkstatt — Fluss, Proben, Wissen
+            <Globe className="size-4" aria-hidden />
+            Weltwerkzeug
           </a>
         </div>
         <p className="mt-6 inline-flex items-center gap-2 text-xs text-muted-fg">

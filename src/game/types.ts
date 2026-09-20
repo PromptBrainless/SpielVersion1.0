@@ -66,6 +66,7 @@ export type ArtKey =
   | "return";
 
 export type PortraitKey = "holm" | "mara" | "kess" | "miller" | "kern" | "sanna" | "smith" | "beggar" | "grovin";
+export type Tageszeit = "daemmerung" | "tag" | "nacht";
 
 export type Held = {
   name: string;
@@ -143,6 +144,8 @@ export type Held = {
   effekte: EffektId[];
   mal: string;
   entscheidungen: Entscheidung[];
+  tageszeit: Tageszeit;
+  spieltag: number;
 };
 
 export type ProbeResult = {
@@ -156,6 +159,7 @@ export type ProbeResult = {
 };
 
 export type SceneView = {
+  id?: string;
   title: string;
   art: ArtKey;
   portrait?: PortraitKey;
@@ -255,6 +259,8 @@ export function createHeld(name: string, staerke: number, geschick: number, char
     effekte: [],
     mal: "",
     entscheidungen: [],
+    tageszeit: "daemmerung",
+    spieltag: 1,
   };
 }
 

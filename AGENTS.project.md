@@ -1,7 +1,7 @@
 # Lindendorf — Projekthinweise
 
 Technische Reihenfolge: `docs/ERNEUERUNGSPLAN.md`.
-Sitzung: `docs/HANDOFF.md`.
+Sitzung: `docs/HANDOFF.md` und `docs/KONTEXT_NEUES_FENSTER.md`.
 Namen/Flags: `docs/QUESTREGISTER.md`.
 
 Nebenquests: `.grok/skills/lindendorf-questreihe/SKILL.md`, Prompt

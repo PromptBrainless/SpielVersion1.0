@@ -39,14 +39,14 @@ Der Rohplan ist an einer Stelle überholt: Mühle, Brunnen und Kesseljahr **sind
 | 4 Proben-Modifikator Nebel/Erschöpfung | **drin** (`probe(..., "nebel")`, Erschöpfung −3 gesamt) |
 | 5 Ruf `rufAus` | **drin**, HUD + SL, kein Decay |
 | 6 Erinnerung | **drin**, `synchronisiereLog` beim `present` |
-| 7 Dead-Node + Lager-Checkliste | **drin** `testTools.ts`, `docs/regression-checklist.md` |
+| 7 Dead-Node + Lager-Checkliste | Fluss echt (`FLUSS`). Lager liest `LAGER_WEGE`, kein Stub |
 | 8 Lager nach `content.ts` | Hub **und** vier Wege in `lager-content.ts`; Ablauf bleibt `script.ts` |
 | 9 Wege | **drin** `seitentor`, `schleich_ablenkung`; `wissen_anfuehrer` / `banditen_geholfen` reserviert |
-| 10 Export/Import JSON | **drin** `export-modul.ts` für Intro + Lager-Hub |
+| 10 Export/Import JSON | Export + `importiereModul` (Zod). Import schreibt nicht in den Kanon |
 | 11 Orts-Module | teilweise: `seiten-zustaende.ts` |
 | 12 Quest-Module extrahieren | Mühle, Brunnen, Gasse erledigt |
 | 13 neue Quest-Typen | **nicht** — nur mit Questreihen-Skill |
-| 14 Editor | **Prototyp** unter `/editor`: Fluss, Probe, Wissen, Pfade, tote Knoten, Assets, JSON |
+| 14 Editor | **Weltwerkzeug** im Spiel (HUD Welt). `/editor` = Prüfen ohne Partie |
 | 15 Epilog aus Log | **drin**, Zusatzzeilen aus Ruf |
 
 Inhalt, der **nicht** vor dem Fundament kommt: dritte Versorgungsquest, zweite Erinnerungsquest, Chargen-Objekte, SL-Ereignis. Die Specs dafür bleiben gültig (`QUESTREGISTER`, `SZENARIO_ALTER_GLOCKENWEG`).

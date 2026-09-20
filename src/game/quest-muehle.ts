@@ -156,7 +156,7 @@ async function muehleBertok(rt: Runtime, held: Held) {
   const id = items[wahl]?.id;
 
   if (id === "vertrauen") {
-    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Bertoks Vertrauen");
+    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Bertoks Vertrauen", undefined, "reden");
     if (ergebnis.erfolg) {
       held.muellerVertraut = true;
       await rt.present({
@@ -303,7 +303,7 @@ async function muehleLene(rt: Runtime, held: Held) {
 
   if (id === "suchen") {
     const schwer = held.spurenGefunden || held.sennaBesuche >= 2 ? MITTEL : SCHWER;
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, schwer, "die Kornkammer prüfen");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, schwer, "die Kornkammer prüfen", undefined, "wahrnehmung");
     if (ergebnis.erfolg) {
       held.fluechtlingeEntdeckt = true;
       await yorwinFund(rt, held, ergebnis);
@@ -374,7 +374,7 @@ async function muehleRad(rt: Runtime, held: Held) {
     return;
   }
 
-  const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "Spuren am Wasserrad lesen");
+  const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "Spuren am Wasserrad lesen", undefined, "wahrnehmung");
   if (ergebnis.erfolg) {
     held.spurenGefunden = true;
     await rt.present({
@@ -442,7 +442,7 @@ async function muehleUfer(rt: Runtime, held: Held) {
   });
   if (steg === 1) return;
 
-  const stegProbe = probe(held, "Stärke", held.staerke, stegSchwer, "den morschen Steg überqueren");
+  const stegProbe = probe(held, "Stärke", held.staerke, stegSchwer, "den morschen Steg überqueren", undefined, "klettern");
   if (!stegProbe.erfolg) {
     const wunde = schaden(held, 3, "Sturz ins kalte Wasser");
     held.rennikGewarnt = true;
@@ -508,7 +508,7 @@ async function muehleUfer(rt: Runtime, held: Held) {
   if (id === "zurueck" || id == null) return;
 
   if (id === "name") {
-    const ergebnis = probe(held, "Charisma", held.charisma, LEICHT, "Bertoks Namen nennen");
+    const ergebnis = probe(held, "Charisma", held.charisma, LEICHT, "Bertoks Namen nennen", undefined, "reden");
     if (ergebnis.erfolg) {
       await rt.present({
         held,
@@ -530,7 +530,7 @@ async function muehleUfer(rt: Runtime, held: Held) {
   }
 
   if (id === "schleich") {
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, sneakSchwer, "am Wächter vorbeischleichen");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, sneakSchwer, "am Wächter vorbeischleichen", undefined, "schleichen");
     if (ergebnis.erfolg) {
       await rt.present({
         art: "sneak",
@@ -563,7 +563,7 @@ async function muehleUfer(rt: Runtime, held: Held) {
     return;
   }
 
-  const kampf = probe(held, "Stärke", held.staerke, MITTEL, "den Wächter niederschlagen");
+  const kampf = probe(held, "Stärke", held.staerke, MITTEL, "den Wächter niederschlagen", undefined, "kaempfen");
   if (kampf.erfolg) {
     await rt.present({
       art: "combat",
@@ -634,7 +634,7 @@ async function rennikKontor(rt: Runtime, held: Held, ankunft: "still" | "offen" 
   if (id === "gehen" || id == null) return;
 
   if (id === "schleich") {
-    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "Renniks Schuldschein stehlen");
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "Renniks Schuldschein stehlen", undefined, "schleichen");
     if (ergebnis.erfolg) {
       held.renniksBeweis = true;
       held.loesungswegMuehle = "schleich";
@@ -666,7 +666,7 @@ async function rennikKontor(rt: Runtime, held: Held, ankunft: "still" | "offen" 
   }
 
   if (id === "reden") {
-    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Rennik mit seiner Schuld stellen");
+    const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "Rennik mit seiner Schuld stellen", undefined, "reden");
     if (ergebnis.erfolg) {
       held.loesungswegMuehle = "verhandelt";
       held.fluechtlingeEntdeckt = true;
@@ -694,7 +694,7 @@ async function rennikKontor(rt: Runtime, held: Held, ankunft: "still" | "offen" 
     return;
   }
 
-  const kampf = probe(held, "Stärke", held.staerke, MITTEL, "Rennik aus dem Lagerhaus treiben");
+  const kampf = probe(held, "Stärke", held.staerke, MITTEL, "Rennik aus dem Lagerhaus treiben", undefined, "kaempfen");
   if (kampf.erfolg) {
     held.loesungswegMuehle = "kampf";
     held.renniksBeweis = true;

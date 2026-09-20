@@ -2,13 +2,13 @@ import { Dices, PenLine } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ART, PORTRAITS, artSrcFor, isMotion, portraitSrcFor } from "@/game/art";
-import { commitPack, mergedPack, patchCount, upsertPatch } from "@/game/text-pack";
-import type { KartePatch } from "@/game/spielleiter";
+import type { KartePatch } from "@/game/welt";
 import type { EffektId, SceneView } from "@/game/types";
+import { leseTageszeit, tageszeitSchleier, type Tageszeit } from "@/game/tageszeit";
 import { Hud } from "./Hud";
 import { KnowledgeJournal } from "./KnowledgeJournal";
 import { LageOverlay } from "./LageOverlay";
-import { SpielleiterPanel } from "./SpielleiterPanel";
+import { WeltEditor } from "@/components/welt/WeltEditor";
 
 export function SceneStage({
   view,
@@ -32,6 +32,11 @@ export function SceneStage({
   lageIndex,
   onLageAntwort,
   onLageSchliessen,
+  onRueckgaengig,
+  onTageszeit,
+  wissenAnzahl,
+  weltAnzahl,
+  weltPunkt,
 }: {
   view: SceneView;
   original: SceneView;
@@ -54,13 +59,17 @@ export function SceneStage({
   lageIndex: number | null;
   onLageAntwort: (antwortIndex: number) => void;
   onLageSchliessen: () => void;
+  onRueckgaengig: () => void;
+  onTageszeit?: (zeit: Tageszeit) => void;
+  wissenAnzahl: number;
+  weltAnzahl: number;
+  weltPunkt: boolean;
 }) {
   const karte = view.original ?? { title: original.title, lines: original.lines, choices: original.choices };
   const [title, setTitle] = useState(view.title);
   const [body, setBody] = useState(view.lines.join("\n"));
   const [choices, setChoices] = useState(view.choices);
   const [status, setStatus] = useState<string | null>(null);
-  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     setTitle(view.title);
@@ -88,31 +97,13 @@ export function SceneStage({
       .map((line) => line.trimEnd())
       .filter((line, i, all) => line.length > 0 || i < all.length - 1);
     const nextChoices = choices.map((label, i) => label.trim() || karte.choices[i]);
-    const pack = upsertPatch(karte, {
+    onPatch({
+      ...patch,
       title: title.trim() || karte.title,
       lines: lines.length ? lines : karte.lines,
       choices: nextChoices,
     });
-    setStatus("Auf dieser Karte gemerkt.");
-    return pack;
-  }
-
-  async function übernehmen() {
-    const pack = remember();
-    if (!pack || patchCount(pack) === 0) {
-      setStatus("Kein geänderter Satz auf dieser oder einer früheren Karte.");
-      return;
-    }
-    setBusy(true);
-    try {
-      const result = await commitPack(pack, false);
-      if (!result.ok) setStatus(result.error ? `Übernehmen fehlgeschlagen: ${result.error}` : "Übernehmen ist fehlgeschlagen.");
-      else setStatus(`Gespeichert. ${patchCount(pack)} Karten gelten ab jetzt im Spiel.`);
-    } catch (err) {
-      setStatus(`Übernehmen ist fehlgeschlagen${err instanceof Error ? `: ${err.message}` : "."}`);
-    } finally {
-      setBusy(false);
-    }
+    setStatus("gemerkt (Auflage)");
   }
 
   const hintergrund = artSrcFor(view.art, view.artSrc);
@@ -130,6 +121,9 @@ export function SceneStage({
           onKnowledge={onKnowledge}
           onLeiter={onLeiter}
           leiterOpen={leiterOpen}
+          wissenAnzahl={wissenAnzahl}
+          weltAnzahl={weltAnzahl}
+          weltPunkt={weltPunkt}
           hinzu={view.seiteHinzu}
           nimmt={view.seiteNimmt}
           fort={view.seiteFort}
@@ -139,6 +133,9 @@ export function SceneStage({
 
       <div className="relative h-[36vh] min-h-52 w-full bg-surface sm:h-[42vh]">
         <StageMedia src={hintergrund} poster={hintergrundPoster} className="size-full object-cover" />
+        {view.held ? (
+          <div className={`pointer-events-none absolute inset-0 ${tageszeitSchleier(leseTageszeit(view.held))}`} aria-hidden />
+        ) : null}
         {portrait ? (
           <StageMedia
             src={portrait}
@@ -153,16 +150,8 @@ export function SceneStage({
           <div className="flex flex-col gap-2 rounded-lg border border-accent/40 bg-ink px-3 py-2.5 text-xs text-fg shadow-lg sm:flex-row sm:items-center sm:justify-between sm:text-sm">
             <p className="inline-flex items-center gap-2">
               <PenLine className="size-3.5 text-accent" aria-hidden />
-              Textmodus. {patchCount(mergedPack())} Karten merken auf Übernehmen.
+              Welt offen. Zeilen gelten als Auflage in diesem Browser.
             </p>
-            <div className="flex flex-wrap gap-2">
-              <Button variant="secondary" disabled={busy} onClick={remember}>
-                Karte merken
-              </Button>
-              <Button disabled={busy} onClick={() => void übernehmen()}>
-                In den Spieltext übernehmen
-              </Button>
-            </div>
           </div>
         ) : null}
         <div className="rounded-xl border border-border bg-ink p-3.5 shadow-lg sm:p-5">
@@ -259,16 +248,18 @@ export function SceneStage({
       </div>
 
       {leiterOpen ? (
-        <SpielleiterPanel
-          original={original}
-          patch={patch}
+        <WeltEditor
+          szene={original}
+          auflage={patch}
           schluessel={schluessel}
           held={view.held ?? null}
           onChange={onPatch}
           onReset={onResetKarte}
           onClose={onLeiter}
           onEffekt={onEffekt}
-          onLageVorlegen={onLageVorlegen}
+          onLage={onLageVorlegen}
+          onRueckgaengig={onRueckgaengig}
+          onTageszeit={onTageszeit}
         />
       ) : null}
       {lageIndex !== null ? (

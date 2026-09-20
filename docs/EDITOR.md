@@ -1,19 +1,22 @@
-# Werkstatt — Editor-Prototyp
+# Welteditor — Ist-Stand
 
-Erreichbar vom Titel (**Werkstatt**) oder `/editor`. Läuft **neben** dem Spiel, startet es nicht.
+Eine Fläche: HUD **Welt** während der Partie, `/editor` ohne Partie (Fach Prüfen).
+Kein Monaco. Kein Zustand. Kein zweites Runtime.
 
-Kein neues State-Framework, kein Monaco. Dieselbe Engine wie das Abenteuer.
+## Was wirklich prüft
 
-| Fach | Was |
-|---|---|
-| Fluss | Intro → Dorf → Hang → Wald → Lagerwege → Ende, mit echten Lager-/Intro-Sätzen |
-| Probe | echtes `probe()`, Nebel, Erschöpfung |
-| Wissen | Flags kippen, Journal und Ruf aus `deriveKnowledge` |
-| Pfade | Mühle, Brunnen, Gasse, Lager — Journal ohne Durchspielen |
-| Tote Knoten | Dead-Node-Finder + Layoutbreite |
-| Bilder | HEAD auf ArtKeys und Porträts |
-| Module | JSON-Export Intro/Lager, JSON lesen |
+| Werkzeug | Datei | Ernst? |
+|---|---|---|
+| Fluss-Tote / unbekannte Kanten | `editor-fluss.ts` | Ja, aber nur gegen den **Übersichtsgraph** `FLUSS`, nicht gegen `script.ts` |
+| Lager-Tote | `testTools.ts` `lagerToteKnoten()` | Ja — IDs aus `LAGER_CONTENT` / `LAGER_WEGE`. Extra-Weg ohne Hub-Wahl gilt als tot |
+| Questpfade | `editor-quests.ts` `probePfad` | Ja, nur die gelisteten Kombinationen |
+| Bilder | `editor-assets.ts` | Ja, HEAD auf ART/PORTRAITS |
+| HUD | `scripts/check-hud-welt.mjs` | Ja, Desktop + Handy |
+| Mobile-Smoke | `scripts/check-darkfantasy-mobile.mjs` | Ja, aber nur Prolog + Fremder |
+| Export | `export-modul.ts` | Intro, Lager, Lager-Wege |
+| Import | `importiereModul` | Zod-Prüfung, **schreibt nicht in den Kanon** |
+| Monaco | Fach Prüfen, lazy | JSON für Auflage/Intro/Lager. Prüfen merkt nur Auflage |
 
-Playwright bleibt die mobile Prüfung **im Spiel**. Die Werkstatt prüft Fluss, Wissen und Assets im Browser.
+## Bewusst nicht
 
-Schritt 14 des Erneuerungsplans.
+Zustand, Jotai. Szenen-Hot-Reload extra. Automatische Enumeration aller Questpfade. Der Prüfgraph ist keine Kopie von `script.ts`. Monaco nicht in den Spieltexten, nur JSON.

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BookOpen, ChevronDown, Coins, FlaskConical, Heart, KeyRound, Save, ScrollText } from "lucide-react";
 import { HEILTRANK, MAX_LP, SCHLUESSEL, type EffektId, type Held } from "@/game/types";
 import { rufListe } from "@/game/reputation";
+import { leseSpieltag, leseTageszeit, TAGESZEIT_TEXT } from "@/game/tageszeit";
 import { Button } from "@/components/ui/button";
 import { SeitenFuss } from "./SeitenFuss";
 import { ZustandLeiste } from "./ZustandLeiste";
@@ -13,6 +14,9 @@ export function Hud({
   onKnowledge,
   onLeiter,
   leiterOpen,
+  wissenAnzahl = 0,
+  weltAnzahl = 0,
+  weltPunkt = false,
   hinzu,
   nimmt,
   fort,
@@ -23,6 +27,9 @@ export function Hud({
   onKnowledge: () => void;
   onLeiter: () => void;
   leiterOpen: boolean;
+  wissenAnzahl?: number;
+  weltAnzahl?: number;
+  weltPunkt?: boolean;
   hinzu?: EffektId[];
   nimmt?: EffektId[];
   fort?: EffektId[];
@@ -31,16 +38,21 @@ export function Hud({
   const hpPct = Math.max(0, Math.min(100, (held.lp / MAX_LP) * 100));
   const anzahl = held.effekte?.length ?? 0;
   const rufe = rufListe(held);
+  const zeit = TAGESZEIT_TEXT[leseTageszeit(held)];
+  const spieltag = leseSpieltag(held);
 
   return (
-    <div className="sticky top-0 z-20 border-b border-border bg-ink/94 px-3 py-2 shadow-sm backdrop-blur-md sm:px-4">
+    <div className="sticky top-0 z-20 border-b border-border bg-ink/94 px-3 py-2 pt-[max(0.5rem,env(safe-area-inset-top))] shadow-sm backdrop-blur-md sm:px-4">
       <div className="mx-auto flex max-w-5xl items-center gap-2 text-xs text-fg sm:gap-3 sm:text-sm">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3">
             <p className="truncate font-display text-base font-semibold tracking-tight sm:text-lg">{held.name}</p>
-            <span className="inline-flex shrink-0 items-center gap-1 tabular-nums text-muted-fg">
+            <span className="inline-flex shrink-0 items-center gap-1 font-mono tabular-nums text-muted-fg">
               <Heart className="size-3.5 text-hp" aria-hidden />
               {held.lp}/{MAX_LP}
+            </span>
+            <span className="hidden shrink-0 text-muted-fg sm:inline">
+              {zeit.name} · Tag {spieltag}
             </span>
           </div>
           <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-surface-2">
@@ -50,12 +62,15 @@ export function Hud({
             />
           </div>
         </div>
-        <ZustandLeiste held={held} nurWerte />
+        <div className="hidden min-w-0 sm:block">
+          <ZustandLeiste held={held} nurWerte />
+        </div>
         <button
           type="button"
           className="pointer-events-auto inline-flex h-11 shrink-0 items-center gap-1 rounded-sm border border-border px-2 text-xs text-muted-fg"
           onClick={() => setOffen((wert) => !wert)}
           aria-expanded={offen}
+          aria-label={anzahl ? `Status, ${anzahl} Zustände` : "Status"}
         >
           {anzahl ? `${anzahl} Zustände` : "Status"}
           <ChevronDown className={`size-4 transition-transform duration-[var(--motion-fast)] ${offen ? "rotate-180" : ""}`} />
@@ -66,6 +81,7 @@ export function Hud({
           className="pointer-events-auto h-11 shrink-0 px-2 text-xs sm:px-3"
           onClick={onSave}
           title="Spielstand speichern"
+          aria-label="Speichern"
         >
           <Save className="size-3.5" aria-hidden />
           <span className="hidden sm:inline">Speichern</span>
@@ -76,24 +92,41 @@ export function Hud({
           className="pointer-events-auto h-11 shrink-0 px-2 text-xs sm:px-3"
           onClick={onKnowledge}
           title="Wissenstagebuch öffnen"
+          aria-label={wissenAnzahl ? `Wissen (${wissenAnzahl})` : "Wissen"}
         >
           <BookOpen className="size-3.5" aria-hidden />
-          <span className="hidden sm:inline">Wissen</span>
+          <span className="tabular-nums sm:hidden">{wissenAnzahl || ""}</span>
+          <span className="hidden sm:inline">Wissen{wissenAnzahl ? ` (${wissenAnzahl})` : ""}</span>
         </Button>
         <Button
           type="button"
           variant={leiterOpen ? "default" : "secondary"}
           className="pointer-events-auto h-11 shrink-0 px-2 text-xs sm:px-3"
           onClick={onLeiter}
-          title="Spielleiter-Modus (Alt+S)"
+          title="Weltwerkzeug (Alt+S)"
+          aria-pressed={leiterOpen}
+          aria-label={
+            weltPunkt
+              ? `Welt, diese Karte weicht ab, ${weltAnzahl} Auflagen`
+              : weltAnzahl
+                ? `Welt, ${weltAnzahl} Auflagen`
+                : "Welt"
+          }
         >
           <ScrollText className="size-3.5" aria-hidden />
-          <span className="hidden sm:inline">Spielleiter</span>
+          <span className="tabular-nums sm:hidden">{weltPunkt ? "●" : ""}{weltAnzahl || ""}</span>
+          <span className="hidden sm:inline">
+            Welt{weltPunkt ? " ●" : ""}
+            {weltAnzahl ? ` ${weltAnzahl}` : ""}
+          </span>
         </Button>
       </div>
       {offen ? (
         <div className="mx-auto mt-2 max-w-5xl border-t border-border pt-2">
           <ZustandLeiste held={held} />
+          <p className="mt-1.5 text-xs text-muted-fg">
+            {zeit.satz} Tag {spieltag}.
+          </p>
           <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-fg">
             <span className="inline-flex items-center gap-1 tabular-nums">
               <Coins className="size-3.5" aria-hidden />
