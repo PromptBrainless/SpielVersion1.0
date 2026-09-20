@@ -14,7 +14,7 @@ Drei Nebenquests. Hauptfluss unberührt. SL, 18 Zustände, Lagen, HUD oben aufkl
 | Das trübe Wasser | `Den trüben Eimer prüfen` | `quest-brunnen.ts` | spielbar |
 | Das Kesseljahr | `Zur Gerbereigasse gehen` | `quest-kesseljahr.ts` | spielbar |
 
-Echo: `src/game/reihe-versorgung.ts`. Repos: SpielVersion1.0, Lindendorf, mixure — gleicher Stand.
+Echo: `src/game/reihe-versorgung.ts`. **Nur eine Repo:** [SpielVersion1.0](https://github.com/PromptBrainless/SpielVersion1.0).
 
 ## Stimme
 

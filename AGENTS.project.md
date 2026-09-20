@@ -7,6 +7,8 @@ Namen/Flags: `docs/QUESTREGISTER.md`.
 Nebenquests: `.grok/skills/lindendorf-questreihe/SKILL.md`, Prompt
 `docs/PROMPT_QUESTREIHE.md`. Eine Quest pro Block, nicht während Lager-Extraktion.
 
+Git: nur `PromptBrainless/SpielVersion1.0`. Remote `origin`. Keine Spiegel.
+
 ## Drei Zustandmuster
 
 1. Booleans/Enums am Held (`sannaGeholfen`) — bestehende Quests.

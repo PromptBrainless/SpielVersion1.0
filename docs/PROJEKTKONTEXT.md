@@ -24,4 +24,4 @@ HeldSchema, Log, Ruf und Lager-Hub sitzen. Restliche Lager-Wege extrahieren **od
 
 ## Git
 
-Ziel: `PromptBrainless/SpielVersion1.0` (Tag SpielVersion1.0). Spiegel: Lindendorf, mixure.
+Ziel: nur [PromptBrainless/SpielVersion1.0](https://github.com/PromptBrainless/SpielVersion1.0). Keine Spiegel-Repos mehr.

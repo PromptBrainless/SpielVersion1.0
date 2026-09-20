@@ -39,5 +39,4 @@ Kein Ruf-Feld am Held. Kein Zod-Big-Bang von ganz `types.ts`.
 
 ## Repos
 
-[SpielVersion1.0](https://github.com/PromptBrainless/SpielVersion1.0) — kanonisch.
-Spiegel: Lindendorf, mixure.
+[SpielVersion1.0](https://github.com/PromptBrainless/SpielVersion1.0) — die einzige Repo. Keine Spiegel.
