@@ -1,0 +1,48 @@
+{
+  "id": "gewoelbe",
+  "titel": "Gewölbe",
+  "quest": "gasse",
+  "datei": "gasse/gewoelbe.json",
+  "szenen": [
+    {
+      "id": "kirchengewoelbe",
+      "title": "Kirchengewölbe",
+      "art": "chapel",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "unter-der-kirche",
+      "title": "Unter der Kirche",
+      "art": "chapel",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "im-gewoelbe",
+      "title": "Im Gewölbe",
+      "art": "chapel",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "hinter-dem-stein",
+      "title": "Hinter dem Stein",
+      "art": "chapel",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

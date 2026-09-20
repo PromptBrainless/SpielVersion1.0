@@ -1,0 +1,18 @@
+{
+  "id": "dennek",
+  "titel": "Ratsherr Dennek",
+  "quest": "brunnen",
+  "datei": "brunnen/dennek.json",
+  "szenen": [
+    {
+      "id": "ratsherr-dennek",
+      "title": "Ratsherr Dennek",
+      "art": "well",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

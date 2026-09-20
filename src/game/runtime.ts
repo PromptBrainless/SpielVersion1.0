@@ -2,6 +2,7 @@ import { applyPatch, fingerprint, lookupPatch } from "./text-pack";
 import { cloneHeld, type ArtKey, type EffektId, type Held, type PortraitKey, type SceneView } from "./types";
 import { ortZustand, wendeEffektListenAn, wendeOrtWechselAn } from "./seiten-zustaende";
 import { synchronisiereLog } from "./taten";
+import { szeneSchluessel } from "./szenen-katalog";
 
 type PresentInput = {
   id?: string;
@@ -69,7 +70,7 @@ export class Runtime {
     };
     const shown = applyPatch(original, lookupPatch(original));
     const view: SceneView = {
-      id: input.id,
+      id: input.id ?? szeneSchluessel(original.title),
       title: shown.title,
       art,
       portrait: input.portrait === null ? undefined : (input.portrait ?? this.lastPortrait),

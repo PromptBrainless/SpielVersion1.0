@@ -1,0 +1,38 @@
+{
+  "id": "kammer",
+  "titel": "Kornkammer",
+  "quest": "muehle",
+  "datei": "muehle/kammer.json",
+  "szenen": [
+    {
+      "id": "kornkammer",
+      "title": "Kornkammer",
+      "art": "mill",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "lene-in-der-kornkammer",
+      "title": "Lene in der Kornkammer",
+      "art": "mill",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "hinter-der-nische",
+      "title": "Hinter der Nische",
+      "art": "mill",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

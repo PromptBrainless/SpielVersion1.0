@@ -4,7 +4,6 @@ import { probe } from "@/game/engine";
 import { effekteDerGruppe, hatEffekt, type EffektId } from "@/game/effekte";
 import { HERKUNFT_FRAGEN } from "@/game/herkunft";
 import { KNOWLEDGE_META, deriveKnowledge, type KnowledgeKey, type WissensTyp } from "@/game/knowledge";
-import { rufListe } from "@/game/reputation";
 import { LEICHT, MITTEL, SCHWER, type Held } from "@/game/types";
 import { leseSpieltag, leseTageszeit, TAGESZEITEN, TAGESZEIT_TEXT, zeitModifikator, type Tageszeit } from "@/game/tageszeit";
 import type { ProbenAktion } from "@/game/zeitModifikatoren";
@@ -53,7 +52,6 @@ export function WeltHeld({
     liste.push(String(eintrag.wert));
     erinnerung.set(eintrag.ziel, liste);
   }
-  const rufe = rufListe(held);
 
   return (
     <div>
@@ -75,16 +73,6 @@ export function WeltHeld({
       <EffektChips ids={effekteDerGruppe("gunst")} an={(id) => hatEffekt(held, id)} onToggle={onEffekt} />
       <p className="mt-2 mb-1 text-xs text-muted-fg">Last — auf diesen Held</p>
       <EffektChips ids={effekteDerGruppe("last")} an={(id) => hatEffekt(held, id)} onToggle={onEffekt} />
-      <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted-fg">
-        {rufe.length
-          ? rufe.map((item) => (
-              <span key={item.ziel}>
-                Ruf {item.ziel} {item.wert > 0 ? "+" : ""}
-                {item.wert}
-              </span>
-            ))
-          : "Noch kein Ruf im Log."}
-      </p>
       <div className="mt-3 flex gap-2">
         <select
           className="h-11 min-w-0 flex-1 rounded-sm border border-border bg-surface px-2 text-sm text-fg"

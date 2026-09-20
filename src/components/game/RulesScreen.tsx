@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ART } from "@/game/art";
 
-export function RulesScreen({ onBack }: { onBack: () => void }) {
+export function RulesScreen({ onBack, onWelt }: { onBack: () => void; onWelt: () => void }) {
   return (
     <div className="relative min-h-dvh overflow-x-hidden overflow-y-auto bg-bg text-fg">
       <img src={ART.title} alt="" className="absolute inset-0 size-full object-cover" />
@@ -28,6 +28,9 @@ export function RulesScreen({ onBack }: { onBack: () => void }) {
           </div>
           <Button className="mt-6 w-full" onClick={onBack}>
             Zurück
+          </Button>
+          <Button variant="secondary" className="mt-2 w-full" onClick={onWelt}>
+            Weltwerkzeug
           </Button>
         </div>
       </div>

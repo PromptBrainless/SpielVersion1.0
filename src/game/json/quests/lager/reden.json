@@ -1,0 +1,25 @@
+{
+  "id": "reden",
+  "titel": "Reden",
+  "quest": "lager",
+  "datei": "lager/reden.json",
+  "szenen": [
+    {
+      "id": "lager-reden",
+      "title": "Banditenlager",
+      "art": "camp",
+      "portrait": "kess",
+      "lines": [
+        "Kess hat eine Stimme wie ein stumpfer Säbel.",
+        "„Lindendorf schickt keine Wache. Lindendorf schickt... dich.“",
+        "Er spricht deinen Namen nicht aus. Er hat ihn vielleicht nie gehört. Trotzdem liegt in seiner Pause die Art von Sicherheit, die Menschen nur zeigen, wenn sie vorbereitet sind.",
+        "Hinter ihm brennt das Feuer niedrig. Im Rauch hängt der Geruch von nassem Leder und gekochtem Knochen."
+      ],
+      "choices": [
+        "Drohen: Das Dorf hat genug (Charisma)",
+        "Handel: Abzug gegen Gold und eine Nacht Vorsprung",
+        "Lügen: Hinter dir kommt die Stadtwache"
+      ]
+    }
+  ]
+}

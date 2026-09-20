@@ -10,7 +10,8 @@ import {
   schaden,
 } from "./engine";
 import type { Runtime } from "./runtime";
-import { INTRO_ARTIFACT_CONTENT } from "./content";
+import { INTRO_ARTIFACT_CONTENT, INTRO_WEG_CONTENT } from "./content";
+import { INTRO_ANKUNFT, INTRO_HANG, INTRO_LINDENDORF, INTRO_TAL } from "./json/ankunft";
 import { LAGER_CONTENT, LAGER_WEGE, mitPreis } from "./lager-content";
 import { schliesseLager } from "./taten";
 import { rueckeZeitVor, leseTageszeit, wendeNaechstePhaseAn } from "./tageszeit";
@@ -64,100 +65,56 @@ export async function spielen(rt: Runtime, held: Held, resume = false) {
 
 async function szeneIntro(rt: Runtime, held: Held) {
   await rt.present({
-    id: "intro-weg",
-    title: "Der Weg nach Lindendorf",
-    art: "road",
+    id: INTRO_WEG_CONTENT.id,
+    title: INTRO_WEG_CONTENT.title,
+    art: INTRO_WEG_CONTENT.art,
     portrait: null,
     held,
-    lines: [
-      "Der Weg ins Tal ist kaum breit genug für zwei Wagen. Wo sich Räder begegnen, muss einer zurücksetzen. Meistens der Schwächere.",
-      "Du gehst allein.",
-      "Der Regen hat in der Nacht aufgehört, aber er hängt noch immer in der Luft. Jeder Schritt drückt Wasser aus dem Leder deiner Stiefel. Kälte kriecht durch die Nähte und setzt sich in den Knochen fest.",
-      "Hinter dir liegt nichts, das auf dich wartet.",
-      "Vor dir liegt Lindendorf.",
-      "Auf der Karte war es kaum mehr als ein Fleck Tinte am Rand des Tals. Ein Name, zwischen Hügel und Wald gequetscht, als hätte selbst der Kartenschreiber gehofft, niemand müsse jemals dorthin.",
-      "In der Dämmerung wirkt es größer.",
-      "Oder näher.",
-      "Unter deinen Sohlen lockern sich die Steine des Weges. Wasser läuft zwischen ihnen hindurch. Schwarzes Gras wächst aus den Fugen, niedergetreten von Rädern und Hufen. Die Spuren sind alt. Zu alt für die Jahreszeit.",
-      "Seit Tagen scheint niemand diesen Weg benutzt zu haben.",
-      "Kein Händler.",
-      "Kein Bauer.",
-      "Nicht einmal ein Bettler.",
-      "Nur der Wind zieht durch das Tal. Er streicht über die Hänge und bringt den Geruch von nassem Holz mit sich. Darunter liegt etwas anderes. Schwächer. Süßlich.",
-      "Der Geruch von Verwesung reist weit, wenn die Luft feucht genug ist.",
-      "Du bleibst nicht stehen.",
-      "Umkehren ist keine Richtung. Es ist nur die Entscheidung, dieselbe Strecke noch einmal zu gehen.",
-      "Also setzt du einen Fuß vor den anderen.",
-      "Manchmal besteht der einzige Unterschied zwischen Mut und Gewohnheit darin, dass niemand mehr weiß, warum er überhaupt weiterläuft.",
-    ],
+    lines: INTRO_WEG_CONTENT.lines,
   });
 
   await introArtefakt(rt, held);
 
   await rt.present({
-    title: "Das Tal",
+    id: INTRO_TAL.id,
+    title: INTRO_TAL.title,
     art: "forest",
     portrait: null,
     held,
-    lines: [
-      "Der Wald steht dicht an den Hängen. Zwischen den Stämmen hängen Fetzen von Nebel.",
-      "Weiter unten siehst du Rauch, der senkrecht steigt. Kein Wind. Kein gutes Zeichen, wenn Rauch so gerade steht.",
-      "Jemand hat die Felder abgeerntet. Jemand anderes hat vergessen, die Zäune zu reparieren.",
-      "Am Waldrand liegen Bündel aus nassem Reisig, sorgfältig aufgeschichtet und doch unberührt. Daneben steckt ein Kinderschuh im Schlamm.",
-      "Kein Vogel ruft. Ein Ast bricht, weit oberhalb des Weges, und danach wartet das Tal wieder auf ein Geräusch von dir.",
-      "Du verstehst noch nicht, was hier geschehen ist. Aber du erkennst die Spur einer Gegend, in der Menschen gelernt haben, ihre Fragen leise zu stellen.",
-    ],
+    lines: INTRO_TAL.lines,
   });
 
   await rt.present({
-    title: "Am Hang",
+    id: INTRO_HANG.id,
+    title: INTRO_HANG.title,
     art: "chapel",
     portrait: null,
     held,
-    lines: [
-      "Oberhalb des Dorfes schneidet ein alter Weg den Hang. Dort steht eine Kapelle, deren Dach dunkler ist als der Himmel.",
-      "Eine kleine Glocke bewegt sich einmal über dem Geröll.",
-      "Du kennst den Weg noch nicht. Du merkst dir nur den Ton.",
-      "Unterhalb der Kapelle klafft ein trockener Graben im Hang. Früher muss dort Wasser gelaufen sein. Jetzt liegen darin Knochen von Tieren, ausgebleicht und ordentlich nebeneinander.",
-      "Am Türsturz der Kapelle hängt ein Streifen rotes Wachs. Er ist gebrochen, aber nicht alt genug, um von selbst gebrochen zu sein.",
-      "Die Glocke schweigt wieder. Trotzdem hast du das Gefühl, dass etwas im Tal nun weiß, dass du angekommen bist.",
-    ],
+    lines: INTRO_HANG.lines,
   });
 
   await rt.present({
-    title: "Lindendorf",
+    id: INTRO_LINDENDORF.id,
+    title: INTRO_LINDENDORF.title,
     art: "village",
     portrait: null,
     held,
-    lines: [
-      "Häuser drücken sich aneinander, als könnten sie so wärmer bleiben.",
-      "Am Brunnen stehen Frauen mit verschränkten Armen. In der Taverne löscht jemand eine Lampe, obwohl es noch nicht ganz dunkel ist.",
-      "Das Rathaus hat eine Tür, die zu oft geflickt wurde. Über dem Türsturz klebt altes rotes Wachs.",
-      "Ein Gerber zieht eine Plane über seine Ware. Die Plane ist zu klein. Ein Teil des Leders bleibt im Regen liegen, und niemand macht sich die Mühe, es zu retten.",
-      "Aus einem offenen Fenster dringt das Husten eines alten Mannes. Eine Stimme zählt dahinter Münzen. Sie kommt immer nur bis vier.",
-      "Lindendorf wirkt nicht verlassen. Es wirkt schlimmer: bewohnt von Menschen, die sich daran gewöhnt haben, dass niemand kommt.",
-    ],
+    lines: INTRO_LINDENDORF.lines,
   });
 
   await rt.present({
-    title: "Ankunft",
+    id: INTRO_ANKUNFT.id,
+    title: INTRO_ANKUNFT.title,
     art: "village",
     portrait: null,
     held,
-    lines: [
-      "Du bleibst am Rand des Platzes stehen. Niemand fragt, wer du bist.",
-      "Das ist zunächst höflich. Dann merkst du, dass es Vorsicht ist.",
-      "Du könntest weitergehen. Aber der Weg nach Osten führt am Steinbruch vorbei, und aus dem Steinbruch steigt Rauch.",
-      "In Lindendorf wartet niemand auf einen Helden. Trotzdem beginnt hier dein Weg.",
-      "Hinter dir schließt sich das Tal wie ein nasser Kragen. Vor dir liegen Türen, hinter denen jeder etwas verloren hat und nicht jeder bereit ist, es beim Namen zu nennen.",
-      "Du spürst die Blicke erst, als sie aufhören. Die Leute hier sehen Fremde nicht lange an. Sie wissen, dass man von Gesichtern allein nicht satt wird.",
-      "Am Brunnen schlägt ein Tropfen auf Stein. Dann noch einer. So beginnt in diesem Dorf vieles: nicht mit einem Ruf, sondern mit etwas, das nicht aufhört.",
-    ],
+    lines: INTRO_ANKUNFT.lines,
   });
 }
 
 async function introArtefakt(rt: Runtime, held: Held) {
   const wahl = await rt.present({
+    id: INTRO_ARTIFACT_CONTENT.id,
     title: INTRO_ARTIFACT_CONTENT.title,
     art: INTRO_ARTIFACT_CONTENT.art,
     portrait: null,

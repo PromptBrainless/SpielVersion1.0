@@ -1,0 +1,28 @@
+{
+  "id": "grete",
+  "titel": "Grete",
+  "quest": "gasse",
+  "datei": "gasse/grete.json",
+  "szenen": [
+    {
+      "id": "gretes-kate",
+      "title": "Gretes Kate",
+      "art": "village",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "grete",
+      "title": "Grete",
+      "art": "village",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

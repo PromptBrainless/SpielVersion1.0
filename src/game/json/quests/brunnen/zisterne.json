@@ -1,0 +1,28 @@
+{
+  "id": "zisterne",
+  "titel": "Grovins Zisterne",
+  "quest": "brunnen",
+  "datei": "brunnen/zisterne.json",
+  "szenen": [
+    {
+      "id": "an-der-zisterne",
+      "title": "An der Zisterne",
+      "art": "well",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "grovins-zisterne",
+      "title": "Grovins Zisterne",
+      "art": "well",
+      "portrait": "grovin",
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

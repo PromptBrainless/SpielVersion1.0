@@ -1,8 +1,45 @@
 import { z } from "zod";
 import { exportiereModul } from "./export-modul";
+import type { SceneView } from "./types";
 
 const AttributeSchema = z.enum(["Stärke", "Geschicklichkeit", "Charisma"]);
 const RouteSchema = z.enum(["kampf", "schleich", "ueberreden"]);
+
+export const IntroWegSchema = z.object({
+  id: z.literal("intro-weg"),
+  title: z.string().min(1),
+  art: z.literal("road"),
+  lines: z.array(z.string().min(1)).min(3),
+  choices: z.array(z.string().min(1)).length(1),
+});
+
+export const INTRO_WEG_CONTENT = IntroWegSchema.parse({
+  id: "intro-weg",
+  title: "Der Weg nach Lindendorf",
+  art: "road",
+  lines: [
+    "Der Weg ins Tal ist kaum breit genug für zwei Wagen. Wo sich Räder begegnen, muss einer zurücksetzen. Meistens der Schwächere.",
+    "Du gehst allein.",
+    "Der Regen hat in der Nacht aufgehört, aber er hängt noch immer in der Luft. Jeder Schritt drückt Wasser aus dem Leder deiner Stiefel. Kälte kriecht durch die Nähte und setzt sich in den Knochen fest.",
+    "Hinter dir liegt nichts, das auf dich wartet.",
+    "Vor dir liegt Lindendorf.",
+    "Auf der Karte war es kaum mehr als ein Fleck Tinte am Rand des Tals. Ein Name, zwischen Hügel und Wald gequetscht, als hätte selbst der Kartenschreiber gehofft, niemand müsse jemals dorthin.",
+    "In der Dämmerung wirkt es größer.",
+    "Oder näher.",
+    "Unter deinen Sohlen lockern sich die Steine des Weges. Wasser läuft zwischen ihnen hindurch. Schwarzes Gras wächst aus den Fugen, niedergetreten von Rädern und Hufen. Die Spuren sind alt. Zu alt für die Jahreszeit.",
+    "Seit Tagen scheint niemand diesen Weg benutzt zu haben.",
+    "Kein Händler.",
+    "Kein Bauer.",
+    "Nicht einmal ein Bettler.",
+    "Nur der Wind zieht durch das Tal. Er streicht über die Hänge und bringt den Geruch von nassem Holz mit sich. Darunter liegt etwas anderes. Schwächer. Süßlich.",
+    "Der Geruch von Verwesung reist weit, wenn die Luft feucht genug ist.",
+    "Du bleibst nicht stehen.",
+    "Umkehren ist keine Richtung. Es ist nur die Entscheidung, dieselbe Strecke noch einmal zu gehen.",
+    "Also setzt du einen Fuß vor den anderen.",
+    "Manchmal besteht der einzige Unterschied zwischen Mut und Gewohnheit darin, dass niemand mehr weiß, warum er überhaupt weiterläuft.",
+  ],
+  choices: ["Weiter"],
+});
 
 export const IntroArtifactContentSchema = z.object({
   id: z.literal("intro-fremder-am-weg"),
@@ -68,4 +105,20 @@ export const INTRO_ARTIFACT_CONTENT = IntroArtifactContentSchema.parse({
 
 export function exportiereIntro() {
   return exportiereModul("intro-fremder.json", IntroArtifactContentSchema, INTRO_ARTIFACT_CONTENT);
+}
+
+export function exportiereIntroWeg() {
+  return exportiereModul("intro-weg.json", IntroWegSchema, INTRO_WEG_CONTENT);
+}
+
+export function introAlsSzene(): SceneView {
+  return {
+    id: INTRO_WEG_CONTENT.id,
+    title: INTRO_WEG_CONTENT.title,
+    art: INTRO_WEG_CONTENT.art,
+    lines: INTRO_WEG_CONTENT.lines,
+    choices: INTRO_WEG_CONTENT.choices,
+    textKey: INTRO_WEG_CONTENT.id,
+    original: { title: INTRO_WEG_CONTENT.title, lines: INTRO_WEG_CONTENT.lines, choices: INTRO_WEG_CONTENT.choices },
+  };
 }

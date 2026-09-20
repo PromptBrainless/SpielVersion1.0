@@ -1,0 +1,18 @@
+{
+  "id": "wald",
+  "titel": "Wald",
+  "quest": "wald",
+  "datei": "wald/wald.json",
+  "szenen": [
+    {
+      "id": "wald",
+      "title": "Wald",
+      "art": "forest",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

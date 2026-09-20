@@ -1,0 +1,18 @@
+{
+  "id": "kern",
+  "titel": "Witwe Kern",
+  "quest": "brunnen",
+  "datei": "brunnen/kern.json",
+  "szenen": [
+    {
+      "id": "bei-witwe-kern",
+      "title": "Bei Witwe Kern",
+      "art": "apothecary",
+      "portrait": "kern",
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

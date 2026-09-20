@@ -1,21 +1,19 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { pruefeAssets } from "@/game/editor-assets";
 import { FLUSS, knoten, toteFlussKnoten, unbekannteKanten } from "@/game/editor-fluss";
 import { QUEST_PFADE, probePfad } from "@/game/editor-quests";
-import { exportiereIntro, IntroArtifactContentSchema } from "@/game/content";
-import { exportiereLager, exportiereLagerWege, LagerHubSchema, LagerWegeSchema } from "@/game/lager-content";
-import { importiereModul } from "@/game/export-modul";
 import { lagerToteKnoten } from "@/game/testTools";
 import { auflageLeer, kanonDiff, WeltAuflageSchema, type WeltAuflage } from "@/game/welt";
 import { knowledgeLabels } from "@/game/knowledge";
+import { modulFuerSzene, moduleDerSzene, modulNachSchluessel } from "@/game/szenen-katalog";
 import { entwerfeSzene, legeKanonAufGithub } from "@/game/werkstatt.server";
 import { redirectToLoginIfRequired } from "@/lib/app-data";
 import type { Held, SceneView } from "@/game/types";
 
 const JsonMonaco = lazy(() => import("./JsonMonaco"));
 
-type Quelle = "auflage" | "intro" | "lager" | "wege";
+type Quelle = string;
 
 function speichere(name: string, inhalt: string) {
   const blob = new Blob([inhalt], { type: "application/json" });
@@ -27,27 +25,18 @@ function speichere(name: string, inhalt: string) {
   URL.revokeObjectURL(url);
 }
 
-function jsonVon(quelle: Quelle, auflage: WeltAuflage): { name: string; inhalt: string } {
-  if (quelle === "intro") {
-    const datei = exportiereIntro();
-    return { name: datei.dateiname, inhalt: datei.inhalt };
+async function mitLimit<T>(arbeit: Promise<T>, ms: number, fallback: T): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      arbeit,
+      new Promise<T>((resolve) => {
+        timer = setTimeout(() => resolve(fallback), ms);
+      }),
+    ]);
+  } finally {
+    if (timer) clearTimeout(timer);
   }
-  if (quelle === "lager") {
-    const datei = exportiereLager();
-    return { name: datei.dateiname, inhalt: datei.inhalt };
-  }
-  if (quelle === "wege") {
-    const datei = exportiereLagerWege();
-    return { name: datei.dateiname, inhalt: datei.inhalt };
-  }
-  return { name: "auflage.json", inhalt: JSON.stringify(auflage, null, 2) };
-}
-
-function pruefeJson(quelle: Quelle, roh: string) {
-  if (quelle === "intro") return importiereModul(IntroArtifactContentSchema, roh);
-  if (quelle === "lager") return importiereModul(LagerHubSchema, roh);
-  if (quelle === "wege") return importiereModul(LagerWegeSchema, roh);
-  return WeltAuflageSchema.parse(JSON.parse(roh));
 }
 
 export function WeltPruefen({
@@ -65,23 +54,33 @@ export function WeltPruefen({
   onChange?: (next: WeltAuflage) => void;
   seite?: boolean;
 }) {
+  const haupt = modulFuerSzene(szene);
   const [netz, setNetz] = useState<string[] | null>(null);
   const [bilder, setBilder] = useState<string[] | null>(null);
   const [questId, setQuestId] = useState(QUEST_PFADE[0]!.id);
   const [quest, setQuest] = useState<string[] | null>(null);
-  const [ort, setOrt] = useState("intro");
+  const [ort, setOrt] = useState("intro-weg");
   const [importMeldung, setImportMeldung] = useState<string | null>(null);
   const [codeOffen, setCodeOffen] = useState(seite);
-  const [quelle, setQuelle] = useState<Quelle>(szene ? "auflage" : "intro");
-  const [code, setCode] = useState(() => jsonVon(szene ? "auflage" : "intro", auflage).inhalt);
+  const [quelle, setQuelle] = useState<Quelle>(haupt.schluessel);
+  const [code, setCode] = useState(() => haupt.inhalt(szene, auflage));
   const [busy, setBusy] = useState<"entwurf" | "github" | null>(null);
   const kanon = szene?.original ?? (szene ? { title: szene.title, lines: szene.lines, choices: szene.choices } : null);
   const diff = kanon ? kanonDiff(kanon, auflage) : null;
   const aktueller = knoten(ort);
+  const datei = (modulNachSchluessel(quelle, szene) ?? haupt).datei;
+
+  useEffect(() => {
+    const next = modulFuerSzene(szene);
+    setQuelle(next.schluessel);
+    setCode(next.inhalt(szene, auflage));
+    setImportMeldung(null);
+  }, [szene?.id, szene?.textKey]);
 
   function ladeQuelle(next: Quelle) {
-    setQuelle(next);
-    setCode(jsonVon(next, auflage).inhalt);
+    const modul = modulNachSchluessel(next, szene) ?? modulFuerSzene(szene);
+    setQuelle(modul.schluessel);
+    setCode(modul.inhalt(szene, auflage));
     setImportMeldung(null);
   }
 
@@ -121,7 +120,7 @@ export function WeltPruefen({
           </Button>
         ))}
       </div>
-      <button type="button" className="mt-1 text-xs text-muted-fg" onClick={() => setOrt("intro")}>
+      <button type="button" className="mt-1 text-xs text-muted-fg" onClick={() => setOrt("intro-weg")}>
         Von vorn
       </button>
       <p className="mt-1 text-xs text-subtle-fg">{FLUSS.length} Orte im Prüfgraph</p>
@@ -177,18 +176,19 @@ export function WeltPruefen({
         </ul>
       ) : null}
 
-      <p className="mt-3 text-xs text-muted-fg">JSON — Monaco, nicht Kanon</p>
+      <p className="mt-3 text-xs text-muted-fg">
+        JSON — {datei}
+        {szene?.id ? ` · ${szene.id}` : ""}
+      </p>
       <div className="mt-1 flex flex-wrap gap-1.5">
-        {(
-          [
-            ["auflage", "Auflage"],
-            ["intro", "Intro"],
-            ["lager", "Lager"],
-            ["wege", "Wege"],
-          ] as const
-        ).map(([id, label]) => (
-          <Button key={id} variant={quelle === id ? "default" : "secondary"} className="h-9 px-2 text-xs" onClick={() => ladeQuelle(id)}>
-            {label}
+        {moduleDerSzene(szene).map((modul) => (
+          <Button
+            key={modul.schluessel}
+            variant={quelle === modul.schluessel ? "default" : "secondary"}
+            className="h-9 px-2 text-xs"
+            onClick={() => ladeQuelle(modul.schluessel)}
+          >
+            {modul.label}
           </Button>
         ))}
         <Button variant={codeOffen ? "default" : "secondary"} className="h-9 px-2 text-xs" onClick={() => setCodeOffen((an) => !an)}>
@@ -206,10 +206,18 @@ export function WeltPruefen({
               className="h-9 px-3 text-xs"
               onClick={() => {
                 try {
-                  pruefeJson(quelle, code);
-                  setImportMeldung("Gültig.");
-                  if (quelle === "auflage" && onChange) {
-                    onChange(WeltAuflageSchema.parse(JSON.parse(code)) as WeltAuflage);
+                  const modul = modulNachSchluessel(quelle, szene) ?? modulFuerSzene(szene);
+                  modul.pruefen(code);
+                  setImportMeldung(`Gültig · ${modul.datei}`);
+                  if ((quelle === "auflage" || quelle === "szene") && onChange) {
+                    const roh = JSON.parse(code) as WeltAuflage;
+                    onChange(WeltAuflageSchema.parse({
+                      title: roh.title,
+                      lines: roh.lines,
+                      choices: roh.choices,
+                      art: roh.art,
+                      portrait: roh.portrait,
+                    }) as WeltAuflage);
                     setImportMeldung("Gültig. Als Auflage gemerkt.");
                   }
                 } catch (fehler) {
@@ -223,7 +231,7 @@ export function WeltPruefen({
               type="button"
               variant="secondary"
               className="h-9 px-3 text-xs"
-              onClick={() => speichere(jsonVon(quelle, auflage).name, code)}
+              onClick={() => speichere(datei, code)}
             >
               Holen
             </Button>
@@ -234,17 +242,17 @@ export function WeltPruefen({
                 accept="application/json"
                 className="sr-only"
                 onChange={async (event) => {
-                  const datei = event.target.files?.[0];
+                  const dateiEingang = event.target.files?.[0];
                   event.target.value = "";
-                  if (!datei) return;
-                  const roh = await datei.text();
+                  if (!dateiEingang) return;
+                  const roh = await dateiEingang.text();
                   setCode(roh);
                   setCodeOffen(true);
                   try {
-                    pruefeJson(quelle, roh);
-                    setImportMeldung(`${datei.name}: gültig.`);
+                    (modulNachSchluessel(quelle, szene) ?? modulFuerSzene(szene)).pruefen(roh);
+                    setImportMeldung(`${dateiEingang.name}: gültig.`);
                   } catch (fehler) {
-                    setImportMeldung(`${datei.name}: ${fehler instanceof Error ? fehler.message : "ungenau"}`);
+                    setImportMeldung(`${dateiEingang.name}: ${fehler instanceof Error ? fehler.message : "ungenau"}`);
                   }
                 }}
               />
@@ -267,19 +275,23 @@ export function WeltPruefen({
             setImportMeldung("Entwurf läuft…");
             try {
               const wissen = held ? knowledgeLabels(held).sicher : [];
-              const fund = await entwerfeSzene({
-                data: {
-                  title: szene.title,
-                  lines: szene.lines,
-                  choices: szene.choices,
-                  wissen,
-                },
-              });
+              const fund = await mitLimit(
+                entwerfeSzene({
+                  data: {
+                    title: szene.title,
+                    lines: szene.lines,
+                    choices: szene.choices,
+                    wissen,
+                  },
+                }),
+                20_000,
+                { ok: false as const, error: "Zeitüberschreitung. Entwurf abgebrochen." },
+              );
               if (!fund.ok) {
                 setImportMeldung(fund.error);
                 return;
               }
-              setQuelle("auflage");
+              setQuelle("szene");
               setCodeOffen(true);
               setCode(JSON.stringify({ title: fund.title, lines: fund.lines, choices: fund.choices }, null, 2));
               setImportMeldung("Entwurf. Lesen, dann Prüfen. Nicht Kanon.");

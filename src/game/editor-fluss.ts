@@ -1,4 +1,4 @@
-import { INTRO_ARTIFACT_CONTENT } from "./content";
+import { INTRO_ARTIFACT_CONTENT, INTRO_WEG_CONTENT } from "./content";
 import { LAGER_CONTENT, LAGER_WEGE } from "./lager-content";
 import { findDeadNodes } from "./testTools";
 import type { ArtKey } from "./types";
@@ -15,7 +15,14 @@ export type FlussKnoten = {
 
 export const FLUSS: FlussKnoten[] = [
   {
-    id: "intro",
+    id: "intro-weg",
+    titel: INTRO_WEG_CONTENT.title,
+    art: "road",
+    zeilen: INTRO_WEG_CONTENT.lines.slice(0, 4),
+    weiter: [{ id: "intro-fremder", label: "Der Fremde" }],
+  },
+  {
+    id: "intro-fremder",
     titel: INTRO_ARTIFACT_CONTENT.title,
     art: "stranger",
     zeilen: INTRO_ARTIFACT_CONTENT.lines.slice(0, 4),
@@ -144,7 +151,7 @@ export const FLUSS: FlussKnoten[] = [
     titel: "Ende",
     art: "return",
     zeilen: ["Lindendorf sieht dich früher als Holm."],
-    weiter: [{ id: "intro", label: "Von vorn" }],
+    weiter: [{ id: "intro-weg", label: "Von vorn" }],
   },
 ];
 
@@ -154,7 +161,7 @@ export function knoten(id: string): FlussKnoten | undefined {
 
 export function toteFlussKnoten(): string[] {
   const alle = new Set(FLUSS.map((item) => item.id));
-  const referenziert = new Set<string>(["intro"]);
+  const referenziert = new Set<string>(["intro-weg"]);
   for (const item of FLUSS) {
     for (const kante of item.weiter) referenziert.add(kante.id);
   }

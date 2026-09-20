@@ -1,0 +1,74 @@
+{
+  "id": "wald",
+  "titel": "Hang und Wald",
+  "reihe": "Hauptfluss",
+  "datei": "wald.json",
+  "teile": [
+    {
+      "id": "glockenweg",
+      "titel": "Alter Glockenweg",
+      "quest": "wald",
+      "datei": "wald/glockenweg.json",
+      "szenen": [
+        {
+          "id": "glockenweg",
+          "title": "Alter Glockenweg",
+          "art": "chapel",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "sanna-die-botin",
+          "title": "Sanna, die Botin",
+          "art": "chapel",
+          "portrait": "sanna",
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "jorren-im-geroell",
+          "title": "Jorren im Geröll",
+          "art": "chapel",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "die-kapellenglocke",
+          "title": "Die Kapellenglocke",
+          "art": "chapel",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wald",
+      "titel": "Wald",
+      "quest": "wald",
+      "datei": "wald/wald.json",
+      "szenen": [
+        {
+          "id": "wald",
+          "title": "Wald",
+          "art": "forest",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        }
+      ]
+    }
+  ]
+}

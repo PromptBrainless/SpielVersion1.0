@@ -13,6 +13,7 @@ export async function dorfMuehle(rt: Runtime, held: Held) {
   if (!held.muehleBesucht) {
     held.muehleBesucht = true;
     await rt.present({
+      id: "muehle-stumm",
       title: "Die stumme Mühle",
       art: "mill",
       portrait: null,
@@ -44,6 +45,7 @@ export async function dorfMuehle(rt: Runtime, held: Held) {
     items.push({ id: "dorf", label: "Die Mühle verlassen" });
 
     const wahl = await rt.present({
+      id: "muehle-hub",
       title: "Mühle",
       art: "mill",
       portrait: null,

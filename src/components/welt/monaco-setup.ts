@@ -1,23 +1,11 @@
-import * as monaco from "monaco-editor";
-import { loader } from "@monaco-editor/react";
-import Editor from "@monaco-editor/react";
-import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
-import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
+import Editor, { loader } from "@monaco-editor/react";
+import type { Monaco } from "@monaco-editor/react";
 
-declare global {
-  interface Window {
-    MonacoEnvironment?: { getWorker: (id: string, label: string) => Worker };
-  }
-}
+let themaBereit = false;
 
-if (typeof window !== "undefined") {
-  window.MonacoEnvironment = {
-    getWorker(_id: string, label: string) {
-      if (label === "json") return new jsonWorker();
-      return new editorWorker();
-    },
-  };
-  loader.config({ monaco });
+export function richteLindendorfThema(monaco: Monaco) {
+  if (themaBereit) return;
+  themaBereit = true;
   monaco.editor.defineTheme("lindendorf", {
     base: "vs-dark",
     inherit: true,
@@ -37,6 +25,12 @@ if (typeof window !== "undefined") {
       "editorWidget.background": "#1a1814",
       "editorWidget.border": "#3a342c",
     },
+  });
+}
+
+if (typeof window !== "undefined") {
+  loader.config({
+    paths: { vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs" },
   });
 }
 

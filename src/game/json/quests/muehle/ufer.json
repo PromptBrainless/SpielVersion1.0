@@ -1,0 +1,58 @@
+{
+  "id": "ufer",
+  "titel": "Ufer und Kontor",
+  "quest": "muehle",
+  "datei": "muehle/ufer.json",
+  "szenen": [
+    {
+      "id": "wasserrad",
+      "title": "Wasserrad",
+      "art": "mill",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "uferpfad",
+      "title": "Uferpfad",
+      "art": "ditch",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "morscher-steg",
+      "title": "Morscher Steg",
+      "art": "ditch",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "lagerhaus-am-fluss",
+      "title": "Lagerhaus am Fluss",
+      "art": "mill",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "renniks-kontor",
+      "title": "Renniks Kontor",
+      "art": "mill",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

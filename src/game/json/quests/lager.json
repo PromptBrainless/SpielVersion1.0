@@ -1,0 +1,136 @@
+{
+  "id": "lager",
+  "titel": "Banditenlager",
+  "reihe": "Hauptfluss",
+  "datei": "lager.json",
+  "teile": [
+    {
+      "id": "hub",
+      "titel": "Steinbruch",
+      "quest": "lager",
+      "datei": "lager/hub.json",
+      "szenen": [
+        {
+          "id": "lager-hub",
+          "title": "Banditenlager",
+          "art": "camp",
+          "portrait": "kess",
+          "lines": [
+            "Der Steinbruch ist eine Wunde im Hügel.",
+            "Drei Zelte. Ein Feuer. Eine Kiste mit dem Siegel der Kirche von Lindendorf.",
+            "Ein Mann mit einer Narbe über der Lippe — das wird Kess sein — würfelt mit zwei anderen.",
+            "Ein vierter steht oben auf dem Felsen und schaut den Weg entlang, den du gekommen bist.",
+            "Die Felswand trägt noch die schwarzen Streifen der alten Sprengungen. Zwischen ihnen wachsen dünne weiße Pilze, die im Feuerlicht wie Zähne aussehen.",
+            "Neben der Kiste liegt ein Kinderumhang. Er ist zu klein für jeden Menschen hier. Niemand tritt darauf. Niemand hebt ihn auf.",
+            "Kess würfelt mit zwei stumpfen Knochen. Einer der Männer lacht zu laut. Der andere hält die Hand auf der Tasche, in der vermutlich das Geld liegt, das dem Dorf fehlt."
+          ],
+          "choices": [
+            "Anschleichen (Geschick)",
+            "Heraustreten und reden (Charisma)",
+            "Angreifen (Stärke)",
+            "Mit dem Schlüssel das Seitentor nutzen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "schleich",
+      "titel": "Schleichen",
+      "quest": "lager",
+      "datei": "lager/schleich.json",
+      "szenen": [
+        {
+          "id": "lager-schleich",
+          "title": "Schleichen",
+          "art": "sneak",
+          "portrait": null,
+          "lines": [
+            "Du nimmst das Kirchensilber, zwei Säcke Getreide markierst du dir nur im Kopf.",
+            "Kess würfelt eine Acht und flucht über das Glück, das nicht seines ist.",
+            "Du bist schon im Gestrüpp, als der Posten endlich blinzelt.",
+            "Die Kiste ist schwerer, sobald du sie trägst. Nicht wegen des Silbers, sondern wegen der Namen, die in Lindendorf daran hängen.",
+            "Hinter dir lacht einer der Männer über einen schlechten Wurf. Er weiß noch nicht, dass der Einsatz bereits verschwunden ist."
+          ],
+          "choices": [
+            "Jetzt reden",
+            "Jetzt kämpfen"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reden",
+      "titel": "Reden",
+      "quest": "lager",
+      "datei": "lager/reden.json",
+      "szenen": [
+        {
+          "id": "lager-reden",
+          "title": "Banditenlager",
+          "art": "camp",
+          "portrait": "kess",
+          "lines": [
+            "Kess hat eine Stimme wie ein stumpfer Säbel.",
+            "„Lindendorf schickt keine Wache. Lindendorf schickt... dich.“",
+            "Er spricht deinen Namen nicht aus. Er hat ihn vielleicht nie gehört. Trotzdem liegt in seiner Pause die Art von Sicherheit, die Menschen nur zeigen, wenn sie vorbereitet sind.",
+            "Hinter ihm brennt das Feuer niedrig. Im Rauch hängt der Geruch von nassem Leder und gekochtem Knochen."
+          ],
+          "choices": [
+            "Drohen: Das Dorf hat genug (Charisma)",
+            "Handel: Abzug gegen Gold und eine Nacht Vorsprung",
+            "Lügen: Hinter dir kommt die Stadtwache"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kampf",
+      "titel": "Kampf",
+      "quest": "lager",
+      "datei": "lager/kampf.json",
+      "szenen": [
+        {
+          "id": "lager-kampf",
+          "title": "Steinbruch",
+          "art": "combat",
+          "portrait": null,
+          "lines": [
+            "Kein Duell. Ein Gedränge aus Stahl, Feuerlicht und schlechtem Boden.",
+            "Der erste Schlag trifft nicht dort, wo du ihn erwartest. Jemand rutscht im Schlamm aus, ein Zelt kippt, und plötzlich kämpfen alle in einem Raum, der für keinen von euch groß genug ist.",
+            "Kess trägt kein Wappen. Er trägt eine Narbe, einen stumpfen Säbel und die Gewissheit, dass derjenige gewinnt, der nach dem Lärm noch zählen kann.",
+            "Hinter dir steht die Kirchenkiste. Vor dir stehen Männer, die wissen, dass sie ohne sie nichts mehr haben, was ein Dorf zurückkaufen würde."
+          ],
+          "choices": [
+            "Weiter"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tor",
+      "titel": "Seitentor",
+      "quest": "lager",
+      "datei": "lager/tor.json",
+      "szenen": [
+        {
+          "id": "lager-tor",
+          "title": "Seitentor",
+          "art": "gate",
+          "portrait": null,
+          "lines": [
+            "Der Schlüssel dreht sich schwer. Rost redet mit, gibt aber nach.",
+            "Du kommst hinter dem Holzstapel raus — näher an der Kiste als am Feuer.",
+            "Der Gang hinter dem Tor ist niedrig und riecht nach Moder. An der Wand stehen Zahlen, mit Kreide geschrieben und immer wieder durchgestrichen.",
+            "Unter deinen Stiefeln liegen alte Lederriemen und ein verrosteter Meißel. Der Steinbruch war einmal ein Arbeitsplatz. Das Lager hat nur gelernt, seine Knochen zu benutzen.",
+            "Durch die Spalten des Holzstapels siehst du Kess am Feuer. Er würfelt nicht mehr. Er wartet."
+          ],
+          "choices": [
+            "Nur die Beute nehmen und verschwinden (Geschick, leicht)",
+            "Die Seile der Zelte kappen und Chaos nutzen (Geschick, mittel)",
+            "Kess von hinten stellen (Stärke, mittel)"
+          ]
+        }
+      ]
+    }
+  ]
+}

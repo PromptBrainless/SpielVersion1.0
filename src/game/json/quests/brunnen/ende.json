@@ -1,0 +1,38 @@
+{
+  "id": "ende",
+  "titel": "Ausgänge",
+  "quest": "brunnen",
+  "datei": "brunnen/ende.json",
+  "szenen": [
+    {
+      "id": "zwei-brunnen-ein-dorf",
+      "title": "Zwei Brunnen, ein Dorf",
+      "art": "well",
+      "portrait": "kern",
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "wasser-mit-einem-riss",
+      "title": "Wasser mit einem Riss",
+      "art": "well",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "klares-wasser",
+      "title": "Klares Wasser",
+      "art": "well",
+      "portrait": "kern",
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "kampf",
+  "titel": "Kampf",
+  "quest": "lager",
+  "datei": "lager/kampf.json",
+  "szenen": [
+    {
+      "id": "lager-kampf",
+      "title": "Steinbruch",
+      "art": "combat",
+      "portrait": null,
+      "lines": [
+        "Kein Duell. Ein Gedränge aus Stahl, Feuerlicht und schlechtem Boden.",
+        "Der erste Schlag trifft nicht dort, wo du ihn erwartest. Jemand rutscht im Schlamm aus, ein Zelt kippt, und plötzlich kämpfen alle in einem Raum, der für keinen von euch groß genug ist.",
+        "Kess trägt kein Wappen. Er trägt eine Narbe, einen stumpfen Säbel und die Gewissheit, dass derjenige gewinnt, der nach dem Lärm noch zählen kann.",
+        "Hinter dir steht die Kirchenkiste. Vor dir stehen Männer, die wissen, dass sie ohne sie nichts mehr haben, was ein Dorf zurückkaufen würde."
+      ],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

@@ -14,6 +14,7 @@ export async function dorfGasse(rt: Runtime, held: Held) {
   if (!held.gasseBesucht) {
     held.gasseBesucht = true;
     await rt.present({
+      id: "gasse-kirche",
       title: "Vor der Kirche",
       art: "chapel",
       portrait: null,
@@ -61,6 +62,7 @@ export async function dorfGasse(rt: Runtime, held: Held) {
     items.push({ id: "dorf", label: "Zurück zum Dorfplatz" });
 
     const wahl = await rt.present({
+      id: "gasse-hub",
       title: "Die leere Gasse",
       art: "gate",
       portrait: null,

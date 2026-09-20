@@ -92,12 +92,33 @@
   padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+@keyframes ken-burns {
+  from {
+    transform: scale(1);
   }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes tafel-zeile {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.ken-burns {
+  animation: ken-burns 48s var(--ease-out) alternate infinite;
+  transform-origin: 52% 38%;
+  will-change: transform;
+}
+
+.tafel-zeile {
+  animation: tafel-zeile var(--motion-slow) var(--ease-smooth-out) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
 }

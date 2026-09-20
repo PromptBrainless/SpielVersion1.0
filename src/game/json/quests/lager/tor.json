@@ -1,0 +1,26 @@
+{
+  "id": "tor",
+  "titel": "Seitentor",
+  "quest": "lager",
+  "datei": "lager/tor.json",
+  "szenen": [
+    {
+      "id": "lager-tor",
+      "title": "Seitentor",
+      "art": "gate",
+      "portrait": null,
+      "lines": [
+        "Der Schlüssel dreht sich schwer. Rost redet mit, gibt aber nach.",
+        "Du kommst hinter dem Holzstapel raus — näher an der Kiste als am Feuer.",
+        "Der Gang hinter dem Tor ist niedrig und riecht nach Moder. An der Wand stehen Zahlen, mit Kreide geschrieben und immer wieder durchgestrichen.",
+        "Unter deinen Stiefeln liegen alte Lederriemen und ein verrosteter Meißel. Der Steinbruch war einmal ein Arbeitsplatz. Das Lager hat nur gelernt, seine Knochen zu benutzen.",
+        "Durch die Spalten des Holzstapels siehst du Kess am Feuer. Er würfelt nicht mehr. Er wartet."
+      ],
+      "choices": [
+        "Nur die Beute nehmen und verschwinden (Geschick, leicht)",
+        "Die Seile der Zelte kappen und Chaos nutzen (Geschick, mittel)",
+        "Kess von hinten stellen (Stärke, mittel)"
+      ]
+    }
+  ]
+}

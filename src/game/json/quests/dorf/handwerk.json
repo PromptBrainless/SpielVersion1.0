@@ -1,0 +1,38 @@
+{
+  "id": "handwerk",
+  "titel": "Schmiede und Apotheke",
+  "quest": "dorf",
+  "datei": "dorf/handwerk.json",
+  "szenen": [
+    {
+      "id": "schmiede-apotheke",
+      "title": "Schmiede und Apotheke",
+      "art": "village",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "beim-schmied",
+      "title": "Beim Schmied",
+      "art": "smithy",
+      "portrait": "smith",
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "bei-witwe-kern-dorf",
+      "title": "Bei Witwe Kern",
+      "art": "apothecary",
+      "portrait": "kern",
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

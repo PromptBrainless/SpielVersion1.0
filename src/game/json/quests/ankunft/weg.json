@@ -1,0 +1,38 @@
+{
+  "id": "weg",
+  "titel": "Der Weg",
+  "quest": "ankunft",
+  "datei": "ankunft/weg.json",
+  "szenen": [
+    {
+      "id": "intro-weg",
+      "title": "Der Weg nach Lindendorf",
+      "art": "road",
+      "portrait": null,
+      "lines": [
+        "Der Weg ins Tal ist kaum breit genug für zwei Wagen. Wo sich Räder begegnen, muss einer zurücksetzen. Meistens der Schwächere.",
+        "Du gehst allein.",
+        "Der Regen hat in der Nacht aufgehört, aber er hängt noch immer in der Luft. Jeder Schritt drückt Wasser aus dem Leder deiner Stiefel. Kälte kriecht durch die Nähte und setzt sich in den Knochen fest.",
+        "Hinter dir liegt nichts, das auf dich wartet.",
+        "Vor dir liegt Lindendorf.",
+        "Auf der Karte war es kaum mehr als ein Fleck Tinte am Rand des Tals. Ein Name, zwischen Hügel und Wald gequetscht, als hätte selbst der Kartenschreiber gehofft, niemand müsse jemals dorthin.",
+        "In der Dämmerung wirkt es größer.",
+        "Oder näher.",
+        "Unter deinen Sohlen lockern sich die Steine des Weges. Wasser läuft zwischen ihnen hindurch. Schwarzes Gras wächst aus den Fugen, niedergetreten von Rädern und Hufen. Die Spuren sind alt. Zu alt für die Jahreszeit.",
+        "Seit Tagen scheint niemand diesen Weg benutzt zu haben.",
+        "Kein Händler.",
+        "Kein Bauer.",
+        "Nicht einmal ein Bettler.",
+        "Nur der Wind zieht durch das Tal. Er streicht über die Hänge und bringt den Geruch von nassem Holz mit sich. Darunter liegt etwas anderes. Schwächer. Süßlich.",
+        "Der Geruch von Verwesung reist weit, wenn die Luft feucht genug ist.",
+        "Du bleibst nicht stehen.",
+        "Umkehren ist keine Richtung. Es ist nur die Entscheidung, dieselbe Strecke noch einmal zu gehen.",
+        "Also setzt du einen Fuß vor den anderen.",
+        "Manchmal besteht der einzige Unterschied zwischen Mut und Gewohnheit darin, dass niemand mehr weiß, warum er überhaupt weiterläuft."
+      ],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

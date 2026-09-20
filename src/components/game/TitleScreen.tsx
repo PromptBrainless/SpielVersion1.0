@@ -7,11 +7,13 @@ export function TitleScreen({
   onRules,
   onLoad,
   canLoad,
+  onWelt,
 }: {
   onStart: () => void;
   onRules: () => void;
   onLoad: () => void;
   canLoad: boolean;
+  onWelt: () => void;
 }) {
   return (
     <div className="relative isolate min-h-dvh overflow-x-hidden overflow-y-auto bg-bg text-fg">
@@ -45,13 +47,10 @@ export function TitleScreen({
             <ScrollText className="size-4" aria-hidden />
             Kurzregeln lesen
           </Button>
-          <a
-            href="/editor"
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-border bg-surface-2 px-4 text-sm text-fg"
-          >
+          <Button variant="secondary" size="lg" onClick={onWelt}>
             <Globe className="size-4" aria-hidden />
             Weltwerkzeug
-          </a>
+          </Button>
         </div>
         <p className="mt-6 inline-flex items-center gap-2 text-xs text-muted-fg">
           <BookOpen className="size-3.5" aria-hidden />

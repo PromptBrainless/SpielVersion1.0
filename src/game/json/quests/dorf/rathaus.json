@@ -1,0 +1,18 @@
+{
+  "id": "rathaus",
+  "titel": "Rathaus",
+  "quest": "dorf",
+  "datei": "dorf/rathaus.json",
+  "szenen": [
+    {
+      "id": "rathaus",
+      "title": "Rathaus",
+      "art": "townhall",
+      "portrait": "holm",
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "platz",
+  "titel": "Dorfplatz",
+  "quest": "dorf",
+  "datei": "dorf/platz.json",
+  "szenen": [
+    {
+      "id": "dorf-platz",
+      "title": "Dorfplatz",
+      "art": "village",
+      "portrait": null,
+      "lines": [
+        "Du stehst jetzt mitten in Lindendorf. Der Platz ist klein genug, dass jedes Gespräch einen Zeugen findet.",
+        "Vor dir liegen Rathaus, Taverne, Brunnen, die Mühle und der Weg zum Hang.",
+        "Aus dem Osten steigt Rauch. Dort liegt der alte Steinbruch."
+      ],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

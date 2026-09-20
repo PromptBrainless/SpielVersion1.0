@@ -9,9 +9,11 @@ import type { Held } from "@/game/types";
 export function CreateHero({
   onReady,
   onBack,
+  onWelt,
 }: {
   onReady: (held: Held) => void;
   onBack: () => void;
+  onWelt: () => void;
 }) {
   const [name, setName] = useState("");
   const [schritt, setSchritt] = useState(-1);
@@ -159,6 +161,9 @@ export function CreateHero({
             </>
           ) : null}
         </div>
+        <Button variant="secondary" className="mt-3 w-full" onClick={onWelt}>
+          Weltwerkzeug
+        </Button>
       </div>
     </div>
   );

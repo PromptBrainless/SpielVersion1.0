@@ -8,7 +8,6 @@ import { leseTageszeit, tageszeitSchleier, type Tageszeit } from "@/game/tagesze
 import { Hud } from "./Hud";
 import { KnowledgeJournal } from "./KnowledgeJournal";
 import { LageOverlay } from "./LageOverlay";
-import { WeltEditor } from "@/components/welt/WeltEditor";
 
 export function SceneStage({
   view,
@@ -131,41 +130,46 @@ export function SceneStage({
       ) : null}
       {knowledgeOpen && view.held ? <KnowledgeJournal held={view.held} debug={debug} onClose={onKnowledge} /> : null}
 
-      <div className="relative h-[36vh] min-h-52 w-full bg-surface sm:h-[42vh]">
-        <StageMedia src={hintergrund} poster={hintergrundPoster} className="size-full object-cover" />
-        {view.held ? (
-          <div className={`pointer-events-none absolute inset-0 ${tageszeitSchleier(leseTageszeit(view.held))}`} aria-hidden />
-        ) : null}
-        {portrait ? (
+      <figure className="relative m-0">
+        <div className="relative h-[46vh] min-h-56 w-full overflow-hidden bg-surface sm:h-[56vh]">
           <StageMedia
-            src={portrait}
-            poster={portraitPoster}
-            className="absolute bottom-3 right-3 h-28 w-20 rounded-lg border border-border object-cover shadow-sm sm:h-36 sm:w-24"
+            src={hintergrund}
+            poster={hintergrundPoster}
+            kenBurns={!isMotion(hintergrund)}
+            className="size-full object-cover"
           />
-        ) : null}
-      </div>
-
-      <div className="safe-bottom relative z-10 mx-auto flex max-w-3xl flex-col gap-3 px-3 py-4 sm:gap-4 sm:px-6 sm:py-6">
-        {authorMode ? (
-          <div className="flex flex-col gap-2 rounded-lg border border-accent/40 bg-ink px-3 py-2.5 text-xs text-fg shadow-lg sm:flex-row sm:items-center sm:justify-between sm:text-sm">
-            <p className="inline-flex items-center gap-2">
-              <PenLine className="size-3.5 text-accent" aria-hidden />
-              Welt offen. Zeilen gelten als Auflage in diesem Browser.
-            </p>
-          </div>
-        ) : null}
-        <div className="rounded-xl border border-border bg-ink p-3.5 shadow-lg sm:p-5">
-          {authorMode ? (
-            <input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              onBlur={remember}
-              className="mb-3 w-full rounded-sm border border-border bg-surface px-2 py-1 font-display text-xl font-semibold tracking-tight text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-2xl"
-              aria-label="Kartentitel"
+          {view.held ? (
+            <div className={`pointer-events-none absolute inset-0 ${tageszeitSchleier(leseTageszeit(view.held))}`} aria-hidden />
+          ) : null}
+          {portrait ? (
+            <StageMedia
+              src={portrait}
+              poster={portraitPoster}
+              className="absolute bottom-3 right-3 h-28 w-20 rounded-lg border border-border object-cover shadow-sm sm:h-36 sm:w-24"
             />
-          ) : (
-            <h2 className="mb-3 font-display text-xl font-semibold tracking-tight sm:text-2xl">{view.title}</h2>
-          )}
+          ) : null}
+        </div>
+        <figcaption className="border-y border-border bg-ink">
+          <div key={view.textKey} className="mx-auto max-w-3xl px-3 py-4 sm:px-6 sm:py-5">
+            {authorMode ? (
+              <div className="mb-3 flex items-center gap-2 text-xs text-muted-fg">
+                <PenLine className="size-3.5 text-accent" aria-hidden />
+                Welt offen. Zeilen gelten als Auflage in diesem Browser.
+              </div>
+            ) : null}
+            {authorMode ? (
+              <input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                onBlur={remember}
+                className="mb-3 w-full rounded-sm border border-border bg-surface px-2 py-1 font-display text-xl font-semibold tracking-tight text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-2xl"
+                aria-label="Kartentitel"
+              />
+            ) : (
+              <h2 className="tafel-zeile mb-3 font-display text-xl font-semibold tracking-tight sm:text-2xl" style={{ ["--i" as string]: 0 }}>
+                {view.title}
+              </h2>
+            )}
 
             {view.probe ? (
               <div className="mb-3 flex items-start gap-2 rounded-md border border-border bg-surface/80 px-3 py-2 text-sm" role="status" aria-live="polite">
@@ -193,7 +197,9 @@ export function SceneStage({
             ) : (
               <div className="space-y-2.5 text-sm leading-relaxed text-fg sm:text-base">
                 {view.lines.map((line, index) => (
-                  <p key={`${index}-${line.slice(0, 24)}`}>{line}</p>
+                  <p key={`${index}-${line.slice(0, 24)}`} className="tafel-zeile" style={{ ["--i" as string]: Math.min(index + 1, 8) }}>
+                    {line}
+                  </p>
                 ))}
               </div>
             )}
@@ -211,9 +217,11 @@ export function SceneStage({
             ) : null}
 
             {authorMode && status ? <p className="mt-3 text-sm text-accent">{status}</p> : null}
-        </div>
+          </div>
+        </figcaption>
+      </figure>
 
-        <div className="grid gap-2">
+      <div className="safe-bottom relative z-10 mx-auto grid max-w-3xl gap-2 px-3 py-3 sm:px-6 sm:py-4">
           {authorMode
             ? karte.choices.map((label, index) => (
                 <div key={`edit-${index}`} className="flex items-center gap-2">
@@ -244,24 +252,8 @@ export function SceneStage({
                   {label}
                 </Button>
               ))}
-        </div>
       </div>
 
-      {leiterOpen ? (
-        <WeltEditor
-          szene={original}
-          auflage={patch}
-          schluessel={schluessel}
-          held={view.held ?? null}
-          onChange={onPatch}
-          onReset={onResetKarte}
-          onClose={onLeiter}
-          onEffekt={onEffekt}
-          onLage={onLageVorlegen}
-          onRueckgaengig={onRueckgaengig}
-          onTageszeit={onTageszeit}
-        />
-      ) : null}
       {lageIndex !== null ? (
         <LageOverlay frageIndex={lageIndex} onAntwort={onLageAntwort} onSchliessen={onLageSchliessen} />
       ) : null}
@@ -269,9 +261,20 @@ export function SceneStage({
   );
 }
 
-function StageMedia({ src, poster, className }: { src: string; poster?: string; className?: string }) {
+function StageMedia({
+  src,
+  poster,
+  className,
+  kenBurns = false,
+}: {
+  src: string;
+  poster?: string;
+  className?: string;
+  kenBurns?: boolean;
+}) {
+  const bewegt = `${className ?? ""} ${kenBurns ? "ken-burns" : ""}`.trim();
   if (isMotion(src)) {
     return <video src={src} poster={poster} className={className} autoPlay muted loop playsInline aria-hidden />;
   }
-  return <img src={src} alt="" className={className} />;
+  return <img src={src} alt="" className={bewegt} />;
 }

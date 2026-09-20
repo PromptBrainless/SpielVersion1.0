@@ -1,0 +1,175 @@
+{
+  "id": "ankunft",
+  "titel": "Ankunft",
+  "reihe": "Hauptfluss",
+  "datei": "ankunft.json",
+  "teile": [
+    {
+      "id": "weg",
+      "titel": "Der Weg",
+      "quest": "ankunft",
+      "datei": "ankunft/weg.json",
+      "szenen": [
+        {
+          "id": "intro-weg",
+          "title": "Der Weg nach Lindendorf",
+          "art": "road",
+          "portrait": null,
+          "lines": [
+            "Der Weg ins Tal ist kaum breit genug für zwei Wagen. Wo sich Räder begegnen, muss einer zurücksetzen. Meistens der Schwächere.",
+            "Du gehst allein.",
+            "Der Regen hat in der Nacht aufgehört, aber er hängt noch immer in der Luft. Jeder Schritt drückt Wasser aus dem Leder deiner Stiefel. Kälte kriecht durch die Nähte und setzt sich in den Knochen fest.",
+            "Hinter dir liegt nichts, das auf dich wartet.",
+            "Vor dir liegt Lindendorf.",
+            "Auf der Karte war es kaum mehr als ein Fleck Tinte am Rand des Tals. Ein Name, zwischen Hügel und Wald gequetscht, als hätte selbst der Kartenschreiber gehofft, niemand müsse jemals dorthin.",
+            "In der Dämmerung wirkt es größer.",
+            "Oder näher.",
+            "Unter deinen Sohlen lockern sich die Steine des Weges. Wasser läuft zwischen ihnen hindurch. Schwarzes Gras wächst aus den Fugen, niedergetreten von Rädern und Hufen. Die Spuren sind alt. Zu alt für die Jahreszeit.",
+            "Seit Tagen scheint niemand diesen Weg benutzt zu haben.",
+            "Kein Händler.",
+            "Kein Bauer.",
+            "Nicht einmal ein Bettler.",
+            "Nur der Wind zieht durch das Tal. Er streicht über die Hänge und bringt den Geruch von nassem Holz mit sich. Darunter liegt etwas anderes. Schwächer. Süßlich.",
+            "Der Geruch von Verwesung reist weit, wenn die Luft feucht genug ist.",
+            "Du bleibst nicht stehen.",
+            "Umkehren ist keine Richtung. Es ist nur die Entscheidung, dieselbe Strecke noch einmal zu gehen.",
+            "Also setzt du einen Fuß vor den anderen.",
+            "Manchmal besteht der einzige Unterschied zwischen Mut und Gewohnheit darin, dass niemand mehr weiß, warum er überhaupt weiterläuft."
+          ],
+          "choices": [
+            "Weiter"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fremder",
+      "titel": "Der Fremde",
+      "quest": "ankunft",
+      "datei": "ankunft/fremder.json",
+      "szenen": [
+        {
+          "id": "intro-fremder-am-weg",
+          "title": "Der Fremde am Weg",
+          "art": "stranger",
+          "portrait": null,
+          "lines": [
+            "Etwa fünfzig Schritt voraus taucht eine Gestalt aus dem Regen auf.",
+            "Ein Mann. Mager genug, dass der Wind an ihm zerren kann.",
+            "Sein Gang ist ungleichmäßig. Nicht das Hinken eines Verletzten. Eher das Stolpern eines Menschen, der zu lange wach geblieben ist oder zu viel Blut verloren hat. Jeder Schritt wirkt, als müsse er sich erst daran erinnern, wie Gehen funktioniert.",
+            "Nasses Haar klebt an seiner Stirn. Der linke Ärmel seines Mantels ist dunkel verfärbt. Das Blut darauf ist bereits getrocknet.",
+            "Als er kurz ins Straucheln gerät, schlägt der Mantel auseinander.",
+            "Etwas Silbernes blitzt darunter hervor.",
+            "Ein Artefakt.",
+            "Nicht groß. Vielleicht handtellergroß. Doch selbst auf diese Entfernung erkennst du das Zeichen: ein offenes Auge über drei eingeritzten Linien.",
+            "\"Kirchensilber\"",
+            "Du hast das Symbol schon einmal gesehen.",
+            "Am Nordpass. Vor Jahren. Es war in einen Grenzstein geschlagen worden, halb verborgen unter Eis und Schnee. Die Händler hatten damals darüber gespuckt und sich bekreuzigt. Niemand erklärte warum.",
+            "Heute gibt es keinen Schnee.",
+            "Nur Regen, Schlamm und einen Fremden, der etwas bei sich trägt, das kaum ihm gehören dürfte.",
+            "Der Mann hat dich noch nicht bemerkt.",
+            "Hinter ihm verschluckt Nebel den Weg.",
+            "Vor ihm liegt Lindendorf.",
+            "Zwischen euch stehen nur einige Schritte, schlechtes Wetter und die Frage, wem das Blut auf seinem Ärmel gehört."
+          ],
+          "choices": [
+            "(Stärke – mittel) Der Mann wirkt geschwächt. Falls er Widerstand leistet, dürfte der Kampf kurz sein. Dennoch tragen auch Sterbende Messer.",
+            "(Geschick – schwer) Der Regen dämpft Geräusche. Der Nebel verbirgt Bewegungen. Doch Kirchenartefakte werden selten achtlos getragen.",
+            "(Charisma – mittel) Vielleicht ist er verängstigt. Vielleicht verletzt. Vielleicht sucht er Hilfe mehr als Streit.",
+            "Vorübergehen - Manche Dinge bringen Unglück, lange bevor man sie berührt."
+          ],
+          "successLines": [
+            "Du packst den Mann am Mantel und entreißt ihm das Artefakt. Der Stoff reißt mit einem trockenen Laut. Er stolpert zurück, greift nach dem leeren Riemen und verschwindet schließlich im Nebel.",
+            "Deine Finger lösen den Riemen, ohne dass der Mann den Verlust bemerkt. Erst im Nebel tastet er vergeblich nach dem Silber. Sein Fluchen wird leiser, bis der Regen es nimmt.",
+            "Du sprichst ruhig auf ihn ein. Der Mann senkt den Blick und legt dir das Artefakt in die Hand. Seine Finger bleiben einen Augenblick länger darauf liegen, als würde er sich von etwas verabschieden."
+          ],
+          "failureLines": [
+            "Der Mann bemerkt deine Absicht. Für einen Augenblick wirkt er schwach — dann ist er schneller, als du erwartet hast. Etwas Hartes schlägt gegen deine Hand, und der Schmerz bleibt, obwohl der Mann schon zurückweicht.",
+            "Er verschwindet mit dem silbernen Artefakt im Nebel. Deine erste Probe ist gescheitert, aber der Weg bleibt offen. Nur das Zeichen bleibt dir im Kopf, heller als es im grauen Licht gewesen sein dürfte."
+          ],
+          "passLines": [
+            "Du lässt den Mann passieren. Das Silber verschwindet unter seinem Mantel, bevor der Nebel ihn schluckt. Für einen Moment dreht er den Kopf, als hätte er deine Entscheidung trotzdem gehört.",
+            "Du hast nichts gewonnen. Aber du hast dich entschieden, nicht jede fremde Not zu deinem Vorteil zu machen. Später wirst du nicht wissen, ob das ein Maßstab oder nur Bequemlichkeit war."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tal",
+      "titel": "Tal und Dorf",
+      "quest": "ankunft",
+      "datei": "ankunft/tal.json",
+      "szenen": [
+        {
+          "id": "intro-tal",
+          "title": "Das Tal",
+          "art": "forest",
+          "portrait": null,
+          "lines": [
+            "Der Wald steht dicht an den Hängen. Zwischen den Stämmen hängen Fetzen von Nebel.",
+            "Weiter unten siehst du Rauch, der senkrecht steigt. Kein Wind. Kein gutes Zeichen, wenn Rauch so gerade steht.",
+            "Jemand hat die Felder abgeerntet. Jemand anderes hat vergessen, die Zäune zu reparieren.",
+            "Am Waldrand liegen Bündel aus nassem Reisig, sorgfältig aufgeschichtet und doch unberührt. Daneben steckt ein Kinderschuh im Schlamm.",
+            "Kein Vogel ruft. Ein Ast bricht, weit oberhalb des Weges, und danach wartet das Tal wieder auf ein Geräusch von dir.",
+            "Du verstehst noch nicht, was hier geschehen ist. Aber du erkennst die Spur einer Gegend, in der Menschen gelernt haben, ihre Fragen leise zu stellen."
+          ],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "intro-hang",
+          "title": "Am Hang",
+          "art": "chapel",
+          "portrait": null,
+          "lines": [
+            "Oberhalb des Dorfes schneidet ein alter Weg den Hang. Dort steht eine Kapelle, deren Dach dunkler ist als der Himmel.",
+            "Eine kleine Glocke bewegt sich einmal über dem Geröll.",
+            "Du kennst den Weg noch nicht. Du merkst dir nur den Ton.",
+            "Unterhalb der Kapelle klafft ein trockener Graben im Hang. Früher muss dort Wasser gelaufen sein. Jetzt liegen darin Knochen von Tieren, ausgebleicht und ordentlich nebeneinander.",
+            "Am Türsturz der Kapelle hängt ein Streifen rotes Wachs. Er ist gebrochen, aber nicht alt genug, um von selbst gebrochen zu sein.",
+            "Die Glocke schweigt wieder. Trotzdem hast du das Gefühl, dass etwas im Tal nun weiß, dass du angekommen bist."
+          ],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "intro-lindendorf",
+          "title": "Lindendorf",
+          "art": "village",
+          "portrait": null,
+          "lines": [
+            "Häuser drücken sich aneinander, als könnten sie so wärmer bleiben.",
+            "Am Brunnen stehen Frauen mit verschränkten Armen. In der Taverne löscht jemand eine Lampe, obwohl es noch nicht ganz dunkel ist.",
+            "Das Rathaus hat eine Tür, die zu oft geflickt wurde. Über dem Türsturz klebt altes rotes Wachs.",
+            "Ein Gerber zieht eine Plane über seine Ware. Die Plane ist zu klein. Ein Teil des Leders bleibt im Regen liegen, und niemand macht sich die Mühe, es zu retten.",
+            "Aus einem offenen Fenster dringt das Husten eines alten Mannes. Eine Stimme zählt dahinter Münzen. Sie kommt immer nur bis vier.",
+            "Lindendorf wirkt nicht verlassen. Es wirkt schlimmer: bewohnt von Menschen, die sich daran gewöhnt haben, dass niemand kommt."
+          ],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "intro-ankunft",
+          "title": "Ankunft",
+          "art": "village",
+          "portrait": null,
+          "lines": [
+            "Du bleibst am Rand des Platzes stehen. Niemand fragt, wer du bist.",
+            "Das ist zunächst höflich. Dann merkst du, dass es Vorsicht ist.",
+            "Du könntest weitergehen. Aber der Weg nach Osten führt am Steinbruch vorbei, und aus dem Steinbruch steigt Rauch.",
+            "In Lindendorf wartet niemand auf einen Helden. Trotzdem beginnt hier dein Weg.",
+            "Hinter dir schließt sich das Tal wie ein nasser Kragen. Vor dir liegen Türen, hinter denen jeder etwas verloren hat und nicht jeder bereit ist, es beim Namen zu nennen.",
+            "Du spürst die Blicke erst, als sie aufhören. Die Leute hier sehen Fremde nicht lange an. Sie wissen, dass man von Gesichtern allein nicht satt wird.",
+            "Am Brunnen schlägt ein Tropfen auf Stein. Dann noch einer. So beginnt in diesem Dorf vieles: nicht mit einem Ruf, sondern mit etwas, das nicht aufhört."
+          ],
+          "choices": [
+            "Weiter"
+          ]
+        }
+      ]
+    }
+  ]
+}

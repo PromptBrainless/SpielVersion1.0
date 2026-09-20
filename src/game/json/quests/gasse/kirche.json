@@ -1,0 +1,71 @@
+{
+  "id": "kirche",
+  "titel": "Kirche und Fenn",
+  "quest": "gasse",
+  "datei": "gasse/kirche.json",
+  "szenen": [
+    {
+      "id": "gasse-kirche",
+      "title": "Vor der Kirche",
+      "art": "chapel",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "gasse-hub",
+      "title": "Die leere Gasse",
+      "art": "gate",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Bei Fenn an der Kirchmauer bleiben",
+        "Ratsherr Vahl im Rathaus aufsuchen",
+        "Die Gasse hinter der Gerberei ansehen",
+        "Zurück zum Dorfplatz"
+      ]
+    },
+    {
+      "id": "fenn",
+      "title": "Fenn",
+      "art": "chapel",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "fenn-an-der-kirchmauer",
+      "title": "Fenn an der Kirchmauer",
+      "art": "chapel",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "vahls-stube",
+      "title": "Vahls Stube",
+      "art": "townhall",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "ratsherr-vahl",
+      "title": "Ratsherr Vahl",
+      "art": "townhall",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

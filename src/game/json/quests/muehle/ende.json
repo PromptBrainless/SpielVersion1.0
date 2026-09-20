@@ -1,0 +1,38 @@
+{
+  "id": "ende",
+  "titel": "Ausgänge",
+  "quest": "muehle",
+  "datei": "muehle/ende.json",
+  "szenen": [
+    {
+      "id": "sicheres-mehl-leere-blicke",
+      "title": "Sicheres Mehl, leere Blicke",
+      "art": "mill",
+      "portrait": "holm",
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "mehl-mit-rauen-haenden",
+      "title": "Mehl mit rauen Händen",
+      "art": "mill",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "stilles-mehl",
+      "title": "Stilles Mehl",
+      "art": "mill",
+      "portrait": "miller",
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

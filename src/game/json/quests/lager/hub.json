@@ -1,0 +1,29 @@
+{
+  "id": "hub",
+  "titel": "Steinbruch",
+  "quest": "lager",
+  "datei": "lager/hub.json",
+  "szenen": [
+    {
+      "id": "lager-hub",
+      "title": "Banditenlager",
+      "art": "camp",
+      "portrait": "kess",
+      "lines": [
+        "Der Steinbruch ist eine Wunde im Hügel.",
+        "Drei Zelte. Ein Feuer. Eine Kiste mit dem Siegel der Kirche von Lindendorf.",
+        "Ein Mann mit einer Narbe über der Lippe — das wird Kess sein — würfelt mit zwei anderen.",
+        "Ein vierter steht oben auf dem Felsen und schaut den Weg entlang, den du gekommen bist.",
+        "Die Felswand trägt noch die schwarzen Streifen der alten Sprengungen. Zwischen ihnen wachsen dünne weiße Pilze, die im Feuerlicht wie Zähne aussehen.",
+        "Neben der Kiste liegt ein Kinderumhang. Er ist zu klein für jeden Menschen hier. Niemand tritt darauf. Niemand hebt ihn auf.",
+        "Kess würfelt mit zwei stumpfen Knochen. Einer der Männer lacht zu laut. Der andere hält die Hand auf der Tasche, in der vermutlich das Geld liegt, das dem Dorf fehlt."
+      ],
+      "choices": [
+        "Anschleichen (Geschick)",
+        "Heraustreten und reden (Charisma)",
+        "Angreifen (Stärke)",
+        "Mit dem Schlüssel das Seitentor nutzen"
+      ]
+    }
+  ]
+}

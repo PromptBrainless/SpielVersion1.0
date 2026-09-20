@@ -1,0 +1,241 @@
+{
+  "id": "gasse",
+  "titel": "Das Kesseljahr",
+  "reihe": "Erinnerung",
+  "datei": "gasse.json",
+  "teile": [
+    {
+      "id": "kirche",
+      "titel": "Kirche und Fenn",
+      "quest": "gasse",
+      "datei": "gasse/kirche.json",
+      "szenen": [
+        {
+          "id": "gasse-kirche",
+          "title": "Vor der Kirche",
+          "art": "chapel",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "gasse-hub",
+          "title": "Die leere Gasse",
+          "art": "gate",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Bei Fenn an der Kirchmauer bleiben",
+            "Ratsherr Vahl im Rathaus aufsuchen",
+            "Die Gasse hinter der Gerberei ansehen",
+            "Zurück zum Dorfplatz"
+          ]
+        },
+        {
+          "id": "fenn",
+          "title": "Fenn",
+          "art": "chapel",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "fenn-an-der-kirchmauer",
+          "title": "Fenn an der Kirchmauer",
+          "art": "chapel",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "vahls-stube",
+          "title": "Vahls Stube",
+          "art": "townhall",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "ratsherr-vahl",
+          "title": "Ratsherr Vahl",
+          "art": "townhall",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ort",
+      "titel": "Gerbereigasse",
+      "quest": "gasse",
+      "datei": "gasse/ort.json",
+      "szenen": [
+        {
+          "id": "gerbereigasse",
+          "title": "Gerbereigasse",
+          "art": "gate",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grete",
+      "titel": "Grete",
+      "quest": "gasse",
+      "datei": "gasse/grete.json",
+      "szenen": [
+        {
+          "id": "gretes-kate",
+          "title": "Gretes Kate",
+          "art": "village",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "grete",
+          "title": "Grete",
+          "art": "village",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gewoelbe",
+      "titel": "Gewölbe",
+      "quest": "gasse",
+      "datei": "gasse/gewoelbe.json",
+      "szenen": [
+        {
+          "id": "kirchengewoelbe",
+          "title": "Kirchengewölbe",
+          "art": "chapel",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "unter-der-kirche",
+          "title": "Unter der Kirche",
+          "art": "chapel",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "im-gewoelbe",
+          "title": "Im Gewölbe",
+          "art": "chapel",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "hinter-dem-stein",
+          "title": "Hinter dem Stein",
+          "art": "chapel",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "schluss",
+      "titel": "Ausgänge",
+      "quest": "gasse",
+      "datei": "gasse/schluss.json",
+      "szenen": [
+        {
+          "id": "vahls-stube-abend",
+          "title": "Vahls Stube, Abend",
+          "art": "townhall",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "was-die-liste-wiegt",
+          "title": "Was die Liste wiegt",
+          "art": "townhall",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "ein-zweites-schweigen",
+          "title": "Ein zweites Schweigen",
+          "art": "gate",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "was-ausgegraben-bleibt",
+          "title": "Was ausgegraben bleibt",
+          "art": "chapel",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "ein-name-unter-vielen",
+          "title": "Ein Name unter vielen",
+          "art": "village",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        },
+        {
+          "id": "stille-rechnung",
+          "title": "Stille Rechnung",
+          "art": "village",
+          "portrait": null,
+          "lines": [],
+          "choices": [
+            "Weiter"
+          ]
+        }
+      ]
+    }
+  ]
+}

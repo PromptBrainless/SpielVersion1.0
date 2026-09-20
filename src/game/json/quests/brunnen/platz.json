@@ -1,0 +1,38 @@
+{
+  "id": "platz",
+  "titel": "Brunnenplatz",
+  "quest": "brunnen",
+  "datei": "brunnen/platz.json",
+  "szenen": [
+    {
+      "id": "brunnen-krug",
+      "title": "Der bittere Krug",
+      "art": "well",
+      "portrait": null,
+      "lines": [
+        "Der Wassereimer am Dorfbrunnen steht halb voll, so wie ihn die Nacht zurückgelassen hat, denn niemand hat sich heute Morgen die Mühe gemacht, ihn zu leeren und neu zu füllen, wie es sonst die erste Pflicht des Tages ist, noch vor dem Brot, noch vor dem Vieh. Das Wasser darin hat die falsche Farbe angenommen, ein trübes Graubraun, das eher an aufgewühlten Teichgrund erinnert als an das, was aus der Tiefe der Erde kommen sollte, klar und kalt und ohne Geschichte.",
+        "Vor der Apotheke hustet ein Kind, ein trockenes, hartes Husten, das sich anhört, als sitze ihm etwas Falsches in der Brust fest. Die Mutter hält es fester an sich, fester, als das bloße Husten es eigentlich verlangte, mit jener Art von Griff, die weniger dem Kind gilt als der eigenen Angst, die man damit niederhalten will.",
+        "Am Brunnenrand steht Ratsherr Dennek und rührt mit einem Stock im Eimer, langsam, im Kreis, immer wieder, als könnte man ein vergiftetes Wasser durch bloßes Rühren wieder klären, so wie man einen Brei glattstreicht, dem nichts mehr fehlt als ein wenig Geduld. Er sieht dabei nicht auf, weder zum Kind noch zur Mutter noch zu irgendwem, der vorbeigeht — als hoffe er, dass die Bewegung seiner Hand genüge, um auch die Fragen im Kreis zu halten, die man ihm sonst stellen würde."
+      ],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "brunnen-hub",
+      "title": "Trübes Wasser",
+      "art": "well",
+      "portrait": null,
+      "lines": [
+        "Das Wasser im Eimer bleibt trüb bis auf den Grund, gleich wie oft man danach sieht, und es schmeckt nach Eisen, sobald der Wind vom Wald herüberzieht, als trüge er selbst einen Rest der Wahrheit mit sich, die man ihm sonst nirgendwo abringen kann."
+      ],
+      "choices": [
+        "Mit Witwe Kern über das Wasser sprechen",
+        "Mit Ratsherr Dennek sprechen",
+        "Den Brunnen selbst untersuchen",
+        "Den Graben am Brunnenrand verfolgen",
+        "Zurück zum Dorfplatz"
+      ]
+    }
+  ]
+}

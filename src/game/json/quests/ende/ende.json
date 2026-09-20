@@ -1,0 +1,18 @@
+{
+  "id": "ende",
+  "titel": "Ende",
+  "quest": "ende",
+  "datei": "ende/ende.json",
+  "szenen": [
+    {
+      "id": "ende",
+      "title": "Ende",
+      "art": "return",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "ort",
+  "titel": "Gerbereigasse",
+  "quest": "gasse",
+  "datei": "gasse/ort.json",
+  "szenen": [
+    {
+      "id": "gerbereigasse",
+      "title": "Gerbereigasse",
+      "art": "gate",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

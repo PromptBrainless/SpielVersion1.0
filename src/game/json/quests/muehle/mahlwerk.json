@@ -1,0 +1,48 @@
+{
+  "id": "mahlwerk",
+  "titel": "Mahlwerk",
+  "quest": "muehle",
+  "datei": "muehle/mahlwerk.json",
+  "szenen": [
+    {
+      "id": "muehle-stumm",
+      "title": "Die stumme Mühle",
+      "art": "mill",
+      "portrait": null,
+      "lines": [
+        "Kein Mehlstaub in der Luft, obwohl das Rad sich dreht.",
+        "Vor der Tür lehnt ein leerer Karren, dessen Deichsel schon Moos angesetzt hat.",
+        "Bertok steht im Eingang, bevor du klopfen kannst. Seine Hände sind mehlweiß, obwohl seit Tagen nichts gemahlen wurde.",
+        "Hinter ihm bewegt sich etwas zwischen den Säcken — zu schnell für eine Ratte."
+      ],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "muehle-hub",
+      "title": "Mühle",
+      "art": "mill",
+      "portrait": "miller",
+      "lines": [
+        "Das Rad schlägt gegen das Wasser und mahlt nichts."
+      ],
+      "choices": [
+        "Mit Bertok am Mahlwerk sprechen",
+        "Zu Lene in die Kornkammer gehen",
+        "Das Wasserrad und den Uferweg ansehen",
+        "Die Mühle verlassen"
+      ]
+    },
+    {
+      "id": "bertok-am-mahlwerk",
+      "title": "Bertok am Mahlwerk",
+      "art": "mill",
+      "portrait": "miller",
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

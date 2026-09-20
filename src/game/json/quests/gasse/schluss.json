@@ -1,0 +1,68 @@
+{
+  "id": "schluss",
+  "titel": "Ausgänge",
+  "quest": "gasse",
+  "datei": "gasse/schluss.json",
+  "szenen": [
+    {
+      "id": "vahls-stube-abend",
+      "title": "Vahls Stube, Abend",
+      "art": "townhall",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "was-die-liste-wiegt",
+      "title": "Was die Liste wiegt",
+      "art": "townhall",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "ein-zweites-schweigen",
+      "title": "Ein zweites Schweigen",
+      "art": "gate",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "was-ausgegraben-bleibt",
+      "title": "Was ausgegraben bleibt",
+      "art": "chapel",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "ein-name-unter-vielen",
+      "title": "Ein Name unter vielen",
+      "art": "village",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "stille-rechnung",
+      "title": "Stille Rechnung",
+      "art": "village",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

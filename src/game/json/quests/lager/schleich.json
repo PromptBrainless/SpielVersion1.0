@@ -1,0 +1,25 @@
+{
+  "id": "schleich",
+  "titel": "Schleichen",
+  "quest": "lager",
+  "datei": "lager/schleich.json",
+  "szenen": [
+    {
+      "id": "lager-schleich",
+      "title": "Schleichen",
+      "art": "sneak",
+      "portrait": null,
+      "lines": [
+        "Du nimmst das Kirchensilber, zwei Säcke Getreide markierst du dir nur im Kopf.",
+        "Kess würfelt eine Acht und flucht über das Glück, das nicht seines ist.",
+        "Du bist schon im Gestrüpp, als der Posten endlich blinzelt.",
+        "Die Kiste ist schwerer, sobald du sie trägst. Nicht wegen des Silbers, sondern wegen der Namen, die in Lindendorf daran hängen.",
+        "Hinter dir lacht einer der Männer über einen schlechten Wurf. Er weiß noch nicht, dass der Einsatz bereits verschwunden ist."
+      ],
+      "choices": [
+        "Jetzt reden",
+        "Jetzt kämpfen"
+      ]
+    }
+  ]
+}

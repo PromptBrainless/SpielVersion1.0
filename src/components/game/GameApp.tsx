@@ -21,10 +21,12 @@ import {
 } from "@/game/welt";
 import { deriveKnowledge } from "@/game/knowledge";
 import { loadFilePack } from "@/game/text-pack";
+import { introAlsSzene } from "@/game/content";
 import { CreateHero } from "./CreateHero";
 import { RulesScreen } from "./RulesScreen";
 import { SceneStage } from "./SceneStage";
 import { TitleScreen } from "./TitleScreen";
+import { WeltEditor } from "@/components/welt/WeltEditor";
 
 type Mode = "title" | "rules" | "create" | "play";
 
@@ -65,8 +67,8 @@ export function GameApp() {
   useEffect(() => () => stopPlay(), [stopPlay]);
 
   useEffect(() => {
-    if (!view) return;
-    const gefunden = auflageFuerSicht(view);
+    const quelle = view ?? introAlsSzene();
+    const gefunden = auflageFuerSicht(quelle);
     setSchluessel(gefunden.schluessel);
     setPatch(gefunden.patch);
   }, [view]);
@@ -212,28 +214,69 @@ export function GameApp() {
     setView((current) => (current ? { ...current, held: next } : current));
   }, [patch.effekte, patch.effekteFort, view?.textKey]);
 
+  function toggleWelt() {
+    setLeiterOpen((open) => {
+      const next = !open;
+      if (next) setzeWeltAktiv(true);
+      return next;
+    });
+  }
+
+  const welt = leiterOpen ? (
+    <WeltEditor
+      szene={view ?? introAlsSzene()}
+      auflage={patch}
+      schluessel={schluessel}
+      held={view?.held ?? held}
+      onChange={onPatch}
+      onReset={onResetKarte}
+      onClose={() => setLeiterOpen(false)}
+      onEffekt={onEffekt}
+      onLage={onLageVorlegen}
+      onRueckgaengig={onRueckgaengig}
+      onTageszeit={onTageszeit}
+    />
+  ) : null;
+
   if (mode === "title") {
     return (
-      <TitleScreen
-        onStart={() => setMode("create")}
-        onRules={() => setMode("rules")}
-        onLoad={loadAdventure}
-        canLoad={canLoad}
-      />
+      <>
+        <TitleScreen
+          onStart={() => setMode("create")}
+          onRules={() => setMode("rules")}
+          onLoad={loadAdventure}
+          canLoad={canLoad}
+          onWelt={toggleWelt}
+        />
+        {welt}
+      </>
     );
   }
   if (mode === "rules") {
-    return <RulesScreen onBack={() => setMode("title")} />;
+    return (
+      <>
+        <RulesScreen onBack={() => setMode("title")} onWelt={toggleWelt} />
+        {welt}
+      </>
+    );
   }
   if (mode === "create") {
-    return <CreateHero onReady={startAdventure} onBack={() => setMode("title")} />;
+    return (
+      <>
+        <CreateHero onReady={startAdventure} onBack={() => setMode("title")} onWelt={toggleWelt} />
+        {welt}
+      </>
+    );
   }
 
   if (!view) {
     return (
-      <div className="flex min-h-dvh items-center justify-center bg-bg text-muted-fg">
-        Der Wald hält den Atem an…
-      </div>
+      <>
+        <div className="flex min-h-dvh items-center justify-center bg-bg text-muted-fg">
+          Der Wald hält den Atem an…
+        </div>
+        {welt}
+      </>
     );
   }
 
@@ -241,6 +284,7 @@ export function GameApp() {
   const shown = wendePatchAn(raw, patch);
 
   return (
+    <>
     <SceneStage
       view={shown}
       original={raw}
@@ -253,17 +297,11 @@ export function GameApp() {
       leiterOpen={leiterOpen}
       patch={patch}
       schluessel={schluessel}
-      onLeiter={() => {
-        setLeiterOpen((open) => {
-          const next = !open;
-          if (next) setzeWeltAktiv(true);
-          return next;
-        });
-      }}
+      onLeiter={toggleWelt}
       onPatch={onPatch}
       onResetKarte={onResetKarte}
       onRueckgaengig={onRueckgaengig}
-      authorMode={leiterOpen}
+      authorMode={false}
       wissenAnzahl={shown.held ? deriveKnowledge(shown.held).size : 0}
       weltAnzahl={anzahlAuflagen()}
       weltPunkt={!auflageLeer(patch)}
@@ -278,5 +316,7 @@ export function GameApp() {
       }}
       onLageSchliessen={() => setLageIndex(null)}
     />
+    {welt}
+    </>
   );
 }

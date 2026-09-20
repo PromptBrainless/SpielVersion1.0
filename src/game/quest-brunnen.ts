@@ -19,6 +19,7 @@ export async function dorfTruebesWasser(rt: Runtime, held: Held) {
   const schonDrin = held.truebungBestaetigt || held.spurAmBrunnen || held.grovinGenannt;
   if (!schonDrin) {
     await rt.present({
+      id: "brunnen-krug",
       title: "Der bittere Krug",
       art: "well",
       portrait: null,
@@ -45,6 +46,7 @@ export async function dorfTruebesWasser(rt: Runtime, held: Held) {
       { id: "dorf", label: "Zurück zum Dorfplatz" },
     ];
     const wahl = await rt.present({
+      id: "brunnen-hub",
       title: "Trübes Wasser",
       art: "well",
       portrait: null,

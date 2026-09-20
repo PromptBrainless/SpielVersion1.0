@@ -1,0 +1,18 @@
+{
+  "id": "taverne",
+  "titel": "Taverne",
+  "quest": "dorf",
+  "datei": "dorf/taverne.json",
+  "szenen": [
+    {
+      "id": "zum-letzten-fass",
+      "title": "Zum letzten Fass",
+      "art": "tavern",
+      "portrait": "mara",
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}

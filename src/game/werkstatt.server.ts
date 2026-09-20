@@ -8,49 +8,59 @@ Sätze dürfen lang sein. Leer dürfen sie nicht sein.
 Antworte NUR mit JSON: { "title": string, "lines": string[], "choices": string[] }.
 Das ist ein Entwurf, kein Kanon.`;
 
+const ZEIT_MS = 18_000;
+
 export const entwerfeSzene = createServerFn({ method: "POST" })
   .validator((input: { title: string; lines: string[]; choices: string[]; wissen: string[] }) => ({
-    title: input.title.slice(0, 120),
-    lines: input.lines.slice(0, 24),
-    choices: input.choices.slice(0, 12),
-    wissen: input.wissen.slice(0, 12),
+    title: String(input?.title ?? "").slice(0, 120),
+    lines: Array.isArray(input?.lines) ? input.lines.map(String).slice(0, 24) : [],
+    choices: Array.isArray(input?.choices) ? input.choices.map(String).slice(0, 12) : [],
+    wissen: Array.isArray(input?.wissen) ? input.wissen.map(String).slice(0, 12) : [],
   }))
   .handler(async ({ data }) => {
     const apiKey = process.env.XAI_API_KEY;
-    if (!apiKey) return { ok: false as const, error: "AI is not available" };
+    if (!apiKey) return { ok: false as const, error: "Kein xAI-Schlüssel auf dem Server." };
 
-    const res = await fetch("https://api.x.ai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: "grok-4.5",
-        max_tokens: 900,
-        temperature: 0.4,
-        messages: [
-          { role: "system", content: STIMME },
-          {
-            role: "user",
-            content: JSON.stringify({
-              title: data.title,
-              lines: data.lines,
-              choices: data.choices,
-              wissen: data.wissen,
-            }),
-          },
-        ],
-      }),
-    });
-    if (!res.ok) return { ok: false as const, error: `xAI API error ${res.status}` };
-    const body = (await res.json()) as { choices?: { message?: { content?: string } }[] };
-    const text = body.choices?.[0]?.message?.content ?? "";
+    const ac = new AbortController();
+    const timer = setTimeout(() => ac.abort(), ZEIT_MS);
     try {
+      const res = await fetch("https://api.x.ai/v1/chat/completions", {
+        method: "POST",
+        signal: ac.signal,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: "grok-4-fast",
+          max_tokens: 700,
+          temperature: 0.4,
+          response_format: { type: "json_object" },
+          messages: [
+            { role: "system", content: STIMME },
+            {
+              role: "user",
+              content: JSON.stringify({
+                title: data.title,
+                lines: data.lines,
+                choices: data.choices,
+                wissen: data.wissen,
+              }),
+            },
+          ],
+        }),
+      });
+      if (!res.ok) {
+        const roh = await res.text().catch(() => "");
+        return { ok: false as const, error: `xAI ${res.status}${roh ? `: ${roh.slice(0, 160)}` : ""}` };
+      }
+      const body = (await res.json()) as { choices?: { message?: { content?: string } }[] };
+      const text = body.choices?.[0]?.message?.content ?? "";
       const fence = text.match(/```(?:json)?\s*([\s\S]*?)```/);
       const roh = fence?.[1] ?? text;
       const start = roh.indexOf("{");
       const end = roh.lastIndexOf("}");
+      if (start < 0 || end <= start) return { ok: false as const, error: "Die Antwort war kein JSON." };
       const parsed = JSON.parse(roh.slice(start, end + 1)) as { title?: string; lines?: string[]; choices?: string[] };
       return {
         ok: true as const,
@@ -58,8 +68,14 @@ export const entwerfeSzene = createServerFn({ method: "POST" })
         lines: Array.isArray(parsed.lines) ? parsed.lines.map(String) : data.lines,
         choices: Array.isArray(parsed.choices) ? parsed.choices.map(String) : data.choices,
       };
-    } catch {
-      return { ok: false as const, error: "Die Antwort war kein JSON." };
+    } catch (fehler) {
+      const name = fehler instanceof Error ? fehler.name : "";
+      if (name === "AbortError" || name === "TimeoutError") {
+        return { ok: false as const, error: "Zeitüberschreitung. Entwurf abgebrochen." };
+      }
+      return { ok: false as const, error: fehler instanceof Error ? fehler.message : "xAI nicht erreichbar." };
+    } finally {
+      clearTimeout(timer);
     }
   });
 

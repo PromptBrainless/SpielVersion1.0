@@ -1,0 +1,28 @@
+{
+  "id": "schacht",
+  "titel": "Schacht und Graben",
+  "quest": "brunnen",
+  "datei": "brunnen/schacht.json",
+  "szenen": [
+    {
+      "id": "brunnenschacht",
+      "title": "Brunnenschacht",
+      "art": "well",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    },
+    {
+      "id": "ablaufgraben",
+      "title": "Ablaufgraben",
+      "art": "ditch",
+      "portrait": null,
+      "lines": [],
+      "choices": [
+        "Weiter"
+      ]
+    }
+  ]
+}
