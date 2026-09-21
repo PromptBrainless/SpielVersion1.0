@@ -27,7 +27,7 @@ export function WeltRegeln({ onSeite }: { onSeite?: (id: string) => void }) {
       <p className="text-xs text-muted-fg">Regel — liest Kanon, schreibt nichts.</p>
       <div className="mt-1 flex gap-2">
         <Button type="button" variant="secondary" className="h-9 px-3 text-xs" onClick={() => setAn(true)}>
-          Prüfen
+          Kanon prüfen
         </Button>
         {an ? (
           <Button type="button" variant="ghost" className="h-9 px-3 text-xs" onClick={bericht}>

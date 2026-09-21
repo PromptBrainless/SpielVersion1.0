@@ -1,14 +1,15 @@
 import { chromium } from "playwright";
 import { mkdir } from "node:fs/promises";
 
-const outDir = "/workspace/qa-screenshots";
+const outDir = "qa-screenshots";
 await mkdir(outDir, { recursive: true });
 
 const browser = await chromium.launch({
   headless: true,
   executablePath:
     process.env.PLAYWRIGHT_CHROMIUM ||
-    "/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
+    "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
+  args: ["--no-sandbox"],
 });
 
 async function bisZumWeg(page) {
@@ -28,6 +29,16 @@ async function bisZumWeg(page) {
   await page.getByRole("heading", { name: "Der Weg nach Lindendorf" }).waitFor({ timeout: 20000 });
 }
 
+/** Das Weltwerkzeug sitzt hinter dem Spielleiter-Passwort. */
+async function betreteWelt(page, weltKnopf) {
+  await weltKnopf.click();
+  const passwort = page.getByLabel("Passwort");
+  if (await passwort.isVisible({ timeout: 1500 }).catch(() => false)) {
+    await passwort.fill("1234");
+    await page.getByRole("button", { name: "Eintreten" }).click();
+  }
+}
+
 const fehler = [];
 
 const desktop = await browser.newPage({ viewport: { width: 1280, height: 800 } });
@@ -44,7 +55,7 @@ if (!(await speichern.isVisible())) fehler.push("desktop: Speichern fehlt");
 const wissenName = await wissen.getAttribute("aria-label");
 if (!wissenName || !/\(\d+\)/.test(wissenName)) fehler.push(`desktop: Wissen ohne Zahl (${wissenName})`);
 
-await welt.click();
+await betreteWelt(desktop, welt);
 await desktop.getByRole("button", { name: "Karte" }).waitFor();
 if (!(await desktop.getByText("Kanon").first().isVisible().catch(() => false))) {
   fehler.push("desktop: Schublade ohne Kanon-Hinweis");
@@ -92,7 +103,7 @@ const overflow = await mobile.evaluate(
 if (overflow) fehler.push("mobile: HUD läuft seitlich über");
 const weltMobil = mobile.getByRole("button", { name: /^Welt/ });
 if (!(await weltMobil.isVisible())) fehler.push("mobile: Welt-Knopf ohne Namen");
-await weltMobil.click();
+await betreteWelt(mobile, weltMobil);
 const drawer = mobile.locator("aside").filter({ hasText: "Welt" }).first();
 if (!(await drawer.isVisible())) fehler.push("mobile: Schublade öffnet nicht");
 await mobile.screenshot({ path: `${outDir}/hud-mobile-welt.png`, fullPage: false });

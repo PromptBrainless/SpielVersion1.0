@@ -10,13 +10,6 @@ import { redirectToLoginIfRequired } from "@/lib/app-data";
 import type { Held, SceneView } from "@/game/types";
 import { detectPlayerLeaks } from "@/game/gm/detectPlayerLeaks";
 import { mapHeldToPlayerHud } from "@/game/gm/mapHeldToPlayerHud";
-import { WeltBibliothek } from "./WeltBibliothek";
-import { WeltBilder } from "./WeltBilder";
-import { WeltGraph } from "./WeltGraph";
-import { WeltPruefgraph } from "./WeltPruefgraph";
-import { WeltQuestpfad } from "./WeltQuestpfad";
-import { WeltRegeln } from "./WeltRegeln";
-import { WeltZustaende } from "./WeltZustaende";
 
 const JsonMonaco = lazy(() => import("./JsonMonaco"));
 
@@ -49,7 +42,6 @@ export function WeltPruefen({
   schluessel = "",
   held = null,
   onChange,
-  onSeite,
   seite = false,
 }: {
   szene: SceneView | null;
@@ -57,7 +49,6 @@ export function WeltPruefen({
   schluessel?: string;
   held?: Held | null;
   onChange?: (next: WeltAuflage) => void;
-  onSeite?: (id: string) => void;
   seite?: boolean;
 }) {
   const haupt = modulFuerSzene(szene);
@@ -121,19 +112,10 @@ export function WeltPruefen({
           ) : null}
         </div>
       ) : null}
-      <WeltGraph aktuell={szene?.id} onPick={onSeite} />
-      <WeltPruefgraph />
-      <WeltQuestpfad />
-      <WeltBilder />
 
-      <details className="mt-4 rounded-sm border border-border px-3 py-2">
-        <summary className="cursor-pointer text-sm text-muted-fg">Bibliothek, Regeln, Zustände</summary>
-        <div className="mt-2">
-      <WeltBibliothek onSeite={onSeite} />
-      <WeltRegeln onSeite={onSeite} />
-      <WeltZustaende />
-        </div>
-      </details>
+      <p className="mt-3 text-xs text-muted-fg">
+        Graph, Bibliothek, Regeln, Bilder, Fragepfade und Ablauf liegen jetzt unter Kampagne und Quest.
+      </p>
 
       <details className="mt-3 rounded-sm border border-border px-3 py-2">
         <summary className="cursor-pointer text-sm text-muted-fg">JSON, Ablegen, GitHub</summary>

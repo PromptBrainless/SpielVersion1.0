@@ -9,6 +9,7 @@ import {
   listSavedGameDetails,
   nameKey,
 } from "@/game/save";
+import { WeltFiguren } from "./WeltFiguren";
 import { WeltZeitstrahl } from "./WeltZeitstrahl";
 
 export function WeltSpieler({
@@ -141,7 +142,9 @@ export function WeltSpieler({
 
       {angesehen ? (
         <div className="mt-3 border-t border-border pt-2">
-          <p className="text-xs text-muted-fg">Log · {angesehen.name}</p>
+          <p className="text-xs text-muted-fg">Ruf · {angesehen.name}</p>
+          <WeltFiguren held={angesehen} />
+          <p className="mt-3 text-xs text-muted-fg">Log · {angesehen.name}</p>
           <WeltZeitstrahl held={angesehen} />
         </div>
       ) : null}

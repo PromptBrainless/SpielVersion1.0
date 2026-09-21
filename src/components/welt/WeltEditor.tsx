@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FlaskConical, LayoutGrid, MapPinned, ShieldCheck, ShieldQuestion, UserRound, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { EffektId, Held, SceneView } from "@/game/types";
 import type { Tageszeit } from "@/game/tageszeit";
@@ -16,8 +17,11 @@ import { WeltEntwurf } from "./WeltEntwurf";
 import { WeltHeld } from "./WeltHeld";
 import { WeltKarte } from "./WeltKarte";
 import { WeltPruefen } from "./WeltPruefen";
+import { WeltKampagne } from "./WeltKampagne";
+import { WeltQuest } from "./WeltQuest";
+import { WeltSpieler } from "./WeltSpieler";
 
-type Fach = "karte" | "held" | "stimme" | "pruefen";
+type Fach = "karte" | "held" | "stimme" | "kampagne" | "quest" | "spieler" | "pruefen";
 
 export function WeltEditor({
   szene,
@@ -140,21 +144,28 @@ export function WeltEditor({
             </Button>
           </div>
         ) : null}
-        <div className="mb-4 grid grid-cols-4 gap-1">
+        <div className="mb-4 flex gap-1 overflow-x-auto rounded-md border border-border bg-surface/40 p-1">
           {(
             [
-              ["karte", "Karte"],
-              ["held", "Held"],
-              ["stimme", "Stimme"],
-              ["pruefen", "Prüfen"],
+              ["karte", "Karte", MapPinned],
+              ["held", "Held", UserRound],
+              ["stimme", "Stimme", FlaskConical],
+              ["kampagne", "Kampagne", LayoutGrid],
+              ["quest", "Quest", ShieldQuestion],
+              ["spieler", "Partien", Users2],
+              ["pruefen", "Prüfen", ShieldCheck],
             ] as const
-          ).map(([id, titel]) => (
+          ).map(([id, titel, Symbol]) => (
             <button
               key={id}
               type="button"
-              className={`h-12 rounded-md text-sm ${fach === id ? "bg-surface-2 text-fg" : "text-muted-fg"}`}
+              className={`inline-flex h-11 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-sm px-3 text-sm transition-colors duration-[var(--motion-quick)] ${
+                fach === id ? "bg-surface-2 text-fg" : "text-muted-fg hover:text-fg"
+              }`}
               onClick={() => setFach(id)}
+              aria-current={fach === id}
             >
+              <Symbol className="size-4" aria-hidden />
               {titel}
             </button>
           ))}
@@ -188,6 +199,11 @@ export function WeltEditor({
         {fach === "stimme" ? (
           <WeltEntwurf szene={sicht} auflage={sichtAuflage} schluessel={sichtKey} onChange={speichere} />
         ) : null}
+        {fach === "kampagne" ? <WeltKampagne aktuell={sicht?.id} onSeite={oeffneSeite} /> : null}
+        {fach === "quest" ? <WeltQuest /> : null}
+        {fach === "spieler" ? (
+          <WeltSpieler aktuelleName={held?.name} onLade={onLadeSpieler} onGeaendert={onSpielerGeaendert} />
+        ) : null}
         {fach === "pruefen" ? (
           <WeltPruefen
             szene={sicht}
@@ -195,7 +211,6 @@ export function WeltEditor({
             schluessel={sichtKey}
             held={held}
             onChange={speichere}
-            onSeite={oeffneSeite}
             seite
           />
         ) : null}
