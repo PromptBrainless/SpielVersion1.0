@@ -9,7 +9,11 @@
       "title": "Gretes Kate",
       "art": "village",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Gretes Kate steht, wo die Gasse aufhört, ein Weg zu sein. Innen ist es dunkler als der Abend draußen, und es riecht nach kalter Asche und altem Tuch.",
+        "Die Schwelle ist abgetreten von Füßen, die nicht mehr kommen. An der Wand hängt ein Strick, rot, verblasst, zu kurz für ein Seil und zu lang für eine Erinnerung, die man wegwerfen könnte.",
+        "Jemand hat hier gewartet. Das Warten hat Möbel hinterlassen und eine Stille, die nicht leer ist."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -19,7 +23,11 @@
       "title": "Grete",
       "art": "village",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Grete sieht dich nicht mit den Augen. Sie sieht dich an der Art, wie du die Schwelle nimmst, ob du sie abtrittst oder darüber nachdenkst.",
+        "„Die Gasse hat Namen gehabt“, sagt sie. „Ilse hat sie aufgeschrieben, bevor der Rat beschlossen hat, dass Namen Unordnung sind.“",
+        "Ihre Hände suchen den roten Strick an der Wand und finden ihn, ohne zu tasten. Blinde Frauen in diesem Tal verlieren nicht, was sie einmal gehalten haben."
+      ],
       "choices": [
         "Weiter"
       ]

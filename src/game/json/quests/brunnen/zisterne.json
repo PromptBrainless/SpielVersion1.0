@@ -7,21 +7,30 @@
     {
       "id": "an-der-zisterne",
       "title": "An der Zisterne",
-      "art": "well",
+      "art": "ditch",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Dorniges Gestrüpp steht dicht vor dem steinernen Becken, ein natürlicher Wall. Dahinter, kaum sichtbar durch die Zweige, bewegt sich eine flache Hand über Wasser, das reiner und klarer ist als alles, was man seit Tagen im Dorf gesehen hat."
+      ],
       "choices": [
-        "Weiter"
+        "Sich durch das Gestrüpp zwängen (Stärke, leicht)",
+        "Sich unbemerkt nähern (Geschick, mittel)",
+        "Umkehren"
       ]
     },
     {
       "id": "grovins-zisterne",
       "title": "Grovins Zisterne",
-      "art": "well",
+      "art": "ditch",
       "portrait": "grovin",
-      "lines": [],
+      "lines": [
+        "Das Wasser in der Zisterne ist klar bis auf den steinigen Grund. Grovin blickt zuerst hinunter darauf, dann erst zu dir hinüber.",
+        "„Ich habe dem Dorf diesen Brunnen gebaut“, sagt er, „und es hat mich dafür nicht bezahlt. Also nimmt sich das Wasser, was mir zusteht, und ich helfe ihm dabei nach.“"
+      ],
       "choices": [
-        "Weiter"
+        "Die Sperre gewaltsam brechen (Stärke, mittel)",
+        "Die Sperre unbemerkt umlegen (Geschick, schwer)",
+        "Die Zisterne verlassen"
       ]
     }
   ]

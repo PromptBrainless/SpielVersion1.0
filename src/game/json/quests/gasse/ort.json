@@ -9,7 +9,11 @@
       "title": "Gerbereigasse",
       "art": "gate",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Die Gerbereigasse ist eng genug, dass zwei Leute sich entschuldigen müssten, wenn noch jemand wohnte. Es wohnt niemand.",
+        "An den Türstöcken sind Kratzer in Höhe von Kinderschultern. Die Fensterbretter tragen Ringe, wo Töpfe standen. Der Geruch von Gerberlohe ist alt und trotzdem der jüngste, der hier geblieben ist.",
+        "Am Ende der Gasse liegt eine Kate, deren Türangel nicht rostet, als ginge noch jemand ein und aus, der nicht gesehen werden will."
+      ],
       "choices": [
         "Weiter"
       ]

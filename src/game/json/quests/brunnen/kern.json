@@ -9,7 +9,12 @@
       "title": "Bei Witwe Kern",
       "art": "apothecary",
       "portrait": "kern",
-      "lines": [],
+      "lines": [
+        "Kern hat die Ärmel hochgekrempelt, wie eine Frau, die sich auf eine lange Arbeit einstellt. Auf der Waage vor ihr liegt dieselbe Kräutermischung, die sie schon seit Tagen abwiegt und die trotzdem nie zu reichen scheint, gleich wie oft sie die Schale neu füllt.",
+        "„Bauchschmerzen. Fieber. Ein metallischer Geschmack im Mund, den man nicht wegspülen kann.“ Sie zählt die Symptome auf, als lese sie eine Liste, die sie längst auswendig kennt. „Die Kinder zuerst, dann die Alten. So ist es immer, wenn etwas von unten kommt und nicht von oben.“",
+        "Lohn bietet sie dir nicht an. „Etwas Fremdes ist im Wasser“, sagt sie, mit der Bestimmtheit einer Frau, die sich nicht zum ersten Mal irrt, wenn sie ihrem eigenen Urteil vertraut. „Nicht Krankheit allein. Jemand hat den Brunnen angefasst.“",
+        "Unter den Krankenzetteln an ihrer Wand sind zwei ganz frisch, die Tinte kaum trocken. Beide nennen Häuser, die nah am Brunnen liegen — zu nah, um Zufall zu sein."
+      ],
       "choices": [
         "Weiter"
       ]

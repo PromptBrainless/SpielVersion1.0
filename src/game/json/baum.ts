@@ -1,6 +1,8 @@
 import { LAGER_CONTENT, LAGER_WEGE } from "../lager-content";
 import { ANKUNFT_TEILE } from "./ankunft";
+import kiAuflagen from "./ki-auflagen.json";
 import { karte, QuestSchema, TeilSchema, type QuestJson, type SzeneJson, type TeilJson } from "./schema";
+import { VOLLTEXTE, type Volltext } from "./volltexte";
 
 function teil(quest: string, id: string, titel: string, szenen: SzeneJson[]): TeilJson {
   return TeilSchema.parse({ id, titel, quest, datei: `${quest}/${id}.json`, szenen });
@@ -19,7 +21,7 @@ const lagerHub: SzeneJson = {
   choices: [...LAGER_CONTENT.choices, LAGER_CONTENT.choiceTor],
 };
 
-export const QUESTS: QuestJson[] = [
+export const QUESTS_ROH: QuestJson[] = [
   quest("ankunft", "Ankunft", "Hauptfluss", ANKUNFT_TEILE),
   quest("dorf", "Lindendorf", "Hauptfluss", [
     teil("dorf", "platz", "Dorfplatz", [
@@ -40,16 +42,19 @@ export const QUESTS: QuestJson[] = [
   quest("brunnen", "Trübes Wasser", "Versorgung", [
     teil("brunnen", "platz", "Brunnenplatz", [
       karte("brunnen-krug", "Der bittere Krug", "well", [
-        "Der Wassereimer am Dorfbrunnen steht halb voll, so wie ihn die Nacht zurückgelassen hat, denn niemand hat sich heute Morgen die Mühe gemacht, ihn zu leeren und neu zu füllen, wie es sonst die erste Pflicht des Tages ist, noch vor dem Brot, noch vor dem Vieh. Das Wasser darin hat die falsche Farbe angenommen, ein trübes Graubraun, das eher an aufgewühlten Teichgrund erinnert als an das, was aus der Tiefe der Erde kommen sollte, klar und kalt und ohne Geschichte.",
-        "Vor der Apotheke hustet ein Kind, ein trockenes, hartes Husten, das sich anhört, als sitze ihm etwas Falsches in der Brust fest. Die Mutter hält es fester an sich, fester, als das bloße Husten es eigentlich verlangte, mit jener Art von Griff, die weniger dem Kind gilt als der eigenen Angst, die man damit niederhalten will.",
-        "Am Brunnenrand steht Ratsherr Dennek und rührt mit einem Stock im Eimer, langsam, im Kreis, immer wieder, als könnte man ein vergiftetes Wasser durch bloßes Rühren wieder klären, so wie man einen Brei glattstreicht, dem nichts mehr fehlt als ein wenig Geduld. Er sieht dabei nicht auf, weder zum Kind noch zur Mutter noch zu irgendwem, der vorbeigeht — als hoffe er, dass die Bewegung seiner Hand genüge, um auch die Fragen im Kreis zu halten, die man ihm sonst stellen würde.",
+        "Der Wassereimer am Dorfbrunnen steht noch halb voll von der Nacht. Niemand hat sich heute Morgen die Mühe gemacht, ihn zu leeren und neu zu füllen — nicht vor dem Brot, nicht vor dem Vieh.",
+        "Das Wasser hat die falsche Farbe: ein trübes Graubraun, wie aufgewühlter Teichgrund statt klarer, kalter Tiefe ohne Geschichte.",
+        "Vor der Apotheke hustet ein Kind, trocken und hart, als sitze ihm etwas Falsches in der Brust fest. Die Mutter hält es fester, als das bloße Husten verlangt — mit einem Griff, der weniger dem Kind gilt als der eigenen Angst.",
+        "Am Brunnenrand steht Ratsherr Dennek und rührt mit einem Stock im Eimer. Langsam. Im Kreis. Als ließe sich vergiftetes Wasser klären wie ein Brei, dem nur noch Geduld fehlt.",
+        "Er sieht dabei niemanden an — weder das Kind noch die Mutter noch die Vorübergehenden. Als hoffe er, dass die Bewegung seiner Hand auch die Fragen im Kreis hält.",
       ]),
       karte(
         "brunnen-hub",
         "Trübes Wasser",
         "well",
         [
-          "Das Wasser im Eimer bleibt trüb bis auf den Grund, gleich wie oft man danach sieht, und es schmeckt nach Eisen, sobald der Wind vom Wald herüberzieht, als trüge er selbst einen Rest der Wahrheit mit sich, die man ihm sonst nirgendwo abringen kann.",
+          "Das Wasser im Eimer bleibt trüb bis auf den Grund. Sobald der Wind vom Wald herüberzieht, schmeckt es nach Eisen.",
+          "Kerns Tür steht einen Spalt offen, als warte sie auf jemanden, der endlich hineingeht, statt nur vorbeizulaufen. Dennek trommelt derweil mit den Fingern auf die Brunnenmauer, ein unruhiges, kleines Geräusch, das nicht zum Rühren im Eimer passen will — die Hände eines Mannes, der etwas weiß, das seine Zunge noch nicht hergeben will.",
         ],
         [
           "Mit Witwe Kern über das Wasser sprechen",
@@ -60,20 +65,103 @@ export const QUESTS: QuestJson[] = [
         ],
       ),
     ]),
-    teil("brunnen", "kern", "Witwe Kern", [karte("bei-witwe-kern", "Bei Witwe Kern", "apothecary", [], ["Weiter"], "kern")]),
-    teil("brunnen", "dennek", "Ratsherr Dennek", [karte("ratsherr-dennek", "Ratsherr Dennek", "well")]),
+    teil("brunnen", "kern", "Witwe Kern", [
+      karte(
+        "bei-witwe-kern",
+        "Bei Witwe Kern",
+        "apothecary",
+        [
+          "Kern hat die Ärmel hochgekrempelt, wie eine Frau, die sich auf eine lange Arbeit einstellt. Auf der Waage vor ihr liegt dieselbe Kräutermischung, die sie schon seit Tagen abwiegt und die trotzdem nie zu reichen scheint, gleich wie oft sie die Schale neu füllt.",
+          "„Bauchschmerzen. Fieber. Ein metallischer Geschmack im Mund, den man nicht wegspülen kann.“ Sie zählt die Symptome auf, als lese sie eine Liste, die sie längst auswendig kennt. „Die Kinder zuerst, dann die Alten. So ist es immer, wenn etwas von unten kommt und nicht von oben.“",
+          "Lohn bietet sie dir nicht an. „Etwas Fremdes ist im Wasser“, sagt sie, mit der Bestimmtheit einer Frau, die sich nicht zum ersten Mal irrt, wenn sie ihrem eigenen Urteil vertraut. „Nicht Krankheit allein. Jemand hat den Brunnen angefasst.“",
+          "Unter den Krankenzetteln an ihrer Wand sind zwei ganz frisch, die Tinte kaum trocken. Beide nennen Häuser, die nah am Brunnen liegen — zu nah, um Zufall zu sein.",
+        ],
+        ["Weiter"],
+        "kern",
+      ),
+    ]),
+    teil("brunnen", "dennek", "Ratsherr Dennek", [
+      karte(
+        "ratsherr-dennek",
+        "Ratsherr Dennek",
+        "well",
+        [
+          "Dennek rührt weiter im Eimer, mechanisch, ohne Überzeugung, und das Wasser wird dadurch um keinen Deut klarer. „Trockenes Jahr“, sagt er, mit der glatten Sicherheit eines Mannes, der diesen Satz schon oft geübt hat. „Der Brunnen gibt, was er kann. Mehr zu verlangen wäre schon Klage.“",
+        ],
+        [
+          "Nach dem trockenen Jahr fragen (Charisma, schwer)",
+          "Ihn an die Mauer drücken (Stärke, mittel)",
+          "Ihn am Eimer lassen",
+        ],
+      ),
+    ]),
     teil("brunnen", "schacht", "Schacht und Graben", [
-      karte("brunnenschacht", "Brunnenschacht", "well"),
-      karte("ablaufgraben", "Ablaufgraben", "ditch"),
+      karte("brunnenschacht", "Brunnenschacht", "well", [
+        "Frischer Mörtel klebt an einer Steinfuge, nicht älter als ein paar Nächte, glatt und hell im Gegensatz zum verwitterten Stein ringsum. Dahinter, kaum zu erkennen, ein schmaler Ablaufgraben, der aus dem Dorf hinausführt, Richtung Wald.",
+        "Denneks Stock hat beim Rühren stets genau diese Stelle gemieden, jedes Mal, als kenne die Hand, die ihn führt, die Wahrheit besser als der Mund, der sie leugnet.",
+      ]),
+      karte("ablaufgraben", "Ablaufgraben", "ditch", [
+        "Der Graben endet an einer halb überwucherten Zisterne, deren Mauerwerk zwar alt ist, dessen Fugen jedoch sauber und gepflegt wirken.",
+        "Jemand hält dieses Bauwerk sorgfältig instand, während im Dorf dahinter die Kinder husten.",
+      ]),
     ]),
     teil("brunnen", "zisterne", "Grovins Zisterne", [
-      karte("an-der-zisterne", "An der Zisterne", "well"),
-      karte("grovins-zisterne", "Grovins Zisterne", "well", [], ["Weiter"], "grovin"),
+      karte(
+        "an-der-zisterne",
+        "An der Zisterne",
+        "ditch",
+        [
+          "Dorniges Gestrüpp steht dicht vor dem steinernen Becken, ein natürlicher Wall. Dahinter, kaum sichtbar durch die Zweige, bewegt sich eine flache Hand über Wasser, das reiner und klarer ist als alles, was man seit Tagen im Dorf gesehen hat.",
+        ],
+        [
+          "Sich durch das Gestrüpp zwängen (Stärke, leicht)",
+          "Sich unbemerkt nähern (Geschick, mittel)",
+          "Umkehren",
+        ],
+      ),
+      karte(
+        "grovins-zisterne",
+        "Grovins Zisterne",
+        "ditch",
+        [
+          "Das Wasser in der Zisterne ist klar bis auf den steinigen Grund. Grovin blickt zuerst hinunter darauf, dann erst zu dir hinüber.",
+          "„Ich habe dem Dorf diesen Brunnen gebaut“, sagt er, „und es hat mich dafür nicht bezahlt. Also nimmt sich das Wasser, was mir zusteht, und ich helfe ihm dabei nach.“",
+        ],
+        [
+          "Die Sperre gewaltsam brechen (Stärke, mittel)",
+          "Die Sperre unbemerkt umlegen (Geschick, schwer)",
+          "Die Zisterne verlassen",
+        ],
+        "grovin",
+      ),
     ]),
     teil("brunnen", "ende", "Ausgänge", [
-      karte("zwei-brunnen-ein-dorf", "Zwei Brunnen, ein Dorf", "well", [], ["Weiter"], "kern"),
-      karte("wasser-mit-einem-riss", "Wasser mit einem Riss", "well"),
-      karte("klares-wasser", "Klares Wasser", "well", [], ["Weiter"], "kern"),
+      karte(
+        "zwei-brunnen-ein-dorf",
+        "Zwei Brunnen, ein Dorf",
+        "well",
+        [
+          "Das Wasser wird spürbar klarer, gewiss, doch nie wirklich genug, um für alle zu reichen. Kern braut weiterhin dieselbe Mischung wie zuvor, nur seltener nun.",
+          "Man selbst trägt das Wissen um das, was wirklich geschah, fortan ganz allein, ohne es mit irgendwem teilen zu können.",
+        ],
+        ["Weiter"],
+        "kern",
+      ),
+      karte("wasser-mit-einem-riss", "Wasser mit einem Riss", "well", [
+        "Das Wasser fließt zwar wieder, doch Grovin ist verschwunden, nicht verschwunden genug, um die Sache endgültig zu beenden.",
+        "In manchen Nächten hört man Schritte am Waldrand, die niemand im Dorf laut beim Namen nennen möchte.",
+      ]),
+      karte(
+        "klares-wasser",
+        "Klares Wasser",
+        "well",
+        [
+          "Am nächsten Morgen ist der Eimer am Brunnen wieder klar bis auf den Grund. Kern braut zum ersten Mal seit vielen Tagen wieder etwas anderes als bloßes Fiebermittel.",
+          "Niemand im Dorf fragt laut nach dem Warum. Fragen kosten hier Kraft, die man zum Trinken braucht.",
+        ],
+        ["Weiter"],
+        "kern",
+      ),
     ]),
   ]),
   quest("muehle", "Die stumme Mühle", "Versorgung", [
@@ -119,7 +207,7 @@ export const QUESTS: QuestJson[] = [
   ]),
   quest("gasse", "Das Kesseljahr", "Erinnerung", [
     teil("gasse", "kirche", "Kirche und Fenn", [
-      karte("gasse-kirche", "Vor der Kirche", "chapel"),
+      karte("gasse-kirche", "Vor der Kirche", "chapel", [], ["Weiter"], "beggar"),
       karte(
         "gasse-hub",
         "Die leere Gasse",
@@ -127,8 +215,8 @@ export const QUESTS: QuestJson[] = [
         [],
         ["Bei Fenn an der Kirchmauer bleiben", "Ratsherr Vahl im Rathaus aufsuchen", "Die Gasse hinter der Gerberei ansehen", "Zurück zum Dorfplatz"],
       ),
-      karte("fenn", "Fenn", "chapel"),
-      karte("fenn-an-der-kirchmauer", "Fenn an der Kirchmauer", "chapel"),
+      karte("fenn", "Fenn", "chapel", [], ["Weiter"], "beggar"),
+      karte("fenn-an-der-kirchmauer", "Fenn an der Kirchmauer", "chapel", [], ["Weiter"], "beggar"),
       karte("vahls-stube", "Vahls Stube", "townhall"),
       karte("ratsherr-vahl", "Ratsherr Vahl", "townhall"),
     ]),
@@ -140,12 +228,12 @@ export const QUESTS: QuestJson[] = [
     teil("gasse", "gewoelbe", "Gewölbe", [
       karte("kirchengewoelbe", "Kirchengewölbe", "chapel"),
       karte("unter-der-kirche", "Unter der Kirche", "chapel"),
-      karte("im-gewoelbe", "Im Gewölbe", "chapel"),
-      karte("hinter-dem-stein", "Hinter dem Stein", "chapel"),
+      karte("im-gewoelbe", "Im Gewölbe", "evidence"),
+      karte("hinter-dem-stein", "Hinter dem Stein", "evidence"),
     ]),
     teil("gasse", "schluss", "Ausgänge", [
       karte("vahls-stube-abend", "Vahls Stube, Abend", "townhall"),
-      karte("was-die-liste-wiegt", "Was die Liste wiegt", "townhall"),
+      karte("was-die-liste-wiegt", "Was die Liste wiegt", "evidence"),
       karte("ein-zweites-schweigen", "Ein zweites Schweigen", "gate"),
       karte("was-ausgegraben-bleibt", "Was ausgegraben bleibt", "chapel"),
       karte("ein-name-unter-vielen", "Ein Name unter vielen", "village"),
@@ -154,8 +242,25 @@ export const QUESTS: QuestJson[] = [
   ]),
   quest("wald", "Hang und Wald", "Hauptfluss", [
     teil("wald", "glockenweg", "Alter Glockenweg", [
-      karte("glockenweg", "Alter Glockenweg", "chapel"),
-      karte("sanna-die-botin", "Sanna, die Botin", "chapel", [], ["Weiter"], "sanna"),
+      karte("glockenweg", "Alter Glockenweg", "chapel", [
+        "Der alte Glockenweg steigt hinter den letzten Häusern an.",
+        "Nasser Stein. Salzstaub im Gras. Oben hängt eine kleine Kapellenglocke im Wind.",
+        "Die Stufen sind aus verschiedenen Steinen gesetzt. Einige tragen noch Meißelspuren, andere dunkle Flecken, die der Regen nicht aus dem porösen Gestein bekommt.",
+        "Auf halber Höhe steht eine verwitterte Figur ohne Gesicht. Jemand hat ihr einen Mantel umgelegt. Der Mantel ist neuer als die Kapelle.",
+      ]),
+      karte(
+        "sanna-die-botin",
+        "Sanna, die Botin",
+        "chapel",
+        [
+          "Sanna trägt eine Ledertasche ohne Brief.",
+          "„Er ist mir im Geröll aus der Hand gerutscht. Wenn ich leer zurückkomme, glaubt man mir weniger als dem Regen.“",
+          "Sie versucht zu lächeln und scheitert an der Kälte. Unter ihrer Zunge klebt noch Staub vom Hang.",
+          "„Der Brief war versiegelt“, sagt sie. „Nicht mit dem Wachs des Bürgermeisters. Mit etwas, das darunter war.“",
+        ],
+        ["Weiter"],
+        "sanna",
+      ),
       karte("jorren-im-geroell", "Jorren im Geröll", "chapel"),
       karte("die-kapellenglocke", "Die Kapellenglocke", "chapel"),
     ]),
@@ -180,6 +285,43 @@ export const QUESTS: QuestJson[] = [
     teil("ende", "ende", "Ende", [karte("ende", "Ende", "return")]),
   ]),
 ];
+
+function extraFuer(id: string): Volltext | undefined {
+  const ki = (kiAuflagen as Record<string, Volltext>)[id];
+  if (ki?.lines?.length) return ki;
+  return VOLLTEXTE[id];
+}
+
+function anreichern(szene: SzeneJson): SzeneJson {
+  const extra = extraFuer(szene.id);
+  if (!extra) return szene;
+  const ki = Boolean((kiAuflagen as Record<string, Volltext>)[szene.id]?.lines?.length);
+  const chars = (szene.lines ?? []).join(" ").trim().length;
+  if (!ki && chars >= 160) {
+    if (extra.portrait !== undefined) return { ...szene, portrait: extra.portrait };
+    return szene;
+  }
+  return {
+    ...szene,
+    title: extra.title ?? szene.title,
+    art: extra.art ?? szene.art,
+    lines: extra.lines,
+    choices: extra.choices?.length ? extra.choices : szene.choices,
+    portrait: extra.portrait !== undefined ? extra.portrait : szene.portrait,
+  };
+}
+
+export const QUESTS: QuestJson[] = QUESTS_ROH.map((quest) =>
+  QuestSchema.parse({
+    ...quest,
+    teile: quest.teile.map((teil) =>
+      TeilSchema.parse({
+        ...teil,
+        szenen: teil.szenen.map(anreichern),
+      }),
+    ),
+  }),
+);
 
 const SZENE_INDEX = new Map<string, { szene: SzeneJson; teil: TeilJson; quest: QuestJson }>();
 const TITEL_INDEX = new Map<string, { szene: SzeneJson; teil: TeilJson; quest: QuestJson }>();

@@ -141,7 +141,13 @@ export function GameApp() {
   const onPatch = useCallback(
     (next: KartePatch) => {
       setPatch(next);
-      if (schluessel) merkeAuflage(schluessel, next, view?.original ?? view ?? undefined);
+      if (!schluessel) {
+        setSaveMessage("Kein Kartenschlüssel — Text nur in diesem Bildschirm.");
+        return;
+      }
+      if (!merkeAuflage(schluessel, next, view?.original ?? view ?? undefined)) {
+        setSaveMessage("Auflage zu groß für diesen Browser. Hol die JSON-Datei unter Prüfen.");
+      }
     },
     [schluessel, view],
   );

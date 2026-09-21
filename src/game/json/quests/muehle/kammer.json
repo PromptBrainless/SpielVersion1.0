@@ -9,7 +9,11 @@
       "title": "Kornkammer",
       "art": "mill",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Die Kornkammer riecht nach Mehl, das älter ist als die letzte Lieferung. Säcke stehen in Reihen, zu ordentlich für ein Haus, das angeblich nichts mehr hat.",
+        "Eine Frau zählt. Immer dieselben Zahlen. Die Finger bleiben an einem Sack hängen, der hohl klingt.",
+        "Die hintere Wand ist dunkler als die anderen. Nicht vom Schimmel. Vom Schatten, den jemand braucht."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -18,10 +22,16 @@
       "id": "lene-in-der-kornkammer",
       "title": "Lene in der Kornkammer",
       "art": "mill",
-      "portrait": null,
-      "lines": [],
+      "portrait": "miller",
+      "lines": [
+        "Lene zählt, als könnte Zählen eine Tür verschließen. Am Brunnen nennt man sie die Müllerin. Hier ist sie jemand, der nicht will, dass du die hintere Wand ansiehst.",
+        "Ihre Finger bleiben an einem Sack hängen, der hohl klingt. Sie hat Bertoks Stimme gehört, oder sie tut so. Seither redet sie, als läge in jedem Satz ein Preis.",
+        "„Nicht heute“, sagt sie, ohne dich anzusehen, und das Zählen geht weiter, leiser, als wolle es sich vor dir verstecken."
+      ],
       "choices": [
-        "Weiter"
+        "Warten und zuhören",
+        "Die Kammer durchsuchen",
+        "Zurück zum Mahlwerk"
       ]
     },
     {
@@ -29,7 +39,11 @@
       "title": "Hinter der Nische",
       "art": "mill",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Hinter der Nische atmet es. Nicht Mehl. Menschen, die gelernt haben, nicht zu husten, wenn draußen gezählt wird.",
+        "Ein Kind hält die Hand auf den Mund eines kleineren Kindes. Lenes Schwester sieht dich an, als wäge sie, ob du eine Tür bist oder eine Wache.",
+        "Der Hohlraum riecht nach Angst und nassem Tuch. Wer das dem Rat trägt, trägt Blut, auch wenn niemand schlägt."
+      ],
       "choices": [
         "Weiter"
       ]

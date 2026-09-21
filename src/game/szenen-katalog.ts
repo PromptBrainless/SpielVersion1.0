@@ -29,17 +29,24 @@ export function szeneSchluessel(titel: string) {
 }
 
 function liveSzene(szene: SceneView | null, auflage: WeltAuflage) {
-  const katalog = szene ? jsonDerSzene(szene.id, szene.title) : null;
-  if (katalog) return katalog;
-  if (!szene) return JSON.stringify(auflage, null, 2);
+  const katalogRoh = szene ? jsonDerSzene(szene.id, szene.title) : null;
+  const katalog = katalogRoh ? (JSON.parse(katalogRoh) as Record<string, unknown>) : null;
+  const kern = katalog ?? {
+    id: szene?.id ?? (szene ? szeneSchluessel(szene.title) : "szene"),
+    title: szene?.title ?? "",
+    art: szene?.art ?? "village",
+    portrait: szene?.portrait ?? null,
+    lines: szene?.lines ?? [],
+    choices: szene?.choices ?? ["Weiter"],
+  };
   return JSON.stringify(
     {
-      id: szene.id ?? szeneSchluessel(szene.title),
-      title: auflage.title ?? szene.title,
-      art: auflage.art ?? szene.art,
-      portrait: auflage.portrait === undefined ? (szene.portrait ?? null) : auflage.portrait,
-      lines: auflage.lines ?? szene.lines,
-      choices: auflage.choices ?? szene.choices,
+      ...kern,
+      title: auflage.title ?? kern.title,
+      art: auflage.art ?? kern.art,
+      portrait: auflage.portrait === undefined ? kern.portrait : auflage.portrait,
+      lines: auflage.lines ?? kern.lines,
+      choices: auflage.choices ?? kern.choices,
     },
     null,
     2,

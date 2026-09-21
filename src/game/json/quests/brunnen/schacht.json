@@ -9,7 +9,10 @@
       "title": "Brunnenschacht",
       "art": "well",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Frischer Mörtel klebt an einer Steinfuge, nicht älter als ein paar Nächte, glatt und hell im Gegensatz zum verwitterten Stein ringsum. Dahinter, kaum zu erkennen, ein schmaler Ablaufgraben, der aus dem Dorf hinausführt, Richtung Wald.",
+        "Denneks Stock hat beim Rühren stets genau diese Stelle gemieden, jedes Mal, als kenne die Hand, die ihn führt, die Wahrheit besser als der Mund, der sie leugnet."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -19,7 +22,10 @@
       "title": "Ablaufgraben",
       "art": "ditch",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Der Graben endet an einer halb überwucherten Zisterne, deren Mauerwerk zwar alt ist, dessen Fugen jedoch sauber und gepflegt wirken.",
+        "Jemand hält dieses Bauwerk sorgfältig instand, während im Dorf dahinter die Kinder husten."
+      ],
       "choices": [
         "Weiter"
       ]

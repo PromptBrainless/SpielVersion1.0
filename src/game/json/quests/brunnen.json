@@ -16,9 +16,11 @@
           "art": "well",
           "portrait": null,
           "lines": [
-            "Der Wassereimer am Dorfbrunnen steht halb voll, so wie ihn die Nacht zurückgelassen hat, denn niemand hat sich heute Morgen die Mühe gemacht, ihn zu leeren und neu zu füllen, wie es sonst die erste Pflicht des Tages ist, noch vor dem Brot, noch vor dem Vieh. Das Wasser darin hat die falsche Farbe angenommen, ein trübes Graubraun, das eher an aufgewühlten Teichgrund erinnert als an das, was aus der Tiefe der Erde kommen sollte, klar und kalt und ohne Geschichte.",
-            "Vor der Apotheke hustet ein Kind, ein trockenes, hartes Husten, das sich anhört, als sitze ihm etwas Falsches in der Brust fest. Die Mutter hält es fester an sich, fester, als das bloße Husten es eigentlich verlangte, mit jener Art von Griff, die weniger dem Kind gilt als der eigenen Angst, die man damit niederhalten will.",
-            "Am Brunnenrand steht Ratsherr Dennek und rührt mit einem Stock im Eimer, langsam, im Kreis, immer wieder, als könnte man ein vergiftetes Wasser durch bloßes Rühren wieder klären, so wie man einen Brei glattstreicht, dem nichts mehr fehlt als ein wenig Geduld. Er sieht dabei nicht auf, weder zum Kind noch zur Mutter noch zu irgendwem, der vorbeigeht — als hoffe er, dass die Bewegung seiner Hand genüge, um auch die Fragen im Kreis zu halten, die man ihm sonst stellen würde."
+            "Der Wassereimer am Dorfbrunnen steht noch halb voll von der Nacht. Niemand hat sich heute Morgen die Mühe gemacht, ihn zu leeren und neu zu füllen — nicht vor dem Brot, nicht vor dem Vieh.",
+            "Das Wasser hat die falsche Farbe: ein trübes Graubraun, wie aufgewühlter Teichgrund statt klarer, kalter Tiefe ohne Geschichte.",
+            "Vor der Apotheke hustet ein Kind, trocken und hart, als sitze ihm etwas Falsches in der Brust fest. Die Mutter hält es fester, als das bloße Husten verlangt — mit einem Griff, der weniger dem Kind gilt als der eigenen Angst.",
+            "Am Brunnenrand steht Ratsherr Dennek und rührt mit einem Stock im Eimer. Langsam. Im Kreis. Als ließe sich vergiftetes Wasser klären wie ein Brei, dem nur noch Geduld fehlt.",
+            "Er sieht dabei niemanden an — weder das Kind noch die Mutter noch die Vorübergehenden. Als hoffe er, dass die Bewegung seiner Hand auch die Fragen im Kreis hält."
           ],
           "choices": [
             "Weiter"
@@ -30,7 +32,8 @@
           "art": "well",
           "portrait": null,
           "lines": [
-            "Das Wasser im Eimer bleibt trüb bis auf den Grund, gleich wie oft man danach sieht, und es schmeckt nach Eisen, sobald der Wind vom Wald herüberzieht, als trüge er selbst einen Rest der Wahrheit mit sich, die man ihm sonst nirgendwo abringen kann."
+            "Das Wasser im Eimer bleibt trüb bis auf den Grund. Sobald der Wind vom Wald herüberzieht, schmeckt es nach Eisen.",
+            "Kerns Tür steht einen Spalt offen, als warte sie auf jemanden, der endlich hineingeht, statt nur vorbeizulaufen. Dennek trommelt derweil mit den Fingern auf die Brunnenmauer, ein unruhiges, kleines Geräusch, das nicht zum Rühren im Eimer passen will — die Hände eines Mannes, der etwas weiß, das seine Zunge noch nicht hergeben will."
           ],
           "choices": [
             "Mit Witwe Kern über das Wasser sprechen",
@@ -53,7 +56,12 @@
           "title": "Bei Witwe Kern",
           "art": "apothecary",
           "portrait": "kern",
-          "lines": [],
+          "lines": [
+            "Kern hat die Ärmel hochgekrempelt, wie eine Frau, die sich auf eine lange Arbeit einstellt. Auf der Waage vor ihr liegt dieselbe Kräutermischung, die sie schon seit Tagen abwiegt und die trotzdem nie zu reichen scheint, gleich wie oft sie die Schale neu füllt.",
+            "„Bauchschmerzen. Fieber. Ein metallischer Geschmack im Mund, den man nicht wegspülen kann.“ Sie zählt die Symptome auf, als lese sie eine Liste, die sie längst auswendig kennt. „Die Kinder zuerst, dann die Alten. So ist es immer, wenn etwas von unten kommt und nicht von oben.“",
+            "Lohn bietet sie dir nicht an. „Etwas Fremdes ist im Wasser“, sagt sie, mit der Bestimmtheit einer Frau, die sich nicht zum ersten Mal irrt, wenn sie ihrem eigenen Urteil vertraut. „Nicht Krankheit allein. Jemand hat den Brunnen angefasst.“",
+            "Unter den Krankenzetteln an ihrer Wand sind zwei ganz frisch, die Tinte kaum trocken. Beide nennen Häuser, die nah am Brunnen liegen — zu nah, um Zufall zu sein."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -71,9 +79,13 @@
           "title": "Ratsherr Dennek",
           "art": "well",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Dennek rührt weiter im Eimer, mechanisch, ohne Überzeugung, und das Wasser wird dadurch um keinen Deut klarer. „Trockenes Jahr“, sagt er, mit der glatten Sicherheit eines Mannes, der diesen Satz schon oft geübt hat. „Der Brunnen gibt, was er kann. Mehr zu verlangen wäre schon Klage.“"
+          ],
           "choices": [
-            "Weiter"
+            "Nach dem trockenen Jahr fragen (Charisma, schwer)",
+            "Ihn an die Mauer drücken (Stärke, mittel)",
+            "Ihn am Eimer lassen"
           ]
         }
       ]
@@ -89,7 +101,10 @@
           "title": "Brunnenschacht",
           "art": "well",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Frischer Mörtel klebt an einer Steinfuge, nicht älter als ein paar Nächte, glatt und hell im Gegensatz zum verwitterten Stein ringsum. Dahinter, kaum zu erkennen, ein schmaler Ablaufgraben, der aus dem Dorf hinausführt, Richtung Wald.",
+            "Denneks Stock hat beim Rühren stets genau diese Stelle gemieden, jedes Mal, als kenne die Hand, die ihn führt, die Wahrheit besser als der Mund, der sie leugnet."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -99,7 +114,10 @@
           "title": "Ablaufgraben",
           "art": "ditch",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Der Graben endet an einer halb überwucherten Zisterne, deren Mauerwerk zwar alt ist, dessen Fugen jedoch sauber und gepflegt wirken.",
+            "Jemand hält dieses Bauwerk sorgfältig instand, während im Dorf dahinter die Kinder husten."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -115,21 +133,30 @@
         {
           "id": "an-der-zisterne",
           "title": "An der Zisterne",
-          "art": "well",
+          "art": "ditch",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Dorniges Gestrüpp steht dicht vor dem steinernen Becken, ein natürlicher Wall. Dahinter, kaum sichtbar durch die Zweige, bewegt sich eine flache Hand über Wasser, das reiner und klarer ist als alles, was man seit Tagen im Dorf gesehen hat."
+          ],
           "choices": [
-            "Weiter"
+            "Sich durch das Gestrüpp zwängen (Stärke, leicht)",
+            "Sich unbemerkt nähern (Geschick, mittel)",
+            "Umkehren"
           ]
         },
         {
           "id": "grovins-zisterne",
           "title": "Grovins Zisterne",
-          "art": "well",
+          "art": "ditch",
           "portrait": "grovin",
-          "lines": [],
+          "lines": [
+            "Das Wasser in der Zisterne ist klar bis auf den steinigen Grund. Grovin blickt zuerst hinunter darauf, dann erst zu dir hinüber.",
+            "„Ich habe dem Dorf diesen Brunnen gebaut“, sagt er, „und es hat mich dafür nicht bezahlt. Also nimmt sich das Wasser, was mir zusteht, und ich helfe ihm dabei nach.“"
+          ],
           "choices": [
-            "Weiter"
+            "Die Sperre gewaltsam brechen (Stärke, mittel)",
+            "Die Sperre unbemerkt umlegen (Geschick, schwer)",
+            "Die Zisterne verlassen"
           ]
         }
       ]
@@ -145,7 +172,10 @@
           "title": "Zwei Brunnen, ein Dorf",
           "art": "well",
           "portrait": "kern",
-          "lines": [],
+          "lines": [
+            "Das Wasser wird spürbar klarer, gewiss, doch nie wirklich genug, um für alle zu reichen. Kern braut weiterhin dieselbe Mischung wie zuvor, nur seltener nun.",
+            "Man selbst trägt das Wissen um das, was wirklich geschah, fortan ganz allein, ohne es mit irgendwem teilen zu können."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -155,7 +185,10 @@
           "title": "Wasser mit einem Riss",
           "art": "well",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Das Wasser fließt zwar wieder, doch Grovin ist verschwunden, nicht verschwunden genug, um die Sache endgültig zu beenden.",
+            "In manchen Nächten hört man Schritte am Waldrand, die niemand im Dorf laut beim Namen nennen möchte."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -165,7 +198,10 @@
           "title": "Klares Wasser",
           "art": "well",
           "portrait": "kern",
-          "lines": [],
+          "lines": [
+            "Am nächsten Morgen ist der Eimer am Brunnen wieder klar bis auf den Grund. Kern braut zum ersten Mal seit vielen Tagen wieder etwas anderes als bloßes Fiebermittel.",
+            "Niemand im Dorf fragt laut nach dem Warum. Fragen kosten hier Kraft, die man zum Trinken braucht."
+          ],
           "choices": [
             "Weiter"
           ]

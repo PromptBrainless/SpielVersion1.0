@@ -9,7 +9,11 @@
       "title": "Kirchengewölbe",
       "art": "chapel",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Unter der Kirche führt ein Gang, den man nicht von der Kanzel aus erklärt. Die Stufen sind abgetreten von Leuten, die keine Messe suchten.",
+        "Feuchte Luft, Stein, der nach altem Wasser schmeckt. An der Wand rußige Striche, wo jemand Licht gespart und trotzdem gesehen hat, was er tun musste.",
+        "Grete hat den Weg genannt, ohne ihn zu beschreiben. Der Stein beschreibt ihn selbst: hierhin trägt man, was oben nicht bleiben darf."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -19,7 +23,11 @@
       "title": "Unter der Kirche",
       "art": "chapel",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Unter der Kirche ist es nicht heilig. Es ist trocken genug für Papier und nass genug, dass niemand lange bleibt, der nicht muss.",
+        "Ein Gewölbebogen trägt Kerben, abgezählt, nicht verziert. Ilse Brandtner hat hier gearbeitet, und Arbeit dieser Art braucht keine Kerzenweihe.",
+        "Irgendwo tropft es. Der Tropfen hält den Takt für ein Dorf, das oben so tut, als gäbe es diesen Takt nicht."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -27,9 +35,13 @@
     {
       "id": "im-gewoelbe",
       "title": "Im Gewölbe",
-      "art": "chapel",
+      "art": "evidence",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Im Gewölbe stehen Kisten, die keine Schätze halten. Tuch, Bindfaden, eine Schachtel mit Kohle, zum Schreiben, nicht zum Heizen.",
+        "An einer Stelle ist der Boden weniger staubig. Dort hat jemand gekniet, oft, lange genug, dass der Stein sich daran erinnert.",
+        "Du hörst die Kirche über dir, gedämpft, als sei das Gebet eine Decke, unter der man Namen verstecken kann."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -37,9 +49,13 @@
     {
       "id": "hinter-dem-stein",
       "title": "Hinter dem Stein",
-      "art": "chapel",
+      "art": "evidence",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Hinter einem Stein, der nicht tragend ist und trotzdem schwer, liegt ein Paket in Wachstuch. Die Schnur ist fest, die Knoten von einer Hebamme, die weiß, wann etwas halten muss.",
+        "Darin Namen. Daten. Häuser. Das Kesseljahr, in einer Schrift, die sich nicht entschuldigt.",
+        "Ilse hat die Toten nicht unter der Kirche versteckt. Sie hat verhindert, dass der Rat sie ein zweites Mal sterben lässt, indem er sie streicht."
+      ],
       "choices": [
         "Weiter"
       ]

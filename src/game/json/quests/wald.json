@@ -15,7 +15,12 @@
           "title": "Alter Glockenweg",
           "art": "chapel",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Der alte Glockenweg steigt hinter den letzten Häusern an.",
+            "Nasser Stein. Salzstaub im Gras. Oben hängt eine kleine Kapellenglocke im Wind.",
+            "Die Stufen sind aus verschiedenen Steinen gesetzt. Einige tragen noch Meißelspuren, andere dunkle Flecken, die der Regen nicht aus dem porösen Gestein bekommt.",
+            "Auf halber Höhe steht eine verwitterte Figur ohne Gesicht. Jemand hat ihr einen Mantel umgelegt. Der Mantel ist neuer als die Kapelle."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -25,7 +30,12 @@
           "title": "Sanna, die Botin",
           "art": "chapel",
           "portrait": "sanna",
-          "lines": [],
+          "lines": [
+            "Sanna trägt eine Ledertasche ohne Brief.",
+            "„Er ist mir im Geröll aus der Hand gerutscht. Wenn ich leer zurückkomme, glaubt man mir weniger als dem Regen.“",
+            "Sie versucht zu lächeln und scheitert an der Kälte. Unter ihrer Zunge klebt noch Staub vom Hang.",
+            "„Der Brief war versiegelt“, sagt sie. „Nicht mit dem Wachs des Bürgermeisters. Mit etwas, das darunter war.“"
+          ],
           "choices": [
             "Weiter"
           ]
@@ -35,7 +45,11 @@
           "title": "Jorren im Geröll",
           "art": "chapel",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Jorren liegt im Geröll, als habe der Hang ihn ausgespuckt und es sich anders überlegt. Der Atem geht, flach. Salzstaub klebt an seinem Mund.",
+            "Neben ihm eine Ledertasche, leer, der Riemen gerissen. Wer hier Salz trägt, trägt es nicht für die Küche. Er trägt es für Leute, die zahlen, ohne zu fragen, woher der weiße Staub kommt.",
+            "Die Glocke über euch bewegt sich nicht. Trotzdem wirkt es, als warte etwas auf den nächsten Schritt, der zu laut sein könnte."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -45,7 +59,11 @@
           "title": "Die Kapellenglocke",
           "art": "chapel",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Die Kapellenglocke ist klein und trotzdem das lauteste, was dieser Hang besitzt, wenn jemand sie bewegt.",
+            "Das Seil ist neuer als das Holz. Jemand pflegt das Zeichen, nicht die Kapelle. Unten im Steinbruch wartet man auf genau dieses Zeichen, oder man fürchtet es.",
+            "Wer die Glocke stillhält, stiehlt niemandem Silber. Er stiehlt einer Warnung die Stimme."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -63,7 +81,11 @@
           "title": "Wald",
           "art": "forest",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Der Wald nimmt den Weg zurück, sobald das letzte Dach hinter dir bleibt. Die Stämme stehen eng, und der Pfad ist nur dort ein Pfad, wo andere vor dir zu müde waren, vom Weg abzuweichen.",
+            "Rauch im Osten, näher jetzt. Kein Herd. Ein Lager, das nicht mahlt und nicht sät.",
+            "Hinter dir liegt Lindendorf mit seinen Türen. Vor dir liegen Leute, die das Tal in einer anderen Währung rechnen. Du gehst weiter, weil Stehenbleiben hier auch eine Entscheidung wäre."
+          ],
           "choices": [
             "Weiter"
           ]

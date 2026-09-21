@@ -15,7 +15,11 @@
           "title": "Ende",
           "art": "return",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Das Tal gibt dir den Weg zurück, denselben, nur dass du ihn kennst. Die Zäune sind noch unrepariert. Der Rauch im Osten ist ein anderer, oder er ist derselbe, und nur du hast dich geändert.",
+            "Lindendorf bleibt hinter den Hängen. Es wird dich nicht rufen. Es wird sich erinnern, in dem Maß, in dem Erinnern hier nichts kostet.",
+            "Was du getan hast, trägt das Dorf in Türen, in Pausen und in den Dingen, die niemand mehr zu reparieren versucht. Du trägst den Rest."
+          ],
           "choices": [
             "Weiter"
           ]

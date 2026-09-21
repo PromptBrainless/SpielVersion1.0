@@ -31,7 +31,9 @@
           "art": "mill",
           "portrait": "miller",
           "lines": [
-            "Das Rad schlägt gegen das Wasser und mahlt nichts."
+            "Das Rad schlägt gegen das Wasser und mahlt nichts. Der Schlag ist regelmäßig wie ein Vorwurf, den niemand laut ausspricht.",
+            "Bertok bleibt am Mahlwerk, die Hände mehlweiß, obwohl seit Tagen kein Stein gearbeitet hat. Aus der Kornkammer kommt das leise Klicken gezählter Säcke.",
+            "Hinter dem Haus fällt der Boden zum Fluss ab. Wer lange genug hinunterhorcht, hört mehr als Wasser."
           ],
           "choices": [
             "Mit Bertok am Mahlwerk sprechen",
@@ -44,10 +46,16 @@
           "id": "bertok-am-mahlwerk",
           "title": "Bertok am Mahlwerk",
           "art": "mill",
-          "portrait": "miller",
-          "lines": [],
+          "portrait": null,
+          "lines": [
+            "Bertok prüft das Mahlwerk, obwohl es längst justiert ist. Der Stein ist kalt. Er sagt das mit den Schultern, nicht mit dem Mund.",
+            "„Kein Mehl heute. Kein Mehl seit zwei Wochen.“ Er sagt es, bevor du fragst, als könne eine Frage ihn zwingen, einen Namen auszusprechen.",
+            "„Das Wasser steht zu niedrig. Das Korn ist schlecht. Ärger mit der Lieferung.“ Namen nennt er nicht. Der Blick geht zum Ufer, dann zur Kornkammer, als könnten beide ihn hören."
+          ],
           "choices": [
-            "Weiter"
+            "Vertrauen gewinnen",
+            "Druck machen",
+            "Zurück in die Mühle"
           ]
         }
       ]
@@ -63,7 +71,11 @@
           "title": "Kornkammer",
           "art": "mill",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Die Kornkammer riecht nach Mehl, das älter ist als die letzte Lieferung. Säcke stehen in Reihen, zu ordentlich für ein Haus, das angeblich nichts mehr hat.",
+            "Eine Frau zählt. Immer dieselben Zahlen. Die Finger bleiben an einem Sack hängen, der hohl klingt.",
+            "Die hintere Wand ist dunkler als die anderen. Nicht vom Schimmel. Vom Schatten, den jemand braucht."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -72,10 +84,16 @@
           "id": "lene-in-der-kornkammer",
           "title": "Lene in der Kornkammer",
           "art": "mill",
-          "portrait": null,
-          "lines": [],
+          "portrait": "miller",
+          "lines": [
+            "Lene zählt, als könnte Zählen eine Tür verschließen. Am Brunnen nennt man sie die Müllerin. Hier ist sie jemand, der nicht will, dass du die hintere Wand ansiehst.",
+            "Ihre Finger bleiben an einem Sack hängen, der hohl klingt. Sie hat Bertoks Stimme gehört, oder sie tut so. Seither redet sie, als läge in jedem Satz ein Preis.",
+            "„Nicht heute“, sagt sie, ohne dich anzusehen, und das Zählen geht weiter, leiser, als wolle es sich vor dir verstecken."
+          ],
           "choices": [
-            "Weiter"
+            "Warten und zuhören",
+            "Die Kammer durchsuchen",
+            "Zurück zum Mahlwerk"
           ]
         },
         {
@@ -83,7 +101,11 @@
           "title": "Hinter der Nische",
           "art": "mill",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Hinter der Nische atmet es. Nicht Mehl. Menschen, die gelernt haben, nicht zu husten, wenn draußen gezählt wird.",
+            "Ein Kind hält die Hand auf den Mund eines kleineren Kindes. Lenes Schwester sieht dich an, als wäge sie, ob du eine Tür bist oder eine Wache.",
+            "Der Hohlraum riecht nach Angst und nassem Tuch. Wer das dem Rat trägt, trägt Blut, auch wenn niemand schlägt."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -101,7 +123,11 @@
           "title": "Wasserrad",
           "art": "mill",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Das Wasserrad dreht sich, weil das Wasser muss, nicht weil jemand mahlen will. Schaum steht in den Schaufeln, grau, mit Mehl, das nicht mehr Mehl ist.",
+            "Am Holz sind frische Schleifspuren, nass, als hätte jemand nachts ein Fass oder einen Sack die Böschung hinuntergezogen.",
+            "Der Fluss nimmt die Spuren ein paar Schritte mit und lässt sie dann im Schlamm liegen, damit der Nächste sie findet, der nicht wegsehen will."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -111,7 +137,11 @@
           "title": "Uferpfad",
           "art": "ditch",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Der Uferpfad ist schmal und aufgeweicht. Wer hier oft geht, geht nicht zum Angeln. Die Fußstapfen sind tief, beschwert.",
+            "Im Schilf hängt ein Fetzen Leinwand, der nach Mehl staubt, obwohl der Regen ihn schon dreimal gewaschen haben müsste.",
+            "Weiter unten steht ein Lagerhaus, das dem Dorf nicht gehört und trotzdem vom Dorf lebt."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -121,7 +151,11 @@
           "title": "Morscher Steg",
           "art": "ditch",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Der Steg ist morsch. Die Bretter geben nach, nicht auf einmal, sondern in dem Maß, in dem du Gewicht darauf lässt.",
+            "Darunter steht das Wasser dunkel. Ein Pfahl trägt eine Kerbe, frisch, als hätte jemand abgezählt, wie viel das Holz noch trägt, bevor es jemanden verrät.",
+            "Wer hier stürzt, stürzt nicht weit. Weit genug, dass das Dorf es als Unfall verkaufen kann."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -131,7 +165,11 @@
           "title": "Lagerhaus am Fluss",
           "art": "mill",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Das Lagerhaus am Fluss hat ein Schloss, das neuer ist als die Tür. Durch eine Spalte siehst du Säcke, die die Mühle angeblich nicht mehr füllen kann.",
+            "Ein Wächter sitzt im Schatten, nicht schlafend. Er wartet auf Geräusche, nicht auf Gründe.",
+            "An der Schwelle klebt Matsch in einem Muster, das zum Uferpfad passt. Jemand trägt hierher, was unten fehlen soll."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -141,7 +179,11 @@
           "title": "Renniks Kontor",
           "art": "mill",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Im Kontor riecht es nach nassem Papier und Kupfer. Rennik wiegt nichts, während du da bist. Die Waage steht trotzdem bereit, als sei das Gespräch selbst eine Lieferung.",
+            "„Getreide hat einen Preis“, sagt er. „Leute, die ihn nicht zahlen, sollen nicht so tun, als gehöre ihnen das Tal.“",
+            "Hinter ihm an der Wand hängen Zettel mit Mengen, die das Dorf nicht mehr gesehen hat, seit das Rad nur noch schlägt."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -159,7 +201,11 @@
           "title": "Sicheres Mehl, leere Blicke",
           "art": "mill",
           "portrait": "holm",
-          "lines": [],
+          "lines": [
+            "Die Mühle hat ihren Schutzbrief. Mehl liegt wieder in den Säcken, und niemand auf dem Platz fragt laut, wohin die Leute aus der Nische gekommen sind.",
+            "Bertoks Blick ist leer. Holm nickt dir zu, wie man jemandem nickt, der eine unangenehme Arbeit erledigt hat und sie nicht wiederholen soll.",
+            "Sicheres Mehl. Leere Blicke. Das Tal nennt das Ordnung."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -169,7 +215,11 @@
           "title": "Mehl mit rauen Händen",
           "art": "mill",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Mehlstaub steht wieder in der Luft. Bertok bedankt sich knapp und schließt die Tür einen Spalt früher als nötig.",
+            "Am Steg klebt noch etwas Dunkles am Holz. Der Regen holt es nicht ganz runter.",
+            "Das Rad mahlt. Die Hände, die das durchgesetzt haben, bleiben rau, auch wenn das Dorf wieder Brot hat."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -179,7 +229,11 @@
           "title": "Stilles Mehl",
           "art": "mill",
           "portrait": "miller",
-          "lines": [],
+          "lines": [
+            "Das Rad dreht sich lauter als sonst. Bertok reicht dir nichts mehr. Lene zählt keine Säcke. Sie steht in der Tür, als wäre Zählen eine Art, nicht zu reden.",
+            "Manche Schulden werden nicht bezahlt. Sie werden nur nicht mehr eingetrieben.",
+            "Das Mehl ist still, obwohl es fällt. Still heißt hier: niemand schuldet dir einen Satz darüber, warum es wieder fällt."
+          ],
           "choices": [
             "Weiter"
           ]

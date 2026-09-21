@@ -14,17 +14,17 @@ export const INTRO_HANG = karte("intro-hang", "Am Hang", "chapel", [
   "Oberhalb des Dorfes schneidet ein alter Weg den Hang. Dort steht eine Kapelle, deren Dach dunkler ist als der Himmel.",
   "Eine kleine Glocke bewegt sich einmal über dem Geröll.",
   "Du kennst den Weg noch nicht. Du merkst dir nur den Ton.",
-  "Unterhalb der Kapelle klafft ein trockener Graben im Hang. Früher muss dort Wasser gelaufen sein. Jetzt liegen darin Knochen von Tieren, ausgebleicht und ordentlich nebeneinander.",
-  "Am Türsturz der Kapelle hängt ein Streifen rotes Wachs. Er ist gebrochen, aber nicht alt genug, um von selbst gebrochen zu sein.",
+  "Unterhalb der Kapelle klafft ein trockener Graben im Hang. Früher muss dort Wasser gelaufen sein. Jetzt liegen darin die Knochen von Tieren, ausgebleicht und ordentlich nebeneinander, als hätte sie jemand dort abgelegt statt sie verwesen zu lassen.",
+  "Über dem Türsturz klebt ein Streifen rotes Wachs, frisch gebrochen. Es ist dasselbe Zeichen, das du unten im Dorf wiederfinden wirst — jemand markiert in dieser Gegend Türen, die niemand öffnen soll.",
   "Die Glocke schweigt wieder. Trotzdem hast du das Gefühl, dass etwas im Tal nun weiß, dass du angekommen bist.",
 ]);
 
 export const INTRO_LINDENDORF = karte("intro-lindendorf", "Lindendorf", "village", [
   "Häuser drücken sich aneinander, als könnten sie so wärmer bleiben.",
-  "Am Brunnen stehen Frauen mit verschränkten Armen. In der Taverne löscht jemand eine Lampe, obwohl es noch nicht ganz dunkel ist.",
-  "Das Rathaus hat eine Tür, die zu oft geflickt wurde. Über dem Türsturz klebt altes rotes Wachs.",
-  "Ein Gerber zieht eine Plane über seine Ware. Die Plane ist zu klein. Ein Teil des Leders bleibt im Regen liegen, und niemand macht sich die Mühe, es zu retten.",
-  "Aus einem offenen Fenster dringt das Husten eines alten Mannes. Eine Stimme zählt dahinter Münzen. Sie kommt immer nur bis vier.",
+  "Am Brunnen halten Frauen die Arme vor der Brust verschränkt und sehen dir nach, bis du vorbei bist. In der Taverne bläst jemand hastig eine Lampe aus, als koste jede Flamme mehr, als sie wert ist.",
+  "Auch über der Rathaustür klebt ein Zeichen aus rotem Wachs, wie du es schon am Hang gesehen hast. Hier ist es alt und unversehrt.",
+  "Ein Gerber deckt seine Ware mit einer zu kleinen Plane ab. Ein Teil des Leders bleibt im Regen liegen. Er sieht kurz hin und wendet sich ab: Es lohnt sich längst nicht mehr, es zu retten.",
+  "Hinter einem offenen Fenster hustet ein alter Mann. Eine Stimme zählt dahinter Münzen, so leise, als könnte lautes Zählen sie kosten.",
   "Lindendorf wirkt nicht verlassen. Es wirkt schlimmer: bewohnt von Menschen, die sich daran gewöhnt haben, dass niemand kommt.",
 ]);
 

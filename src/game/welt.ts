@@ -171,8 +171,9 @@ function schreibeWelt(pack: WeltPack) {
   try {
     window.localStorage.setItem(WELT_STORE, JSON.stringify(pack));
     window.localStorage.setItem(WELT_MIGRATION, "1");
+    return true;
   } catch {
-    /* voll */
+    return false;
   }
 }
 
@@ -222,7 +223,7 @@ export function merkeAuflage(
     ...ohneVerlauf,
     vorherigerText: bisher.vorherigerText ?? textStand(bisher, original),
   };
-  schreibeWelt(pack);
+  return schreibeWelt(pack);
 }
 
 export function loescheAuflage(schluessel: string) {

@@ -9,7 +9,10 @@
       "title": "Zwei Brunnen, ein Dorf",
       "art": "well",
       "portrait": "kern",
-      "lines": [],
+      "lines": [
+        "Das Wasser wird spürbar klarer, gewiss, doch nie wirklich genug, um für alle zu reichen. Kern braut weiterhin dieselbe Mischung wie zuvor, nur seltener nun.",
+        "Man selbst trägt das Wissen um das, was wirklich geschah, fortan ganz allein, ohne es mit irgendwem teilen zu können."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -19,7 +22,10 @@
       "title": "Wasser mit einem Riss",
       "art": "well",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Das Wasser fließt zwar wieder, doch Grovin ist verschwunden, nicht verschwunden genug, um die Sache endgültig zu beenden.",
+        "In manchen Nächten hört man Schritte am Waldrand, die niemand im Dorf laut beim Namen nennen möchte."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -29,7 +35,10 @@
       "title": "Klares Wasser",
       "art": "well",
       "portrait": "kern",
-      "lines": [],
+      "lines": [
+        "Am nächsten Morgen ist der Eimer am Brunnen wieder klar bis auf den Grund. Kern braut zum ersten Mal seit vielen Tagen wieder etwas anderes als bloßes Fiebermittel.",
+        "Niemand im Dorf fragt laut nach dem Warum. Fragen kosten hier Kraft, die man zum Trinken braucht."
+      ],
       "choices": [
         "Weiter"
       ]

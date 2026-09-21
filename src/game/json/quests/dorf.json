@@ -37,7 +37,11 @@
           "title": "Rathaus",
           "art": "townhall",
           "portrait": "holm",
-          "lines": [],
+          "lines": [
+            "Im Rathaus hängt der Geruch von nassem Tuch und altem Wachs. Holm sitzt hinter einem Tisch, der zu groß ist für die wenigen Papiere darauf, und zu klein für alles, was er nicht aufschreibt.",
+            "Er sieht dich an, wie man jemanden ansieht, der eine Rechnung bringen könnte. Die Hände bleiben auf dem Holz, flach, als könne Bewegung schon ein Geständnis sein.",
+            "Hinter ihm klebt an der Wand dasselbe rote Wachs wie am Hang, hier alt und unversehrt. Holm folgt deinem Blick nicht. Er weiß, was dort hängt."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -55,7 +59,11 @@
           "title": "Zum letzten Fass",
           "art": "tavern",
           "portrait": "mara",
-          "lines": [],
+          "lines": [
+            "In der Taverne ist die Luft dick von nassem Holz und billigem Bier. Mara wischt die Theke in einem Kreis, der schon vor deiner Ankunft begonnen hat und nicht aufhören wird, nur weil jemand eintritt.",
+            "Zwei Gäste sitzen so weit auseinander, als koste Nähe extra. Eine Lampe flackert, wird kleiner gedreht, als könntest du am Licht ablesen, wie viel das Haus noch wagt.",
+            "Mara nickt dir zu, knapp. In Lindendorf ist das bereits eine Auskunft: du darfst bleiben, solange du nicht fragst, bevor das Tuch trocken ist."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -73,9 +81,14 @@
           "title": "Schmiede und Apotheke",
           "art": "village",
           "portrait": null,
-          "lines": [],
+          "lines": [
+            "Schmiede und Apotheke teilen sich eine Mauer und sonst wenig. Auf der einen Seite schlägt Eisen auf Eisen, langsam, als spare jemand die Schläge. Auf der anderen steht die Tür einen Spalt offen, und es riecht nach Kräutern, die man nicht mehr zum Kochen verwendet.",
+            "Wer hier Hilfe sucht, muss sich entscheiden, ob er blutet oder fiebert. Manche brauchen beides und gehen trotzdem zuerst zur falschen Tür."
+          ],
           "choices": [
-            "Weiter"
+            "Zum Schmied",
+            "Zu Witwe Kern",
+            "Zurück zum Platz"
           ]
         },
         {
@@ -83,7 +96,11 @@
           "title": "Beim Schmied",
           "art": "smithy",
           "portrait": "smith",
-          "lines": [],
+          "lines": [
+            "Der Schmied hebt den Hammer nicht, nur weil du in der Tür stehst. Die Esse glimmt, nicht hell. Er hat gelernt, Feuer klein zu halten, wenn Kohle teurer ist als Stolz.",
+            "„Wenn du Eisen willst, sag, was es aushalten muss“, sagt er, ohne dich anzusehen. „Wenn du reden willst, die Apotheke ist nebenan. Dort werden Sätze abgewogen.“",
+            "An der Wand hängen Messer, deren Schneiden blank sind und deren Griffe dunkel vom Schweiß anderer Hände. Keins sieht aus, als warte es auf ein Fest."
+          ],
           "choices": [
             "Weiter"
           ]
@@ -93,7 +110,11 @@
           "title": "Bei Witwe Kern",
           "art": "apothecary",
           "portrait": "kern",
-          "lines": [],
+          "lines": [
+            "Kern hat die Ärmel hochgekrempelt. Auf der Waage liegt eine Mischung, die sie schon kennt, und trotzdem prüft sie das Gewicht, als könne sich das Kraut nachts verändert haben.",
+            "„Wenn du hustest, bleib unten am Brunnen nicht stehen“, sagt sie. „Wenn du nicht hustest, bleib trotzdem nicht. Das Wasser nimmt sich, wen es kriegt.“",
+            "Unter den Zetteln an der Wand sind Namen, die du vom Platz her kennst. Frische Tinte. Häuser nah am Brunnen."
+          ],
           "choices": [
             "Weiter"
           ]

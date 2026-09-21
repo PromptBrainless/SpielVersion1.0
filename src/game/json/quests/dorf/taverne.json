@@ -9,7 +9,11 @@
       "title": "Zum letzten Fass",
       "art": "tavern",
       "portrait": "mara",
-      "lines": [],
+      "lines": [
+        "In der Taverne ist die Luft dick von nassem Holz und billigem Bier. Mara wischt die Theke in einem Kreis, der schon vor deiner Ankunft begonnen hat und nicht aufhören wird, nur weil jemand eintritt.",
+        "Zwei Gäste sitzen so weit auseinander, als koste Nähe extra. Eine Lampe flackert, wird kleiner gedreht, als könntest du am Licht ablesen, wie viel das Haus noch wagt.",
+        "Mara nickt dir zu, knapp. In Lindendorf ist das bereits eine Auskunft: du darfst bleiben, solange du nicht fragst, bevor das Tuch trocken ist."
+      ],
       "choices": [
         "Weiter"
       ]

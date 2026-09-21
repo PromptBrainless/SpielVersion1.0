@@ -9,7 +9,11 @@
       "title": "Rathaus",
       "art": "townhall",
       "portrait": "holm",
-      "lines": [],
+      "lines": [
+        "Im Rathaus hängt der Geruch von nassem Tuch und altem Wachs. Holm sitzt hinter einem Tisch, der zu groß ist für die wenigen Papiere darauf, und zu klein für alles, was er nicht aufschreibt.",
+        "Er sieht dich an, wie man jemanden ansieht, der eine Rechnung bringen könnte. Die Hände bleiben auf dem Holz, flach, als könne Bewegung schon ein Geständnis sein.",
+        "Hinter ihm klebt an der Wand dasselbe rote Wachs wie am Hang, hier alt und unversehrt. Holm folgt deinem Blick nicht. Er weiß, was dort hängt."
+      ],
       "choices": [
         "Weiter"
       ]

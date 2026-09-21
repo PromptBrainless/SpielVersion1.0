@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button";
 import type { EffektId, Held, SceneView } from "@/game/types";
 import type { Tageszeit } from "@/game/tageszeit";
 import { auflageLeer, type WeltAuflage } from "@/game/welt";
+import { WeltEntwurf } from "./WeltEntwurf";
 import { WeltHeld } from "./WeltHeld";
 import { WeltKarte } from "./WeltKarte";
 import { WeltPruefen } from "./WeltPruefen";
 
-type Fach = "karte" | "held" | "pruefen";
+type Fach = "karte" | "held" | "stimme" | "pruefen";
 
 export function WeltEditor({
   szene,
@@ -54,11 +55,12 @@ export function WeltEditor({
             </Button>
           ) : null}
         </div>
-        <div className="mb-4 grid grid-cols-3 gap-1">
+        <div className="mb-4 grid grid-cols-4 gap-1">
           {(
             [
               ["karte", "Karte"],
               ["held", "Held"],
+              ["stimme", "Stimme"],
               ["pruefen", "Prüfen"],
             ] as const
           ).map(([id, titel]) => (
@@ -88,6 +90,7 @@ export function WeltEditor({
           )
         ) : null}
         {fach === "held" ? <WeltHeld held={held} onEffekt={onEffekt} onLage={onLage} onTageszeit={onTageszeit} /> : null}
+        {fach === "stimme" ? <WeltEntwurf szene={szene} onChange={onChange} /> : null}
         {fach === "pruefen" ? (
           <WeltPruefen szene={szene} auflage={auflage} schluessel={schluessel} held={held} onChange={onChange} seite />
         ) : null}

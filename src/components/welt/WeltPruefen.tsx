@@ -1,13 +1,13 @@
 import { lazy, Suspense, useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { pruefeAssets } from "@/game/editor-assets";
 import { FLUSS, knoten, toteFlussKnoten, unbekannteKanten } from "@/game/editor-fluss";
 import { QUEST_PFADE, probePfad } from "@/game/editor-quests";
 import { lagerToteKnoten } from "@/game/testTools";
 import { auflageLeer, kanonDiff, WeltAuflageSchema, type WeltAuflage } from "@/game/welt";
-import { knowledgeLabels } from "@/game/knowledge";
 import { modulFuerSzene, moduleDerSzene, modulNachSchluessel } from "@/game/szenen-katalog";
-import { entwerfeSzene, legeKanonAufGithub } from "@/game/werkstatt.server";
+import { legeKanonAufGithub, legeKiSzeneAb } from "@/game/werkstatt.functions";
 import { redirectToLoginIfRequired } from "@/lib/app-data";
 import type { Held, SceneView } from "@/game/types";
 
@@ -23,20 +23,6 @@ function speichere(name: string, inhalt: string) {
   a.download = name;
   a.click();
   URL.revokeObjectURL(url);
-}
-
-async function mitLimit<T>(arbeit: Promise<T>, ms: number, fallback: T): Promise<T> {
-  let timer: ReturnType<typeof setTimeout> | undefined;
-  try {
-    return await Promise.race([
-      arbeit,
-      new Promise<T>((resolve) => {
-        timer = setTimeout(() => resolve(fallback), ms);
-      }),
-    ]);
-  } finally {
-    if (timer) clearTimeout(timer);
-  }
 }
 
 export function WeltPruefen({
@@ -64,7 +50,9 @@ export function WeltPruefen({
   const [codeOffen, setCodeOffen] = useState(seite);
   const [quelle, setQuelle] = useState<Quelle>(haupt.schluessel);
   const [code, setCode] = useState(() => haupt.inhalt(szene, auflage));
-  const [busy, setBusy] = useState<"entwurf" | "github" | null>(null);
+  const [busy, setBusy] = useState<"github" | "ablegen" | null>(null);
+  const githubFn = useServerFn(legeKanonAufGithub);
+  const ablegenFn = useServerFn(legeKiSzeneAb);
   const kanon = szene?.original ?? (szene ? { title: szene.title, lines: szene.lines, choices: szene.choices } : null);
   const diff = kanon ? kanonDiff(kanon, auflage) : null;
   const aktueller = knoten(ort);
@@ -204,6 +192,29 @@ export function WeltPruefen({
             <Button
               type="button"
               className="h-9 px-3 text-xs"
+              disabled={busy !== null}
+              onClick={async () => {
+                setBusy("ablegen");
+                setImportMeldung("Lege ab…");
+                try {
+                  const fund = await ablegenFn({ data: { inhalt: code, id: szene?.id ?? "" } });
+                  if (!fund.ok) {
+                    setImportMeldung(fund.error);
+                    return;
+                  }
+                  setImportMeldung(`Abgelegt in ${fund.datei}.`);
+                } catch (fehler) {
+                  setImportMeldung(fehler instanceof Error ? fehler.message : "Ablegen fehlgeschlagen.");
+                } finally {
+                  setBusy(null);
+                }
+              }}
+            >
+              {busy === "ablegen" ? "…" : "Ablegen"}
+            </Button>
+            <Button
+              type="button"
+              className="h-9 px-3 text-xs"
               onClick={() => {
                 try {
                   const modul = modulNachSchluessel(quelle, szene) ?? modulFuerSzene(szene);
@@ -262,46 +273,8 @@ export function WeltPruefen({
       ) : null}
       {importMeldung ? <p className="mt-2 text-xs text-muted-fg">{importMeldung}</p> : null}
 
-      <p className="mt-3 text-xs text-muted-fg">Entwurf — nur Werkstatt, nie im Spiel</p>
-      <div className="mt-1 flex flex-wrap gap-2">
-        <Button
-          type="button"
-          variant="secondary"
-          className="h-9 px-3 text-xs"
-          disabled={!szene || busy !== null}
-          onClick={async () => {
-            if (!szene) return;
-            setBusy("entwurf");
-            setImportMeldung("Entwurf läuft…");
-            try {
-              const wissen = held ? knowledgeLabels(held).sicher : [];
-              const fund = await mitLimit(
-                entwerfeSzene({
-                  data: {
-                    title: szene.title,
-                    lines: szene.lines,
-                    choices: szene.choices,
-                    wissen,
-                  },
-                }),
-                20_000,
-                { ok: false as const, error: "Zeitüberschreitung. Entwurf abgebrochen." },
-              );
-              if (!fund.ok) {
-                setImportMeldung(fund.error);
-                return;
-              }
-              setQuelle("szene");
-              setCodeOffen(true);
-              setCode(JSON.stringify({ title: fund.title, lines: fund.lines, choices: fund.choices }, null, 2));
-              setImportMeldung("Entwurf. Lesen, dann Prüfen. Nicht Kanon.");
-            } finally {
-              setBusy(null);
-            }
-          }}
-        >
-          {busy === "entwurf" ? "…" : "Szene entwerfen"}
-        </Button>
+      <p className="mt-3 text-xs text-muted-fg">GitHub ist optional. Speichern unter Stimme schreibt in die Datei, ohne Connector.</p>
+      <div className="mt-1 flex flex-wrap items-start gap-2">
         <Button
           type="button"
           variant="secondary"
@@ -311,9 +284,16 @@ export function WeltPruefen({
             setBusy("github");
             setImportMeldung("GitHub…");
             try {
-              const fund = await legeKanonAufGithub({
-                data: { schluessel: schluessel || szene?.id || szene?.title || "karte", inhalt: JSON.stringify(auflage) },
+              const fund = await githubFn({
+                data: {
+                  schluessel: schluessel || szene?.id || szene?.title || "karte",
+                  inhalt: quelle === "szene" ? code : JSON.stringify(auflage),
+                },
               });
+              if ("pending" in fund && fund.pending) {
+                setImportMeldung("GitHub wartet auf Freigabe. Der Text liegt lokal — Speichern unter Stimme oder Ablegen.");
+                return;
+              }
               if ("loginRequired" in fund && fund.loginRequired) {
                 redirectToLoginIfRequired({
                   ok: false,
@@ -329,6 +309,8 @@ export function WeltPruefen({
                 return;
               }
               setImportMeldung(`Auf GitHub: ${fund.pfad}. Noch nicht im Spiel.`);
+            } catch (fehler) {
+              setImportMeldung(fehler instanceof Error ? fehler.message : "GitHub nicht erreichbar.");
             } finally {
               setBusy(null);
             }

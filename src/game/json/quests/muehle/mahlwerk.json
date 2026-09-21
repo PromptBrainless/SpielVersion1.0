@@ -25,7 +25,9 @@
       "art": "mill",
       "portrait": "miller",
       "lines": [
-        "Das Rad schlägt gegen das Wasser und mahlt nichts."
+        "Das Rad schlägt gegen das Wasser und mahlt nichts. Der Schlag ist regelmäßig wie ein Vorwurf, den niemand laut ausspricht.",
+        "Bertok bleibt am Mahlwerk, die Hände mehlweiß, obwohl seit Tagen kein Stein gearbeitet hat. Aus der Kornkammer kommt das leise Klicken gezählter Säcke.",
+        "Hinter dem Haus fällt der Boden zum Fluss ab. Wer lange genug hinunterhorcht, hört mehr als Wasser."
       ],
       "choices": [
         "Mit Bertok am Mahlwerk sprechen",
@@ -38,10 +40,16 @@
       "id": "bertok-am-mahlwerk",
       "title": "Bertok am Mahlwerk",
       "art": "mill",
-      "portrait": "miller",
-      "lines": [],
+      "portrait": null,
+      "lines": [
+        "Bertok prüft das Mahlwerk, obwohl es längst justiert ist. Der Stein ist kalt. Er sagt das mit den Schultern, nicht mit dem Mund.",
+        "„Kein Mehl heute. Kein Mehl seit zwei Wochen.“ Er sagt es, bevor du fragst, als könne eine Frage ihn zwingen, einen Namen auszusprechen.",
+        "„Das Wasser steht zu niedrig. Das Korn ist schlecht. Ärger mit der Lieferung.“ Namen nennt er nicht. Der Blick geht zum Ufer, dann zur Kornkammer, als könnten beide ihn hören."
+      ],
       "choices": [
-        "Weiter"
+        "Vertrauen gewinnen",
+        "Druck machen",
+        "Zurück in die Mühle"
       ]
     }
   ]

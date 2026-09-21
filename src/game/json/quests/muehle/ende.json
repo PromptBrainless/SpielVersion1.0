@@ -9,7 +9,11 @@
       "title": "Sicheres Mehl, leere Blicke",
       "art": "mill",
       "portrait": "holm",
-      "lines": [],
+      "lines": [
+        "Die Mühle hat ihren Schutzbrief. Mehl liegt wieder in den Säcken, und niemand auf dem Platz fragt laut, wohin die Leute aus der Nische gekommen sind.",
+        "Bertoks Blick ist leer. Holm nickt dir zu, wie man jemandem nickt, der eine unangenehme Arbeit erledigt hat und sie nicht wiederholen soll.",
+        "Sicheres Mehl. Leere Blicke. Das Tal nennt das Ordnung."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -19,7 +23,11 @@
       "title": "Mehl mit rauen Händen",
       "art": "mill",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Mehlstaub steht wieder in der Luft. Bertok bedankt sich knapp und schließt die Tür einen Spalt früher als nötig.",
+        "Am Steg klebt noch etwas Dunkles am Holz. Der Regen holt es nicht ganz runter.",
+        "Das Rad mahlt. Die Hände, die das durchgesetzt haben, bleiben rau, auch wenn das Dorf wieder Brot hat."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -29,7 +37,11 @@
       "title": "Stilles Mehl",
       "art": "mill",
       "portrait": "miller",
-      "lines": [],
+      "lines": [
+        "Das Rad dreht sich lauter als sonst. Bertok reicht dir nichts mehr. Lene zählt keine Säcke. Sie steht in der Tür, als wäre Zählen eine Art, nicht zu reden.",
+        "Manche Schulden werden nicht bezahlt. Sie werden nur nicht mehr eingetrieben.",
+        "Das Mehl ist still, obwohl es fällt. Still heißt hier: niemand schuldet dir einen Satz darüber, warum es wieder fällt."
+      ],
       "choices": [
         "Weiter"
       ]

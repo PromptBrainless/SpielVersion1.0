@@ -1,0 +1,18 @@
+{
+  "intro-tal": {
+    "title": "Das Tal",
+    "art": "forest",
+    "lines": [
+      "Der Wald steht dicht an den Hängen, so eng, dass die Stämme sich beinahe berühren und der Weg nur ein schmaler Streifen nasser Erde bleibt. Zwischen den Rinden hängen Fetzen von Nebel, schwer und kalt, die an deinen Schultern streifen und nach faulendem Laub und nassem Holz riechen. Jeder Schritt drückt Feuchtigkeit aus dem Boden, die an den Sohlen klebt und das Gewicht deiner Füße spürbar macht.",
+      "Weiter unten siehst du Rauch, der senkrecht steigt, eine graue Säule ohne Neigung. Kein Wind rührt die Luft. Die Stille darüber liegt wie eine Decke aus Nässe. Kein gutes Zeichen, wenn Rauch so gerade steht; er bleibt, wo er ist, und trägt den Geruch von nassem Brand und kalter Asche nicht fort.",
+      "Jemand hat die Felder abgeerntet. Die Stoppeln stehen kurz und stumpf im dunklen Boden, glänzen feucht. Jemand anderes hat vergessen, die Zäune zu reparieren. Die Pfähle hängen schief, die Drähte rostig und schlaff, und der Schlamm hat sich schon über die untersten Latten geschoben.",
+      "Am Waldrand liegen Bündel aus nassem Reisig, sorgfältig aufgeschichtet und doch unberührt. Das Holz ist dunkel vom Tau, schwer, und riecht nach Harz und Fäulnis. Daneben steckt ein Kinderschuh im Schlamm, der Schaft eingedrückt, die Sohle voller schwarzer Erde, kalt und formlos, als hätte jemand ihn dort gelassen und nicht mehr geholt.",
+      "Kein Vogel ruft. Die Luft drückt gegen die Ohren. Ein Ast bricht, weit oberhalb des Weges, ein kurzes, trockenes Knacken, das durch die Stämme rollt und dann vergeht. Danach wartet das Tal wieder auf ein Geräusch von dir. Der Nebel hängt weiter zwischen den Stämmen, der Rauch steigt weiter gerade, und der Schlamm hält den Schuh fest.",
+      "Du verstehst noch nicht, was hier geschehen ist. Aber du erkennst die Spur einer Gegend, in der Menschen gelernt haben, ihre Fragen leise zu stellen. Die Kälte kriecht in die Gelenke, das Gewicht der Stille lastet auf den Schultern, und der Geruch von nassem Holz und kaltem Rauch bleibt in der Nase."
+    ],
+    "choices": [
+      "Weiter"
+    ],
+    "portrait": null
+  }
+}

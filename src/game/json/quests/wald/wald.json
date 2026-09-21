@@ -9,7 +9,11 @@
       "title": "Wald",
       "art": "forest",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Der Wald nimmt den Weg zurück, sobald das letzte Dach hinter dir bleibt. Die Stämme stehen eng, und der Pfad ist nur dort ein Pfad, wo andere vor dir zu müde waren, vom Weg abzuweichen.",
+        "Rauch im Osten, näher jetzt. Kein Herd. Ein Lager, das nicht mahlt und nicht sät.",
+        "Hinter dir liegt Lindendorf mit seinen Türen. Vor dir liegen Leute, die das Tal in einer anderen Währung rechnen. Du gehst weiter, weil Stehenbleiben hier auch eine Entscheidung wäre."
+      ],
       "choices": [
         "Weiter"
       ]

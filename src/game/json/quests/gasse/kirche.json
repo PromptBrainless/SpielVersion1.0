@@ -8,8 +8,12 @@
       "id": "gasse-kirche",
       "title": "Vor der Kirche",
       "art": "chapel",
-      "portrait": null,
-      "lines": [],
+      "portrait": "beggar",
+      "lines": [
+        "Die Kirche von Lindendorf steht einen Schritt tiefer als der Platz davor, als hätte sie sich langsam in die Erde gesenkt, müde von allem, was ihr je gebeichtet wurde.",
+        "An der Schwelle hat der Stein eine flache Mulde geschliffen, in der das Regenwasser steht wie ein kleiner Spiegel. Niemand hat in zehn Jahren einen Abfluss geschlagen.",
+        "Im Schatten der Kirchmauer sitzt Fenn. Die nackten Füße im Wasser der Dachrinne, als sei Kälte ein alter Bekannter. Er hebt den Blick, noch bevor du an ihm vorbeigehst."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -19,7 +23,11 @@
       "title": "Die leere Gasse",
       "art": "gate",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Hinter der Gerberei liegt eine Gasse, die niemand mehr als Weg benutzt. Die Bretter an den Fenstern sind älter als die Ausreden, warum niemand dort wohnt.",
+        "Fenn bleibt an der Mauer. Vahl sitzt irgendwo im Rathaus und rechnet mit Baumannschaft. Die Kirche hält die Schwelle nass.",
+        "In einer Woche kommen Bretter, sagt man. Bretter über eine Gasse sind keine Reparatur. Sie sind ein Beschluss."
+      ],
       "choices": [
         "Bei Fenn an der Kirchmauer bleiben",
         "Ratsherr Vahl im Rathaus aufsuchen",
@@ -31,8 +39,12 @@
       "id": "fenn",
       "title": "Fenn",
       "art": "chapel",
-      "portrait": null,
-      "lines": [],
+      "portrait": "beggar",
+      "lines": [
+        "Fenn ist Teil der Mauer, ein Schatten unter Schatten, den man grüßt, ohne ihn anzuschauen. Heute nicht. Heute sieht er zuerst.",
+        "In der Tasche des geflickten Mantels hält er ein morsches Stück Lattenzaun. Zehn Winter haben das Holz glattgeschliffen. Die Nagellöcher sind Dellen, aber wer hinsieht, erkennt noch den rechten Winkel.",
+        "Er wartet nicht auf eine Antwort. Die Hand in der Tasche bleibt in Bewegung, als zähle sie etwas, das niemand mehr zählen will."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -41,8 +53,12 @@
       "id": "fenn-an-der-kirchmauer",
       "title": "Fenn an der Kirchmauer",
       "art": "chapel",
-      "portrait": null,
-      "lines": [],
+      "portrait": "beggar",
+      "lines": [
+        "„In einer Woche kommt die Baumannschaft. Vahl hat im Rat verkündet, hinter der Gerberei stehe ein Lagerhaus. Als wäre da nie etwas gewesen.“",
+        "Fenn sagt es ohne Klage. Klage wäre schon Politik. Er hält das Holz, als sei es der letzte Zeuge, der noch keinen Sitz im Rat braucht.",
+        "„Trotzdem muss einer zuhören, bevor sie Bretter über die Gasse legen.“ Die Füße bleiben im Wasser. Das Wasser bleibt in der Mulde."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -52,7 +68,11 @@
       "title": "Vahls Stube",
       "art": "townhall",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Vahls Stube im Rathaus ist wärmer als der Platz. Die Wärme kommt von einem Ofen, der mehr Holz verbraucht, als ein Ratsherr zugeben würde.",
+        "Auf dem Tisch liegen Pläne, sauber, ohne die Gasse, als sei sie schon wegradiert. Ein Lineal liegt quer über Namen, die nicht mehr in der Tusche stehen.",
+        "Die Luft riecht nach Siegellack. Nicht nach dem Wachs vom Hang. Nach dem, das Beschlüsse hält, bis niemand mehr widerspricht."
+      ],
       "choices": [
         "Weiter"
       ]
@@ -62,7 +82,11 @@
       "title": "Ratsherr Vahl",
       "art": "townhall",
       "portrait": null,
-      "lines": [],
+      "lines": [
+        "Vahl lächelt, wie man lächelt, wenn man den Satz schon fertig hat. „Hinter der Gerberei liegt Ödland. Ödland wird nützlich, oder es bleibt eine offene Rechnung.“",
+        "Er bietet dir keinen Stuhl. Stühle sind für Leute, die bleiben sollen. Du sollst verstehen und gehen.",
+        "„Das Kesseljahr ist vorbei“, sagt er. „Wer es ausgräbt, gräbt für sich, nicht fürs Dorf.“ Die Hände bleiben ruhig. Ruhige Hände haben hier oft mehr getan als laute."
+      ],
       "choices": [
         "Weiter"
       ]
