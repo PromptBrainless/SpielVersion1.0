@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Settings2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ART, lageBild } from "@/game/art";
@@ -13,11 +14,13 @@ export function CreateHero({
   onReady,
   onBack,
   onWelt,
+  onSystem,
   onLoadName,
 }: {
   onReady: (held: Held) => void;
   onBack: () => void;
   onWelt: () => void;
+  onSystem?: () => void;
   onLoadName?: (name: string) => boolean;
 }) {
   const [name, setName] = useState("");
@@ -204,6 +207,12 @@ export function CreateHero({
             </>
           ) : null}
         </div>
+        {onSystem ? (
+          <Button variant="secondary" className="mt-3 w-full" onClick={onSystem}>
+            <Settings2 className="size-4" aria-hidden />
+            Einstellungen
+          </Button>
+        ) : null}
         <Button variant="secondary" className="mt-3 w-full" onClick={onWelt}>
           Weltwerkzeug
         </Button>

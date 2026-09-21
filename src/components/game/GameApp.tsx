@@ -3,7 +3,15 @@ import { Runtime } from "@/game/runtime";
 import { spielen } from "@/game/script";
 import { ART, LAGEN_ART, PORTRAITS } from "@/game/art";
 import { cloneHeld, type EffektId, type Held, type SceneView } from "@/game/types";
-import { hasSavedGame, importiereSpielstand, listSavedGames, loadGame, loadGameByName, saveGame, type SaveSlotInfo } from "@/game/save";
+import {
+  hasSavedGame,
+  importiereSpielstand,
+  listSavedGames,
+  loadGame,
+  loadGameByName,
+  saveGame,
+  type SaveSlotInfo,
+} from "@/game/save";
 import { hatEffekt, setzeEffekt } from "@/game/effekte";
 import { type Tageszeit } from "@/game/tageszeit";
 import { vorschauGmCommand, wendeGmCommandAn } from "@/game/gm/gmCommand";
@@ -31,6 +39,18 @@ import { TitleScreen } from "./TitleScreen";
 import { leiterFrei } from "@/game/leiter-login";
 import { LeiterLogin } from "./LeiterLogin";
 import { WeltEditor } from "@/components/welt/WeltEditor";
+import { Systemsteuerung } from "./Systemsteuerung";
+import { leseEinstellungen, setzeEinstellung, wendeEinstellungenAn } from "@/game/einstellungen";
+import { useEinstellungen } from "@/game/use-einstellungen";
+import {
+  ambienteFuerBild,
+  bindeKlang,
+  entsperreKlang,
+  haltAmbiente,
+  setzeAmbiente,
+  spieleKlang,
+} from "@/game/klang";
+import { leseTageszeit } from "@/game/tageszeit";
 
 type Mode = "title" | "rules" | "create" | "play";
 
@@ -42,9 +62,13 @@ export function GameApp() {
   const [canLoad, setCanLoad] = useState(() => hasSavedGame());
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [knowledgeOpen, setKnowledgeOpen] = useState(false);
-  const [debug] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"));
+  const [debug] = useState(
+    () => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"),
+  );
   const [leiterOpen, setLeiterOpen] = useState(false);
   const [leiterLogin, setLeiterLogin] = useState(false);
+  const [systemOffen, setSystemOffen] = useState(false);
+  const einstellungen = useEinstellungen();
   const [patch, setPatch] = useState<KartePatch>({});
   const [schluessel, setSchluessel] = useState("");
   const [lageIndex, setLageIndex] = useState<number | null>(null);
@@ -65,11 +89,58 @@ export function GameApp() {
   }, []);
 
   useEffect(() => {
-    for (const src of [...Object.values(ART), ...Object.values(PORTRAITS), ...Object.values(LAGEN_ART)]) {
+    for (const src of [
+      ...Object.values(ART),
+      ...Object.values(PORTRAITS),
+      ...Object.values(LAGEN_ART),
+    ]) {
       const image = new Image();
       image.src = src;
     }
   }, []);
+
+  // Einstellungen ins DOM schreiben und den Ton ans Fenster hängen.
+  useEffect(() => {
+    wendeEinstellungenAn();
+    const loesen = bindeKlang();
+    return () => {
+      loesen();
+      haltAmbiente();
+    };
+  }, []);
+
+  // Der Ort bestimmt die Umgebung, die Tageszeit ihre Farbe.
+  useEffect(() => {
+    if (mode !== "play" || !view) {
+      setzeAmbiente("titel", "nacht");
+      return;
+    }
+    setzeAmbiente(ambienteFuerBild(view.art), leseTageszeit(view.held ?? held));
+  }, [held, mode, view]);
+
+  // Klangliche Antwort auf die Szene: erst der Wurf, dann sein Urteil.
+  const sichtRef = useRef<SceneView | null>(null);
+  sichtRef.current = view;
+  const szenenKey = view ? `${view.textKey ?? ""}|${view.title}` : "";
+  useEffect(() => {
+    const szene = sichtRef.current;
+    if (mode !== "play" || !szene || !szenenKey) return;
+    if (szene.probe) {
+      spieleKlang("wuerfel");
+      const erfolg = szene.probe.erfolg;
+      const urteil = window.setTimeout(() => spieleKlang(erfolg ? "erfolg" : "misserfolg"), 560);
+      return () => window.clearTimeout(urteil);
+    }
+    if (szene.ending) {
+      spieleKlang("ende");
+      return;
+    }
+    if (szene.held && szene.held.lebend === false) {
+      spieleKlang("tod");
+      return;
+    }
+    spieleKlang("seite");
+  }, [mode, szenenKey]);
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
@@ -85,14 +156,14 @@ export function GameApp() {
   useEffect(() => () => stopPlay(), [stopPlay]);
 
   useEffect(() => {
-    if (mode !== "play") return;
+    if (mode !== "play" || !einstellungen.spiel.autospeichern) return;
     const current = view?.held ?? held;
     if (!current) return;
     const timer = window.setTimeout(() => {
       if (saveGame(current)) refreshSaves();
     }, 500);
     return () => window.clearTimeout(timer);
-  }, [held, mode, refreshSaves, view?.held]);
+  }, [einstellungen.spiel.autospeichern, held, mode, refreshSaves, view?.held]);
 
   useEffect(() => {
     const quelle = view ?? introAlsSzene();
@@ -106,11 +177,33 @@ export function GameApp() {
       if (event.key === "Escape") {
         setLeiterOpen(false);
         setLeiterLogin(false);
+        setSystemOffen(false);
         return;
       }
-      if (!(event.altKey && event.key.toLowerCase() === "s")) return;
-      event.preventDefault();
-      requestLeiter();
+      if (event.altKey && event.key.toLowerCase() === "s") {
+        event.preventDefault();
+        requestLeiter();
+        return;
+      }
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      const ziel = event.target as HTMLElement | null;
+      if (
+        ziel &&
+        (ziel.tagName === "TEXTAREA" || ziel.tagName === "INPUT" || ziel.isContentEditable)
+      )
+        return;
+      const taste = event.key.toLowerCase();
+      if (taste === "e") {
+        event.preventDefault();
+        setSystemOffen((offen) => !offen);
+        return;
+      }
+      if (taste === "m") {
+        event.preventDefault();
+        const an = !leseEinstellungen().ton.an;
+        setzeEinstellung("ton", { an });
+        if (an) entsperreKlang();
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -182,8 +275,10 @@ export function GameApp() {
     const current = view?.held ?? held;
     if (current && saveGame(current)) {
       refreshSaves();
+      spieleKlang("speichern");
       setSaveMessage(`Gespeichert unter „${current.name}“. Derselbe Name lädt den Stand.`);
     } else {
+      spieleKlang("fehler");
       setSaveMessage("Speichern war in diesem Browser nicht möglich.");
     }
   }, [held, refreshSaves, view]);
@@ -310,6 +405,12 @@ export function GameApp() {
       onSpielerGeaendert={refreshSaves}
     />
   ) : null;
+  const system = systemOffen ? <Systemsteuerung onClose={() => setSystemOffen(false)} /> : null;
+  const oeffneSystem = () => {
+    entsperreKlang();
+    spieleKlang("oeffnen");
+    setSystemOffen(true);
+  };
   const login = leiterLogin ? (
     <LeiterLogin
       onOk={() => {
@@ -333,18 +434,25 @@ export function GameApp() {
           slots={slots}
           onWelt={requestLeiter}
           onImport={importAdventure}
+          onSystem={oeffneSystem}
         />
         {welt}
         {login}
+        {system}
       </>
     );
   }
   if (mode === "rules") {
     return (
       <>
-        <RulesScreen onBack={() => setMode("title")} onWelt={requestLeiter} />
+        <RulesScreen
+          onBack={() => setMode("title")}
+          onWelt={requestLeiter}
+          onSystem={oeffneSystem}
+        />
         {welt}
         {login}
+        {system}
       </>
     );
   }
@@ -356,9 +464,11 @@ export function GameApp() {
           onBack={() => setMode("title")}
           onWelt={requestLeiter}
           onLoadName={loadAdventureByName}
+          onSystem={oeffneSystem}
         />
         {welt}
         {login}
+        {system}
       </>
     );
   }
@@ -371,6 +481,7 @@ export function GameApp() {
         </div>
         {welt}
         {login}
+        {system}
       </>
     );
   }
@@ -380,39 +491,44 @@ export function GameApp() {
 
   return (
     <>
-    <SceneStage
-      view={shown}
-      original={raw}
-      onChoose={(index) => runtimeRef.current?.choose(index)}
-      onSave={saveCurrentGame}
-      saveMessage={saveMessage}
-      onKnowledge={() => setKnowledgeOpen((open) => !open)}
-      knowledgeOpen={knowledgeOpen}
-      debug={debug}
-      leiterOpen={leiterOpen}
-      patch={kartenPatch}
-      schluessel={gefunden.schluessel}
-      onLeiter={requestLeiter}
-      onPatch={onPatch}
-      onResetKarte={onResetKarte}
-      onRueckgaengig={onRueckgaengig}
-      authorMode={leiterOpen}
-      wissenAnzahl={shown.held ? deriveKnowledge(shown.held).size : 0}
-      weltAnzahl={anzahlAuflagen()}
-      weltPunkt={!auflageLeer(kartenPatch)}
-      onEffekt={onEffekt}
-      onTageszeit={onTageszeit}
-      onHerkunft={onHerkunft}
-      onLageVorlegen={onLageVorlegen}
-      lageIndex={lageIndex}
-      onLageAntwort={(antwortIndex) => {
-        if (lageIndex === null) return;
-        onHerkunft(lageIndex, antwortIndex);
-      }}
-      onLageSchliessen={() => setLageIndex(null)}
-    />
-    {welt}
-    {login}
+      <SceneStage
+        view={shown}
+        original={raw}
+        onChoose={(index) => {
+          spieleKlang("wahl");
+          runtimeRef.current?.choose(index);
+        }}
+        onSystem={oeffneSystem}
+        onSave={saveCurrentGame}
+        saveMessage={saveMessage}
+        onKnowledge={() => setKnowledgeOpen((open) => !open)}
+        knowledgeOpen={knowledgeOpen}
+        debug={debug}
+        leiterOpen={leiterOpen}
+        patch={kartenPatch}
+        schluessel={gefunden.schluessel}
+        onLeiter={requestLeiter}
+        onPatch={onPatch}
+        onResetKarte={onResetKarte}
+        onRueckgaengig={onRueckgaengig}
+        authorMode={leiterOpen}
+        wissenAnzahl={shown.held ? deriveKnowledge(shown.held).size : 0}
+        weltAnzahl={anzahlAuflagen()}
+        weltPunkt={!auflageLeer(kartenPatch)}
+        onEffekt={onEffekt}
+        onTageszeit={onTageszeit}
+        onHerkunft={onHerkunft}
+        onLageVorlegen={onLageVorlegen}
+        lageIndex={lageIndex}
+        onLageAntwort={(antwortIndex) => {
+          if (lageIndex === null) return;
+          onHerkunft(lageIndex, antwortIndex);
+        }}
+        onLageSchliessen={() => setLageIndex(null)}
+      />
+      {welt}
+      {login}
+      {system}
     </>
   );
 }

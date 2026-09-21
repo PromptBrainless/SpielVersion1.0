@@ -6,6 +6,8 @@ import { probeZeile } from "@/game/gm/probeZeile";
 import type { KartePatch } from "@/game/welt";
 import type { EffektId, SceneView } from "@/game/types";
 import { leseTageszeit, tageszeitSchleier, type Tageszeit } from "@/game/tageszeit";
+import { useEinstellungen } from "@/game/use-einstellungen";
+import { spieleKlang } from "@/game/klang";
 import { Hud } from "./Hud";
 import { KnowledgeJournal } from "./KnowledgeJournal";
 import { LageOverlay } from "./LageOverlay";
@@ -14,6 +16,7 @@ export function SceneStage({
   view,
   original,
   onChoose,
+  onSystem,
   onSave,
   saveMessage,
   onKnowledge,
@@ -41,6 +44,7 @@ export function SceneStage({
   view: SceneView;
   original: SceneView;
   onChoose: (index: number) => void;
+  onSystem?: () => void;
   onSave: () => void;
   saveMessage: string | null;
   onKnowledge: () => void;
@@ -65,11 +69,16 @@ export function SceneStage({
   weltAnzahl: number;
   weltPunkt: boolean;
 }) {
-  const karte = view.original ?? { title: original.title, lines: original.lines, choices: original.choices };
+  const karte = view.original ?? {
+    title: original.title,
+    lines: original.lines,
+    choices: original.choices,
+  };
   const [title, setTitle] = useState(view.title);
   const [body, setBody] = useState(view.lines.join("\n"));
   const [choices, setChoices] = useState(view.choices);
   const [status, setStatus] = useState<string | null>(null);
+  const { spiel } = useEinstellungen();
 
   useEffect(() => {
     setTitle(view.title);
@@ -84,12 +93,12 @@ export function SceneStage({
       const target = event.target as HTMLElement | null;
       if (target && (target.tagName === "TEXTAREA" || target.tagName === "INPUT")) return;
       const n = Number(event.key);
-      if (n >= 1 && n <= view.choices.length) onChoose(n - 1);
+      if (spiel.ziffernwahl && n >= 1 && n <= view.choices.length) onChoose(n - 1);
       if (event.key === "Enter" && view.choices.length === 1 && !authorMode) onChoose(0);
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [authorMode, leiterOpen, onChoose, view.choices.length]);
+  }, [authorMode, leiterOpen, onChoose, spiel.ziffernwahl, view.choices.length]);
 
   function remember() {
     const lines = body
@@ -112,7 +121,7 @@ export function SceneStage({
   const portraitPoster = view.portrait ? PORTRAITS[view.portrait] : undefined;
 
   return (
-    <div className="relative isolate min-h-dvh overflow-x-hidden overflow-y-auto bg-bg text-fg">
+    <div className="relative isolate min-h-dvh bg-bg text-fg">
       {view.held ? (
         <Hud
           held={view.held}
@@ -120,6 +129,7 @@ export function SceneStage({
           saveMessage={saveMessage}
           onKnowledge={onKnowledge}
           onLeiter={onLeiter}
+          onSystem={onSystem}
           leiterOpen={leiterOpen}
           wissenAnzahl={wissenAnzahl}
           weltAnzahl={weltAnzahl}
@@ -129,10 +139,12 @@ export function SceneStage({
           fort={view.seiteFort}
         />
       ) : null}
-      {knowledgeOpen && view.held ? <KnowledgeJournal held={view.held} debug={debug} onClose={onKnowledge} /> : null}
+      {knowledgeOpen && view.held ? (
+        <KnowledgeJournal held={view.held} debug={debug} onClose={onKnowledge} />
+      ) : null}
 
       <figure className="relative m-0">
-        <div className="relative h-[46vh] min-h-56 w-full overflow-hidden bg-surface sm:h-[56vh]">
+        <div className="buehne vignette koernung relative w-full overflow-hidden bg-surface">
           <StageMedia
             src={hintergrund}
             poster={hintergrundPoster}
@@ -140,13 +152,16 @@ export function SceneStage({
             className="size-full object-cover"
           />
           {view.held ? (
-            <div className={`pointer-events-none absolute inset-0 ${tageszeitSchleier(leseTageszeit(view.held))}`} aria-hidden />
+            <div
+              className={`buehne-schleier pointer-events-none absolute inset-0 ${tageszeitSchleier(leseTageszeit(view.held))}`}
+              aria-hidden
+            />
           ) : null}
           {portrait ? (
             <StageMedia
               src={portrait}
               poster={portraitPoster}
-              className="absolute bottom-3 right-3 h-28 w-20 rounded-lg border border-border object-cover shadow-sm sm:h-36 sm:w-24"
+              className="herein absolute bottom-3 right-3 z-[2] h-28 w-20 rounded-lg border border-border object-cover shadow-lg sm:h-36 sm:w-24"
             />
           ) : null}
         </div>
@@ -167,19 +182,29 @@ export function SceneStage({
                 aria-label="Kartentitel"
               />
             ) : (
-              <h2 className="tafel-zeile mb-3 font-display text-xl font-semibold tracking-tight sm:text-2xl" style={{ ["--i" as string]: 0 }}>
+              <h2
+                className="tafel-zeile mb-3 font-display text-xl font-semibold tracking-tight sm:text-2xl"
+                style={{ ["--i" as string]: 0 }}
+              >
                 {view.title}
               </h2>
             )}
 
             {view.probe ? (
-              <div className="mb-3 flex items-start gap-2 rounded-md border border-border bg-surface/80 px-3 py-2 text-sm" role="status" aria-live="polite">
-                <Dices className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
+              <div
+                className="mb-3 flex items-start gap-2 rounded-md border border-border bg-surface/80 px-3 py-2 text-sm"
+                role="status"
+                aria-live="polite"
+              >
+                <Dices className="wuerfel-zittern mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
                 <div>
                   <p className="tabular-nums">
-                    Probe{view.probe.beschreibung ? ` (${view.probe.beschreibung})` : ""}: {probeZeile(view.probe)}
+                    Probe{view.probe.beschreibung ? ` (${view.probe.beschreibung})` : ""}
+                    {spiel.probeErklaeren ? `: ${probeZeile(view.probe)}` : ""}
                   </p>
-                  <p className={view.probe.erfolg ? "text-ok" : "text-hp"}>{view.probe.erfolg ? "Erfolg." : "Misserfolg."}</p>
+                  <p className={view.probe.erfolg ? "text-ok" : "text-hp"}>
+                    {view.probe.erfolg ? "Erfolg." : "Misserfolg."}
+                  </p>
                 </div>
               </div>
             ) : null}
@@ -196,7 +221,11 @@ export function SceneStage({
             ) : (
               <div className="space-y-2.5 text-sm leading-relaxed text-fg sm:text-base">
                 {view.lines.map((line, index) => (
-                  <p key={`${index}-${line.slice(0, 24)}`} className="tafel-zeile" style={{ ["--i" as string]: Math.min(index + 1, 8) }}>
+                  <p
+                    key={`${index}-${line.slice(0, 24)}`}
+                    className="tafel-zeile"
+                    style={{ ["--i" as string]: Math.min(index + 1, 8) }}
+                  >
                     {line}
                   </p>
                 ))}
@@ -212,7 +241,9 @@ export function SceneStage({
             ) : null}
 
             {view.ending ? (
-              <p className="mt-4 font-display text-lg italic text-accent sm:text-xl">Ende: {view.ending}</p>
+              <p className="mt-4 font-display text-lg italic text-accent sm:text-xl">
+                Ende: {view.ending}
+              </p>
             ) : null}
 
             {authorMode && status ? <p className="mt-3 text-sm text-accent">{status}</p> : null}
@@ -221,40 +252,59 @@ export function SceneStage({
       </figure>
 
       <div className="safe-bottom relative z-10 mx-auto grid max-w-3xl gap-2 px-3 py-3 sm:px-6 sm:py-4">
-          {authorMode
-            ? karte.choices.map((label, index) => (
-                <div key={`edit-${index}`} className="flex items-center gap-2">
-                  <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-xs border border-border text-xs text-muted-fg tabular-nums">
-                    {index + 1}
-                  </span>
-                  <input
-                    value={choices[index] ?? label}
-                    onChange={(e) => {
-                      const next = [...choices];
-                      next[index] = e.target.value;
-                      setChoices(next);
-                    }}
-                    onBlur={remember}
-                    className="h-11 min-w-0 flex-1 rounded-sm border border-border bg-ink/70 px-3 text-sm text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    aria-label={`Wahl ${index + 1}`}
-                  />
-                  <Button variant="choice" size="choice" className="w-auto shrink-0 px-3" onClick={() => onChoose(index)}>
-                    Gehen
-                  </Button>
-                </div>
-              ))
-            : view.choices.map((label, index) => (
-                <Button key={`${index}-${label}`} variant="choice" size="choice" onClick={() => onChoose(index)}>
-                  <span className="mr-2 inline-flex size-6 shrink-0 items-center justify-center rounded-xs border border-border text-xs text-muted-fg tabular-nums">
-                    {index + 1}
-                  </span>
-                  {label}
+        {authorMode
+          ? karte.choices.map((label, index) => (
+              <div key={`edit-${index}`} className="flex items-center gap-2">
+                <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-xs border border-border text-xs text-muted-fg tabular-nums">
+                  {index + 1}
+                </span>
+                <input
+                  value={choices[index] ?? label}
+                  onChange={(e) => {
+                    const next = [...choices];
+                    next[index] = e.target.value;
+                    setChoices(next);
+                  }}
+                  onBlur={remember}
+                  className="h-11 min-w-0 flex-1 rounded-sm border border-border bg-ink/70 px-3 text-sm text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  aria-label={`Wahl ${index + 1}`}
+                />
+                <Button
+                  variant="choice"
+                  size="choice"
+                  className="w-auto shrink-0 px-3"
+                  onClick={() => onChoose(index)}
+                >
+                  Gehen
                 </Button>
-              ))}
+              </div>
+            ))
+          : view.choices.map((label, index) => (
+              <Button
+                key={`${index}-${label}`}
+                variant="choice"
+                size="choice"
+                className="wahlfeld tafel-zeile"
+                style={{ ["--i" as string]: Math.min(index + 2, 9) }}
+                onPointerEnter={() => spieleKlang("zeiger")}
+                onClick={() => onChoose(index)}
+              >
+                {spiel.tastenhinweise ? (
+                  <span className="wahl-ziffer mr-2 inline-flex size-6 shrink-0 items-center justify-center rounded-xs border border-border text-xs text-muted-fg tabular-nums">
+                    {index + 1}
+                  </span>
+                ) : null}
+                {label}
+              </Button>
+            ))}
       </div>
 
       {lageIndex !== null ? (
-        <LageOverlay frageIndex={lageIndex} onAntwort={onLageAntwort} onSchliessen={onLageSchliessen} />
+        <LageOverlay
+          frageIndex={lageIndex}
+          onAntwort={onLageAntwort}
+          onSchliessen={onLageSchliessen}
+        />
       ) : null}
     </div>
   );
@@ -273,7 +323,18 @@ function StageMedia({
 }) {
   const bewegt = `${className ?? ""} ${kenBurns ? "ken-burns" : ""}`.trim();
   if (isMotion(src)) {
-    return <video src={src} poster={poster} className={className} autoPlay muted loop playsInline aria-hidden />;
+    return (
+      <video
+        src={src}
+        poster={poster}
+        className={className}
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-hidden
+      />
+    );
   }
   return <img src={src} alt="" className={bewegt} />;
 }

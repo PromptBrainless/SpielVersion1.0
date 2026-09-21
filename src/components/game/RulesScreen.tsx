@@ -1,3 +1,4 @@
+import { Settings2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ART } from "@/game/art";
 
@@ -5,7 +6,15 @@ const ABSATZ = "mt-3 text-sm leading-relaxed text-fg sm:text-base";
 const LISTE = "mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed text-fg sm:text-base";
 const KOPF = "mt-5 font-display text-lg font-semibold tracking-tight";
 
-export function RulesScreen({ onBack, onWelt }: { onBack: () => void; onWelt: () => void }) {
+export function RulesScreen({
+  onBack,
+  onWelt,
+  onSystem,
+}: {
+  onBack: () => void;
+  onWelt: () => void;
+  onSystem?: () => void;
+}) {
   return (
     <div className="relative min-h-dvh overflow-x-hidden overflow-y-auto bg-bg text-fg">
       <img src={ART.title} alt="" className="absolute inset-0 size-full object-cover" />
@@ -125,6 +134,12 @@ export function RulesScreen({ onBack, onWelt }: { onBack: () => void; onWelt: ()
           <Button className="mt-6 w-full" onClick={onBack}>
             Zurück
           </Button>
+          {onSystem ? (
+            <Button variant="secondary" className="mt-2 w-full" onClick={onSystem}>
+              <Settings2 className="size-4" aria-hidden />
+              Einstellungen
+            </Button>
+          ) : null}
           <Button variant="secondary" className="mt-2 w-full" onClick={onWelt}>
             Weltwerkzeug
           </Button>
