@@ -12,6 +12,7 @@ import type { ProbenAktion } from "@/game/tageszeit";
 import { EffektChips } from "./EffektChips";
 import { WeltFiguren } from "./WeltFiguren";
 import { WeltMoral } from "./WeltMoral";
+import { WeltSpieler } from "./WeltSpieler";
 import { WeltZeitstrahl } from "./WeltZeitstrahl";
 
 export function WeltHeld({
@@ -20,12 +21,16 @@ export function WeltHeld({
   onLage,
   onTageszeit,
   onVorschau,
+  onLadeSpieler,
+  onSpielerGeaendert,
 }: {
   held: Held | null;
   onEffekt: (id: EffektId, an: boolean) => void;
   onLage: (frageIndex: number) => void;
   onTageszeit?: (zeit: Tageszeit) => void;
   onVorschau?: (satz: string) => void;
+  onLadeSpieler?: (name: string) => void;
+  onSpielerGeaendert?: () => void;
 }) {
   const [lage, setLage] = useState(0);
   const [probeName, setProbeName] = useState<"Stärke" | "Geschicklichkeit" | "Charisma">("Stärke");
@@ -39,6 +44,7 @@ export function WeltHeld({
   if (!held || !hud) {
     return (
       <div>
+        <WeltSpieler onLade={onLadeSpieler} onGeaendert={onSpielerGeaendert} />
         <p className="mb-3 text-sm text-muted-fg">Blatt und Probe brauchen eine Partie.</p>
         <LageKanon />
       </div>
@@ -47,6 +53,7 @@ export function WeltHeld({
 
   return (
     <div>
+      <WeltSpieler aktuelleName={held.name} onLade={onLadeSpieler} onGeaendert={onSpielerGeaendert} />
       <section className="rounded-md border border-border bg-surface px-3 py-3">
         <p className="font-display text-xl">{hud.name}</p>
         <p className="text-xs text-muted-fg">

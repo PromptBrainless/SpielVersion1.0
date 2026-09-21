@@ -177,6 +177,7 @@ export type ProbeResult = {
 
 export type SceneView = {
   id?: string;
+  idStabil?: boolean;
   title: string;
   art: ArtKey;
   portrait?: PortraitKey;

@@ -208,14 +208,14 @@ export function auflageFuerSicht(view: SceneView): { schluessel: string; patch: 
   const keys = sichtSchluessel(view);
   for (const key of keys) {
     if (alle[key] && !auflageLeer(alle[key])) {
-      return { schluessel: key, patch: alle[key]!, bruechig: !view.id };
+      return { schluessel: key, patch: alle[key]!, bruechig: view.idStabil !== true };
     }
   }
   const titelTreffer = Object.entries(alle).filter(([, patch]) => patch.title && patch.title === view.title && !auflageLeer(patch));
   if (titelTreffer.length === 1) {
-    return { schluessel: titelTreffer[0]![0], patch: titelTreffer[0]![1], bruechig: !view.id };
+    return { schluessel: titelTreffer[0]![0], patch: titelTreffer[0]![1], bruechig: view.idStabil !== true };
   }
-  return { schluessel: view.id ?? keys[0] ?? karteSchluessel(view), patch: {}, bruechig: !view.id };
+  return { schluessel: view.id ?? keys[0] ?? karteSchluessel(view), patch: {}, bruechig: view.idStabil !== true };
 }
 
 function textStand(patch: WeltAuflage, original?: Pick<SceneView, "title" | "lines" | "choices">) {

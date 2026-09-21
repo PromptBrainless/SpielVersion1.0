@@ -18,6 +18,12 @@ export type SaveSlotInfo = {
   lp: number;
 };
 
+export type SaveSlotDetail = SaveSlotInfo & {
+  lebend: boolean;
+  gold: number;
+  log: number;
+};
+
 type SlotMap = Record<string, SavePayload>;
 
 function isHeld(value: unknown): value is Held {
@@ -106,7 +112,7 @@ function migrateLegacyIfNeeded(): void {
   window.localStorage.setItem(LAST_NAME_KEY, normalizeHeldName(legacy.held.name));
 }
 
-export function listSavedGames(): SaveSlotInfo[] {
+export function listSavedGameDetails(): SaveSlotDetail[] {
   if (typeof window === "undefined") return [];
   migrateLegacyIfNeeded();
   return Object.entries(readSlots())
@@ -115,8 +121,20 @@ export function listSavedGames(): SaveSlotInfo[] {
       nameKey: key,
       savedAt: payload.savedAt,
       lp: payload.held.lp,
+      lebend: payload.held.lebend !== false,
+      gold: payload.held.gold ?? 0,
+      log: (payload.held.entscheidungen ?? []).length,
     }))
     .sort((a, b) => b.savedAt.localeCompare(a.savedAt));
+}
+
+export function listSavedGames(): SaveSlotInfo[] {
+  return listSavedGameDetails().map((slot) => ({
+    name: slot.name,
+    nameKey: slot.nameKey,
+    savedAt: slot.savedAt,
+    lp: slot.lp,
+  }));
 }
 
 export function hasSavedGame(): boolean {
@@ -164,24 +182,28 @@ export function loadGame(): Held | null {
   return legacy?.held ?? null;
 }
 
-export function loadGameByName(name: string): Held | null {
+export function leseSpielstand(name: string): Held | null {
   if (typeof window === "undefined") return null;
   migrateLegacyIfNeeded();
   const key = nameKey(name);
   if (!key) return null;
   const slots = readSlots();
   const slot = slots[key];
-  if (slot) {
-    window.localStorage.setItem(LAST_NAME_KEY, normalizeHeldName(slot.held.name));
-    return slot.held;
-  }
+  if (slot) return slot.held;
   const legacy = parsePayload(window.localStorage.getItem(SAVE_KEY));
   if (legacy && nameKey(legacy.held.name) === key) return legacy.held;
   return null;
 }
 
+export function loadGameByName(name: string): Held | null {
+  const held = leseSpielstand(name);
+  if (!held) return null;
+  window.localStorage.setItem(LAST_NAME_KEY, normalizeHeldName(held.name));
+  return held;
+}
+
 export function peekSaveForName(name: string): SaveSlotInfo | null {
-  const held = loadGameByName(name);
+  const held = leseSpielstand(name);
   if (!held) return null;
   const slots = readSlots();
   const slot = slots[nameKey(name)];

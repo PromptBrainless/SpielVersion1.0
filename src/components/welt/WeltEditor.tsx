@@ -32,6 +32,8 @@ export function WeltEditor({
   onRueckgaengig,
   onTageszeit,
   startFach = "karte",
+  onLadeSpieler,
+  onSpielerGeaendert,
 }: {
   szene: SceneView | null;
   auflage: WeltAuflage;
@@ -45,6 +47,8 @@ export function WeltEditor({
   onRueckgaengig: () => void;
   onTageszeit?: (zeit: Tageszeit) => void;
   startFach?: Fach;
+  onLadeSpieler?: (name: string) => void;
+  onSpielerGeaendert?: () => void;
 }) {
   const [fach, setFach] = useState<Fach>(szene ? startFach : "pruefen");
   const [fremd, setFremd] = useState<SceneView | null>(null);
@@ -55,7 +59,7 @@ export function WeltEditor({
   const sichtKey = fremd ? (fremd.id ?? "") : schluessel;
   const merkt = !auflageLeer(sichtAuflage);
   const werk = mapGmToolState(held, sicht, sichtAuflage);
-  const bruechig = Boolean(sicht && !sicht.id);
+  const bruechig = Boolean(sicht && sicht.idStabil !== true);
   const nichtHeld = Boolean(fremd && fremd.id && fremd.id !== szene?.id);
 
   function oeffneSeite(id: string) {
@@ -171,7 +175,15 @@ export function WeltEditor({
           )
         ) : null}
         {fach === "held" ? (
-          <WeltHeld held={held} onEffekt={onEffekt} onLage={onLage} onTageszeit={onTageszeit} onVorschau={setVorschau} />
+          <WeltHeld
+            held={held}
+            onEffekt={onEffekt}
+            onLage={onLage}
+            onTageszeit={onTageszeit}
+            onVorschau={setVorschau}
+            onLadeSpieler={onLadeSpieler}
+            onSpielerGeaendert={onSpielerGeaendert}
+          />
         ) : null}
         {fach === "stimme" ? (
           <WeltEntwurf szene={sicht} auflage={sichtAuflage} schluessel={sichtKey} onChange={speichere} />

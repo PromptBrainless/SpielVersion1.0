@@ -88,7 +88,7 @@ export function WeltKarte({
     <div>
       {bruechig ? (
         <p className="mb-2 rounded-md border border-warn/40 bg-warn/10 px-2 py-1.5 text-xs text-warn">
-          Keine Szenen-Id. Die Auflage hält nur, solange der Satz gleich bleibt.
+          Diese Karte hängt am Text, nicht an einer festen Id. Die Auflage hält nur, solange der Satz gleich bleibt.
         </p>
       ) : (
         <p className="mb-2 text-xs text-muted-fg">

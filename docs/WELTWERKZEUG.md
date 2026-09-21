@@ -1,7 +1,7 @@
 # Weltwerkzeug — eine Fläche, drei Speicher
 
 **Stand:** im Spiel (HUD Welt). Code: `src/components/welt/`, Verträge: `src/game/gm/`.
-`/editor` merkt Auflagen ohne Partie. Dieses Blatt ist das Zielbild, nicht der Einbau.
+`/editor` leitet auf `/?welt=1` — dieselbe Fläche, hinter dem Passwort.
 Ersetzt als Zielbild: `docs/SPIELLEITER.md` + `docs/EDITOR.md`.
 
 ### Werkstatt — ehrlich

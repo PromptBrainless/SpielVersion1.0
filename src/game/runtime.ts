@@ -6,7 +6,7 @@ import { sprecherAusZeilen } from "./sprecher";
 import { cloneHeld, type ArtKey, type EffektId, type Held, type PortraitKey, type SceneView } from "./types";
 import { ortZustand, wendeEffektListenAn, wendeOrtWechselAn } from "./seiten-zustaende";
 import { synchronisiereLog } from "./taten";
-import { szeneSchluessel } from "./szenen-katalog";
+import { szeneSchluessel, idFuerTitel } from "./szenen-katalog";
 
 type PresentInput = {
   id?: string;
@@ -32,6 +32,7 @@ export class Runtime {
   lastTitle = "Lindendorf";
   lastPortrait: PortraitKey | undefined;
   lastId: string | undefined;
+  lastIdStabil = false;
 
   constructor(
     private readonly setView: (view: SceneView) => void,
@@ -52,23 +53,26 @@ export class Runtime {
   async present(input: PresentInput): Promise<number> {
     const gen = this.generation;
     const vorherArt = this.lastArt;
+    const titel = input.title ?? this.lastTitle;
+    const gefunden = loeseSzeneId(input.id, input.title, this.lastId, this.lastIdStabil, titel);
     const portrait =
       loesePortrait({
         gesetzt: input.portrait,
-        kanon: portraitAusKanon(input.id, input.title),
+        kanon: portraitAusKanon(gefunden.id, input.title),
         artWechsel: Boolean(input.art && input.art !== this.lastArt),
-        seitenWechsel: Boolean((input.id && input.id !== this.lastId) || (input.title && input.title !== this.lastTitle)),
+        seitenWechsel: Boolean(gefunden.id !== this.lastId || (input.title && input.title !== this.lastTitle)),
         zuletzt: this.lastPortrait,
       }) ?? sprecherAusZeilen(input.lines);
     if (input.art) this.lastArt = input.art;
     if (input.title) this.lastTitle = input.title;
-    if (input.id) this.lastId = input.id;
+    this.lastId = gefunden.id;
+    this.lastIdStabil = gefunden.stabil;
     this.lastPortrait = portrait;
 
     const art = this.lastArt;
     const ort = ortZustand(art);
     if (input.held) {
-      synchronisiereLog(input.held, input.id ?? input.title ?? this.lastTitle);
+      synchronisiereLog(input.held, gefunden.id);
       if (input.art && input.art !== vorherArt) {
         wendeOrtWechselAn(input.held, vorherArt, input.art);
       }
@@ -83,7 +87,8 @@ export class Runtime {
     };
     const shown = applyPatch(original, lookupPatch(original));
     const view: SceneView = {
-      id: input.id ?? szeneSchluessel(original.title),
+      id: gefunden.id,
+      idStabil: gefunden.stabil,
       title: shown.title,
       art,
       portrait,
@@ -110,6 +115,20 @@ export class Runtime {
       };
     });
   }
+}
+
+function loeseSzeneId(
+  gesetzt: string | undefined,
+  titelNeu: string | undefined,
+  zuletzt: string | undefined,
+  zuletztStabil: boolean,
+  titel: string,
+): { id: string; stabil: boolean } {
+  if (gesetzt) return { id: gesetzt, stabil: true };
+  const ausTitel = idFuerTitel(titelNeu);
+  if (ausTitel) return { id: ausTitel, stabil: true };
+  if (!titelNeu && zuletzt) return { id: zuletzt, stabil: zuletztStabil };
+  return { id: szeneSchluessel(titel), stabil: false };
 }
 
 function portraitAusKanon(id?: string, titel?: string): PortraitKey | null | undefined {

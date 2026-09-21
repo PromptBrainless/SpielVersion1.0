@@ -13,6 +13,26 @@ export type SzenenModul = {
   pruefen: (roh: string) => unknown;
 };
 
+/** Titel, die im Fluss vorkommen, aber nicht als Kanon-Karte stehen. */
+const FESTE_TITEL: Record<string, string> = {
+  Lindendorf: "dorf-hub",
+  "Was du weißt": "wissen-abreise",
+  "Am Brunnen": "am-brunnen",
+  "Sanna, die Botin": "sanna-botin",
+  "Hinter der Taverne": "hinter-der-taverne",
+  "Hinter dem Brunnen": "hinter-dem-brunnen",
+  Graben: "graben",
+  "Am Schmied": "am-schmied",
+  "Brunnen und Dorfplatz": "brunnen-und-dorfplatz",
+};
+
+export function idFuerTitel(titel?: string): string | undefined {
+  if (!titel) return undefined;
+  if (FESTE_TITEL[titel]) return FESTE_TITEL[titel];
+  const fund = fundFuerSzene(undefined, titel);
+  return fund?.szene.id;
+}
+
 export function szeneSchluessel(titel: string) {
   const roh = titel
     .toLowerCase()

@@ -72,7 +72,14 @@ export function GameApp() {
   }, []);
 
   useEffect(() => {
-    void loadFilePack();
+    const query = new URLSearchParams(window.location.search);
+    if (!(query.has("welt") || query.has("gm") || query.has("spielleiter"))) return;
+    if (leiterFrei()) {
+      setzeWeltAktiv(true);
+      setLeiterOpen(true);
+    } else {
+      setLeiterLogin(true);
+    }
   }, []);
 
   useEffect(() => () => stopPlay(), [stopPlay]);
@@ -297,6 +304,10 @@ export function GameApp() {
       onRueckgaengig={onRueckgaengig}
       onTageszeit={onTageszeit}
       startFach={mode === "create" ? "held" : "karte"}
+      onLadeSpieler={(name) => {
+        loadAdventureByName(name);
+      }}
+      onSpielerGeaendert={refreshSaves}
     />
   ) : null;
   const login = leiterLogin ? (
