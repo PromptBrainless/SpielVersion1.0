@@ -106,12 +106,12 @@
           "art": "forest",
           "portrait": null,
           "lines": [
-            "Der Wald steht dicht an den Hängen. Zwischen den Stämmen hängen Fetzen von Nebel.",
-            "Weiter unten siehst du Rauch, der senkrecht steigt. Kein Wind. Kein gutes Zeichen, wenn Rauch so gerade steht.",
-            "Jemand hat die Felder abgeerntet. Jemand anderes hat vergessen, die Zäune zu reparieren.",
-            "Am Waldrand liegen Bündel aus nassem Reisig, sorgfältig aufgeschichtet und doch unberührt. Daneben steckt ein Kinderschuh im Schlamm.",
-            "Kein Vogel ruft. Ein Ast bricht, weit oberhalb des Weges, und danach wartet das Tal wieder auf ein Geräusch von dir.",
-            "Du verstehst noch nicht, was hier geschehen ist. Aber du erkennst die Spur einer Gegend, in der Menschen gelernt haben, ihre Fragen leise zu stellen."
+            "Der Wald steht dicht an den Hängen, so eng, dass die Stämme sich beinahe berühren und der Weg nur ein schmaler Streifen nasser Erde bleibt. Zwischen den Rinden hängen Fetzen von Nebel, schwer und kalt, die an deinen Schultern streifen und nach faulendem Laub und nassem Holz riechen. Jeder Schritt drückt Feuchtigkeit aus dem Boden, die an den Sohlen klebt und das Gewicht deiner Füße spürbar macht.",
+            "Weiter unten siehst du Rauch, der senkrecht steigt, eine graue Säule ohne Neigung. Kein Wind rührt die Luft. Die Stille darüber liegt wie eine Decke aus Nässe. Kein gutes Zeichen, wenn Rauch so gerade steht; er bleibt, wo er ist, und trägt den Geruch von nassem Brand und kalter Asche nicht fort.",
+            "Jemand hat die Felder abgeerntet. Die Stoppeln stehen kurz und stumpf im dunklen Boden, glänzen feucht. Jemand anderes hat vergessen, die Zäune zu reparieren. Die Pfähle hängen schief, die Drähte rostig und schlaff, und der Schlamm hat sich schon über die untersten Latten geschoben.",
+            "Am Waldrand liegen Bündel aus nassem Reisig, sorgfältig aufgeschichtet und doch unberührt. Das Holz ist dunkel vom Tau, schwer, und riecht nach Harz und Fäulnis. Daneben steckt ein Kinderschuh im Schlamm, der Schaft eingedrückt, die Sohle voller schwarzer Erde, kalt und formlos, als hätte jemand ihn dort gelassen und nicht mehr geholt.",
+            "Kein Vogel ruft. Die Luft drückt gegen die Ohren. Ein Ast bricht, weit oberhalb des Weges, ein kurzes, trockenes Knacken, das durch die Stämme rollt und dann vergeht. Danach wartet das Tal wieder auf ein Geräusch von dir. Der Nebel hängt weiter zwischen den Stämmen, der Rauch steigt weiter gerade, und der Schlamm hält den Schuh fest.",
+            "Du verstehst noch nicht, was hier geschehen ist. Aber du erkennst die Spur einer Gegend, in der Menschen gelernt haben, ihre Fragen leise zu stellen. Die Kälte kriecht in die Gelenke, das Gewicht der Stille lastet auf den Schultern, und der Geruch von nassem Holz und kaltem Rauch bleibt in der Nase."
           ],
           "choices": [
             "Weiter"
@@ -123,12 +123,11 @@
           "art": "chapel",
           "portrait": null,
           "lines": [
-            "Oberhalb des Dorfes schneidet ein alter Weg den Hang. Dort steht eine Kapelle, deren Dach dunkler ist als der Himmel.",
-            "Eine kleine Glocke bewegt sich einmal über dem Geröll.",
-            "Du kennst den Weg noch nicht. Du merkst dir nur den Ton.",
-            "Unterhalb der Kapelle klafft ein trockener Graben im Hang. Früher muss dort Wasser gelaufen sein. Jetzt liegen darin die Knochen von Tieren, ausgebleicht und ordentlich nebeneinander, als hätte sie jemand dort abgelegt statt sie verwesen zu lassen.",
-            "Über dem Türsturz klebt ein Streifen rotes Wachs, frisch gebrochen. Es ist dasselbe Zeichen, das du unten im Dorf wiederfinden wirst — jemand markiert in dieser Gegend Türen, die niemand öffnen soll.",
-            "Die Glocke schweigt wieder. Trotzdem hast du das Gefühl, dass etwas im Tal nun weiß, dass du angekommen bist."
+            "Oberhalb des Dorfes schneidet ein alter Weg den Hang, hart und schmal, der Schotter unter deinen Sohlen knirscht nass und gibt nach. Die Steinkapelle steht dort, niedrig, das Dach dunkler als der Himmel, nass vom letzten Regen, die Schindeln glänzen stumpf wie nasse Knochen. Dämmerung drückt von den Bäumen her, kalt, und der Geruch von nassem Moos und Steinmischt sich mit etwas Süßlichem, das aus dem Graben kommt.",
+            "Eine kleine Glocke bewegt sich einmal über dem Geröll. Das Metall klingt dünn, kurz, ein einzelner Schlag, der im Hang stecken bleibt. Du kennst den Weg noch nicht. Du merkst dir nur den Ton, wie er im Ohr nachvibriert, kalt und ohne Nachhall.",
+            "Unterhalb der Kapelle klafft ein trockener Graben im Hang, die Ränder bröckeln, Erde und Stein. Früher muss dort Wasser gelaufen sein; die Mulde ist glatt gewaschen, jetzt staubig und tot. Darin liegen die Knochen von Tieren, ausgebleicht, ordentlich nebeneinander, Schädel, Rippen, lange Röhrenknochen, als hätte sie jemand dort abgelegt statt sie verwesen zu lassen. Kein Geruch von Fäulnis mehr, nur Kalk und Kälte. Du spürst das Gewicht des Hangs über dir, die Feuchtigkeit im Nacken.",
+            "Über dem Türsturz klebt ein Streifen rotes Wachs, frisch gebrochen, die Kanten scharf, noch weich am Bruch. Es ist dasselbe Zeichen, das du unten im Dorf wiederfinden wirst — jemand markiert in dieser Gegend Türen, die niemand öffnen soll. Das Wachs riecht scharf, nach Harz und Rauch, und klebt an der kalten Steinlippe.",
+            "Die Glocke schweigt wieder. Trotzdem hast du das Gefühl, dass etwas im Tal nun weiß, dass du angekommen bist. Die Luft steht still. Deine Hände sind kalt."
           ],
           "choices": [
             "Weiter"
@@ -157,13 +156,13 @@
           "art": "village",
           "portrait": null,
           "lines": [
-            "Du bleibst am Rand des Platzes stehen. Niemand fragt, wer du bist.",
-            "Das ist zunächst höflich. Dann merkst du, dass es Vorsicht ist.",
-            "Du könntest weitergehen. Aber der Weg nach Osten führt am Steinbruch vorbei, und aus dem Steinbruch steigt Rauch.",
+            "Du bleibst am Rand des Platzes stehen. Der Lehm unter den Sohlen gibt nach, kalt und schwer, vollgesogen mit dem Dunst, der den ganzen Nachmittag nicht abgezogen ist. Fachwerk steht schwarz vor Nässe. Niemand fragt, wer du bist.",
+            "Das ist zunächst höflich. Dann merkst du, dass es Vorsicht ist. Schultern drehen sich ab, ohne Hast. Finger bleiben in den Taschen. Ein Blick streift dich und fällt sofort auf den Boden zurück, als hätte er sich verirrt.",
+            "Du könntest weitergehen. Aber der Weg nach Osten führt am Steinbruch vorbei, und aus dem Steinbruch steigt Rauch. Er liegt flach über den Dächern, riecht nach nassem Gestein und nach etwas, das zu lange gebrannt hat. Die Kehle spürt ihn, bevor die Nase ihn benennt.",
             "In Lindendorf wartet niemand auf einen Helden. Trotzdem beginnt hier dein Weg.",
-            "Hinter dir schließt sich das Tal wie ein nasser Kragen. Vor dir liegen Türen, hinter denen jeder etwas verloren hat und nicht jeder bereit ist, es beim Namen zu nennen.",
-            "Du spürst die Blicke erst, als sie aufhören. Die Leute hier sehen Fremde nicht lange an. Sie wissen, dass man von Gesichtern allein nicht satt wird.",
-            "Am Brunnen schlägt ein Tropfen auf Stein. Dann noch einer. So beginnt in diesem Dorf vieles: nicht mit einem Ruf, sondern mit etwas, das nicht aufhört."
+            "Hinter dir schließt sich das Tal wie ein nasser Kragen. Die Kälte legt sich dir an den Nacken, drückt, lässt nicht locker. Vor dir liegen Türen, hinter denen jeder etwas verloren hat und nicht jeder bereit ist, es beim Namen zu nennen. Die Angeln sind rostig. Das Holz ist aufgequollen. Irgendwo schlägt das Mühlrad gegen das Wasser, dumpf, gleichmäßig, ein Gewicht, das sich nicht beschleunigen lässt.",
+            "Du spürst die Blicke erst, als sie aufhören. Die Leute hier sehen Fremde nicht lange an. Sie wissen, dass man von Gesichtern allein nicht satt wird. Ein Mund spuckt neben den Randstein. Der Geruch von alter Brühe und kaltem Fett hängt kurz in der Luft und zerreißt im Wind vom Wasser.",
+            "Am Brunnen schlägt ein Tropfen auf Stein. Hell, scharf. Dann noch einer. Das Wasser ist so kalt, dass der Laut wie ein kleiner Schlag sitzt. So beginnt in diesem Dorf vieles: nicht mit einem Ruf, sondern mit etwas, das nicht aufhört."
           ],
           "choices": [
             "Weiter"

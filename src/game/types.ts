@@ -159,6 +159,7 @@ export type Held = {
   effekte: EffektId[];
   mal: string;
   entscheidungen: Entscheidung[];
+  karten: string[];
   tageszeit: Tageszeit;
   spieltag: number;
 };
@@ -277,6 +278,7 @@ export function createHeld(name: string, staerke: number, geschick: number, char
     effekte: [],
     mal: "",
     entscheidungen: [],
+    karten: [],
     tageszeit: "daemmerung",
     spieltag: 1,
   };
@@ -288,6 +290,7 @@ export function cloneHeld(held: Held): Held {
     inventar: [...held.inventar],
     effekte: [...(held.effekte ?? [])],
     entscheidungen: [...(held.entscheidungen ?? [])],
+    karten: [...(held.karten ?? [])],
   };
 }
 

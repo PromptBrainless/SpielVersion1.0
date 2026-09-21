@@ -1,13 +1,22 @@
-import { Dices, PenLine } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Dices, PenLine, RotateCcw, Undo2 } from "lucide-react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ART, PORTRAITS, artSrcFor, isMotion, portraitSrcFor } from "@/game/art";
 import { probeZeile } from "@/game/gm/probeZeile";
 import type { KartePatch } from "@/game/welt";
-import type { EffektId, SceneView } from "@/game/types";
+import type { EffektId, ProbeResult, SceneView } from "@/game/types";
 import { leseTageszeit, tageszeitSchleier, type Tageszeit } from "@/game/tageszeit";
 import { useEinstellungen } from "@/game/use-einstellungen";
 import { spieleKlang } from "@/game/klang";
+import {
+  AnfassRahmen,
+  KastenBild,
+  KastenPortrait,
+  KastenProbe,
+  KastenText,
+  KastenWahl,
+  KastenZustande,
+} from "./Anfassen";
 import { Hud } from "./Hud";
 import { KnowledgeJournal } from "./KnowledgeJournal";
 import { LageOverlay } from "./LageOverlay";
@@ -30,13 +39,13 @@ export function SceneStage({
   onResetKarte,
   authorMode,
   onEffekt,
-  onHerkunft,
-  onLageVorlegen,
+  onLageVorlegen: _onLageVorlegen,
   lageIndex,
   onLageAntwort,
   onLageSchliessen,
   onRueckgaengig,
   onTageszeit,
+  onProbe,
   wissenAnzahl,
   weltAnzahl,
   weltPunkt,
@@ -65,6 +74,7 @@ export function SceneStage({
   onLageSchliessen: () => void;
   onRueckgaengig: () => void;
   onTageszeit?: (zeit: Tageszeit) => void;
+  onProbe?: (ergebnis: ProbeResult) => void;
   wissenAnzahl: number;
   weltAnzahl: number;
   weltPunkt: boolean;
@@ -74,51 +84,31 @@ export function SceneStage({
     lines: original.lines,
     choices: original.choices,
   };
-  const [title, setTitle] = useState(view.title);
-  const [body, setBody] = useState(view.lines.join("\n"));
-  const [choices, setChoices] = useState(view.choices);
-  const [status, setStatus] = useState<string | null>(null);
   const { spiel } = useEinstellungen();
-
-  useEffect(() => {
-    setTitle(view.title);
-    setBody(view.lines.join("\n"));
-    setChoices(view.choices);
-    setStatus(null);
-  }, [view.textKey, view.title, view.lines, view.choices]);
+  const an = authorMode && leiterOpen;
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
       if (leiterOpen) return;
       const target = event.target as HTMLElement | null;
-      if (target && (target.tagName === "TEXTAREA" || target.tagName === "INPUT")) return;
+      if (target && (target.tagName === "TEXTAREA" || target.tagName === "INPUT" || target.tagName === "SELECT")) return;
       const n = Number(event.key);
       if (spiel.ziffernwahl && n >= 1 && n <= view.choices.length) onChoose(n - 1);
-      if (event.key === "Enter" && view.choices.length === 1 && !authorMode) onChoose(0);
+      if (event.key === "Enter" && view.choices.length === 1 && !an) onChoose(0);
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [authorMode, leiterOpen, onChoose, spiel.ziffernwahl, view.choices.length]);
+  }, [an, leiterOpen, onChoose, spiel.ziffernwahl, view.choices.length]);
 
-  function remember() {
-    const lines = body
-      .split("\n")
-      .map((line) => line.trimEnd())
-      .filter((line, i, all) => line.length > 0 || i < all.length - 1);
-    const nextChoices = choices.map((label, i) => label.trim() || karte.choices[i]);
-    onPatch({
-      ...patch,
-      title: title.trim() || karte.title,
-      lines: lines.length ? lines : karte.lines,
-      choices: nextChoices,
-    });
-    setStatus("gemerkt (Auflage)");
+  function merke(teil: KartePatch) {
+    onPatch({ ...patch, ...teil });
   }
 
   const hintergrund = artSrcFor(view.art, view.artSrc);
   const hintergrundPoster = ART[view.art];
   const portrait = portraitSrcFor(view.portrait, view.portraitSrc);
   const portraitPoster = view.portrait ? PORTRAITS[view.portrait] : undefined;
+  const wahlen = patch.choices ?? view.choices;
 
   return (
     <div className="relative isolate min-h-dvh bg-bg text-fg">
@@ -144,81 +134,78 @@ export function SceneStage({
       ) : null}
 
       <figure className="relative m-0">
-        <div className="buehne vignette koernung relative w-full overflow-hidden bg-surface">
-          <StageMedia
-            src={hintergrund}
-            poster={hintergrundPoster}
-            kenBurns={!isMotion(hintergrund)}
-            className="size-full object-cover"
-          />
-          {view.held ? (
-            <div
-              className={`buehne-schleier pointer-events-none absolute inset-0 ${tageszeitSchleier(leseTageszeit(view.held))}`}
-              aria-hidden
-            />
-          ) : null}
-          {portrait ? (
+        <AnfassRahmen
+          an={an}
+          name="Bild"
+          lage="links"
+          kasten={() => <KastenBild art={view.art} artSrc={view.artSrc} onPatch={merke} />}
+        >
+          <div className="buehne vignette koernung relative w-full overflow-hidden bg-surface">
             <StageMedia
-              src={portrait}
-              poster={portraitPoster}
-              className="herein absolute bottom-3 right-3 z-[2] h-28 w-20 rounded-lg border border-border object-cover shadow-lg sm:h-36 sm:w-24"
+              src={hintergrund}
+              poster={hintergrundPoster}
+              kenBurns={!isMotion(hintergrund)}
+              className="size-full object-cover"
             />
-          ) : null}
-        </div>
+            {view.held ? (
+              <div
+                className={`buehne-schleier pointer-events-none absolute inset-0 ${tageszeitSchleier(leseTageszeit(view.held))}`}
+                aria-hidden
+              />
+            ) : null}
+            <div className="absolute bottom-3 right-3 z-[2]">
+              <AnfassRahmen
+                an={an}
+                name="Portrait"
+                kasten={() => (
+                  <KastenPortrait portrait={view.portrait} portraitSrc={view.portraitSrc} onPatch={merke} />
+                )}
+              >
+                {portrait ? (
+                  <StageMedia
+                    src={portrait}
+                    poster={portraitPoster}
+                    className="herein h-28 w-20 rounded-lg border border-border object-cover shadow-lg sm:h-36 sm:w-24"
+                  />
+                ) : an ? (
+                  <div className="flex h-28 w-20 items-center justify-center rounded-lg border border-dashed border-border bg-ink/50 text-[10px] text-muted-fg sm:h-36 sm:w-24">
+                    Portrait
+                  </div>
+                ) : null}
+              </AnfassRahmen>
+            </div>
+          </div>
+        </AnfassRahmen>
         <figcaption className="border-y border-border bg-ink">
           <div key={view.textKey} className="mx-auto max-w-3xl px-3 py-4 sm:px-6 sm:py-5">
-            {authorMode ? (
-              <div className="mb-3 flex items-center gap-2 text-xs text-muted-fg">
+            {an ? (
+              <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-muted-fg">
                 <PenLine className="size-3.5 text-accent" aria-hidden />
-                Welt offen. Zeilen gelten als Auflage in diesem Browser.
+                Welt offen. Stift greift die Bühne, merkt Auflage.
+                {schluessel ? <span className="text-fg/80">· {schluessel}</span> : null}
+                <Button type="button" variant="ghost" className="h-8 px-2 text-xs" onClick={onRueckgaengig}>
+                  <Undo2 className="size-3.5" aria-hidden />
+                  Zurück
+                </Button>
+                <Button type="button" variant="ghost" className="h-8 px-2 text-xs" onClick={onResetKarte}>
+                  <RotateCcw className="size-3.5" aria-hidden />
+                  Kanon
+                </Button>
               </div>
             ) : null}
-            {authorMode ? (
-              <input
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                onBlur={remember}
-                className="mb-3 w-full rounded-sm border border-border bg-surface px-2 py-1 font-display text-xl font-semibold tracking-tight text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-2xl"
-                aria-label="Kartentitel"
-              />
-            ) : (
+
+            <AnfassRahmen
+              an={an}
+              name="Text"
+              lage="unten"
+              kasten={() => <KastenText title={view.title} lines={view.lines} onPatch={merke} />}
+            >
               <h2
                 className="tafel-zeile mb-3 font-display text-xl font-semibold tracking-tight sm:text-2xl"
                 style={{ ["--i" as string]: 0 }}
               >
                 {view.title}
               </h2>
-            )}
-
-            {view.probe ? (
-              <div
-                className="mb-3 flex items-start gap-2 rounded-md border border-border bg-surface/80 px-3 py-2 text-sm"
-                role="status"
-                aria-live="polite"
-              >
-                <Dices className="wuerfel-zittern mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
-                <div>
-                  <p className="tabular-nums">
-                    Probe{view.probe.beschreibung ? ` (${view.probe.beschreibung})` : ""}
-                    {spiel.probeErklaeren ? `: ${probeZeile(view.probe)}` : ""}
-                  </p>
-                  <p className={view.probe.erfolg ? "text-ok" : "text-hp"}>
-                    {view.probe.erfolg ? "Erfolg." : "Misserfolg."}
-                  </p>
-                </div>
-              </div>
-            ) : null}
-
-            {authorMode ? (
-              <textarea
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
-                onBlur={remember}
-                rows={Math.max(4, view.lines.length + 1)}
-                className="w-full resize-y rounded-sm border border-border bg-ink/70 px-3 py-2 text-sm leading-relaxed text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-base"
-                aria-label="Kartentext"
-              />
-            ) : (
               <div className="space-y-2.5 text-sm leading-relaxed text-fg sm:text-base">
                 {view.lines.map((line, index) => (
                   <p
@@ -230,7 +217,62 @@ export function SceneStage({
                   </p>
                 ))}
               </div>
-            )}
+            </AnfassRahmen>
+
+            <div className="mt-3">
+              <AnfassRahmen
+                an={an}
+                name="Probe"
+                lage="unten"
+                kasten={() =>
+                  onProbe ? <KastenProbe held={view.held} vorhanden={view.probe} onProbe={onProbe} /> : <p className="text-sm text-muted-fg">Keine Probe.</p>
+                }
+              >
+                {view.probe ? (
+                  <div
+                    className="mb-1 flex items-start gap-2 rounded-md border border-border bg-surface/80 px-3 py-2 text-sm"
+                    role="status"
+                    aria-live="polite"
+                  >
+                    <Dices className="wuerfel-zittern mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
+                    <div>
+                      <p className="tabular-nums">
+                        Probe{view.probe.beschreibung ? ` (${view.probe.beschreibung})` : ""}
+                        {spiel.probeErklaeren ? `: ${probeZeile(view.probe)}` : ""}
+                      </p>
+                      <p className={view.probe.erfolg ? "text-ok" : "text-hp"}>
+                        {view.probe.erfolg ? "Erfolg." : "Misserfolg."}
+                      </p>
+                    </div>
+                  </div>
+                ) : an ? (
+                  <p className="text-xs text-muted-fg">Keine Probe auf dieser Karte. Stift legt eine.</p>
+                ) : null}
+              </AnfassRahmen>
+            </div>
+
+            {an ? (
+              <div className="mt-3">
+                <AnfassRahmen
+                  an
+                  name="Zustände"
+                  lage="unten"
+                  kasten={() => (
+                    <KastenZustande
+                      gibt={(patch.effekte as EffektId[] | undefined) ?? []}
+                      nimmt={(patch.effekteFort as EffektId[] | undefined) ?? []}
+                      heldEffekte={view.held?.effekte ?? []}
+                      tageszeit={view.held ? leseTageszeit(view.held) : undefined}
+                      onPatch={merke}
+                      onEffekt={onEffekt}
+                      onTageszeit={onTageszeit}
+                    />
+                  )}
+                >
+                  <p className="text-xs text-muted-fg">Gunst, Last, Tageszeit — Stift.</p>
+                </AnfassRahmen>
+              </div>
+            ) : null}
 
             {view.log?.length ? (
               <div className="mt-3 space-y-1 text-sm text-accent">
@@ -245,58 +287,44 @@ export function SceneStage({
                 Ende: {view.ending}
               </p>
             ) : null}
-
-            {authorMode && status ? <p className="mt-3 text-sm text-accent">{status}</p> : null}
           </div>
         </figcaption>
       </figure>
 
       <div className="safe-bottom relative z-10 mx-auto grid max-w-3xl gap-2 px-3 py-3 sm:px-6 sm:py-4">
-        {authorMode
-          ? karte.choices.map((label, index) => (
-              <div key={`edit-${index}`} className="flex items-center gap-2">
-                <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-xs border border-border text-xs text-muted-fg tabular-nums">
+        {view.choices.map((label, index) => (
+          <div key={`${index}-${label}`} className="flex items-stretch gap-2">
+            {an ? (
+              <AnfassRahmen
+                an
+                name={`Wahl ${index + 1}`}
+                lage="unten"
+                kasten={() => (
+                  <KastenWahl index={index} label={wahlen[index] ?? label} kanon={karte.choices} alle={wahlen} onPatch={merke} />
+                )}
+              >
+                <span className="inline-flex size-9 items-center justify-center rounded-xs border border-border text-xs text-muted-fg tabular-nums">
                   {index + 1}
                 </span>
-                <input
-                  value={choices[index] ?? label}
-                  onChange={(e) => {
-                    const next = [...choices];
-                    next[index] = e.target.value;
-                    setChoices(next);
-                  }}
-                  onBlur={remember}
-                  className="h-11 min-w-0 flex-1 rounded-sm border border-border bg-ink/70 px-3 text-sm text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  aria-label={`Wahl ${index + 1}`}
-                />
-                <Button
-                  variant="choice"
-                  size="choice"
-                  className="w-auto shrink-0 px-3"
-                  onClick={() => onChoose(index)}
-                >
-                  Gehen
-                </Button>
-              </div>
-            ))
-          : view.choices.map((label, index) => (
-              <Button
-                key={`${index}-${label}`}
-                variant="choice"
-                size="choice"
-                className="wahlfeld tafel-zeile"
-                style={{ ["--i" as string]: Math.min(index + 2, 9) }}
-                onPointerEnter={() => spieleKlang("zeiger")}
-                onClick={() => onChoose(index)}
-              >
-                {spiel.tastenhinweise ? (
-                  <span className="wahl-ziffer mr-2 inline-flex size-6 shrink-0 items-center justify-center rounded-xs border border-border text-xs text-muted-fg tabular-nums">
-                    {index + 1}
-                  </span>
-                ) : null}
-                {label}
-              </Button>
-            ))}
+              </AnfassRahmen>
+            ) : null}
+            <Button
+              variant="choice"
+              size="choice"
+              className="wahlfeld tafel-zeile min-w-0 flex-1"
+              style={{ ["--i" as string]: Math.min(index + 2, 9) }}
+              onPointerEnter={() => spieleKlang("zeiger")}
+              onClick={() => onChoose(index)}
+            >
+              {spiel.tastenhinweise ? (
+                <span className="wahl-ziffer mr-2 inline-flex size-6 shrink-0 items-center justify-center rounded-xs border border-border text-xs text-muted-fg tabular-nums">
+                  {index + 1}
+                </span>
+              ) : null}
+              {wahlen[index] ?? label}
+            </Button>
+          </div>
+        ))}
       </div>
 
       {lageIndex !== null ? (

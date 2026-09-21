@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Runtime } from "@/game/runtime";
 import { spielen } from "@/game/script";
-import { ART, LAGEN_ART, PORTRAITS } from "@/game/art";
+import { ART, LAGEN_ART, PORTRAITS, artSrcFor } from "@/game/art";
 import { cloneHeld, type EffektId, type Held, type SceneView } from "@/game/types";
 import {
   hasSavedGame,
@@ -30,9 +30,11 @@ import {
   type KartePatch,
 } from "@/game/welt";
 import { deriveKnowledge } from "@/game/knowledge";
+import { neueQuest, neuesWissen, questGeschichte, wissenFokus, type FokusEintrag } from "@/game/fokus";
 import { loadFilePack } from "@/game/text-pack";
 import { introAlsSzene } from "@/game/content";
 import { CreateHero } from "./CreateHero";
+import { Fokus } from "./Fokus";
 import { RulesScreen } from "./RulesScreen";
 import { SceneStage } from "./SceneStage";
 import { TitleScreen } from "./TitleScreen";
@@ -72,9 +74,11 @@ export function GameApp() {
   const [patch, setPatch] = useState<KartePatch>({});
   const [schluessel, setSchluessel] = useState("");
   const [lageIndex, setLageIndex] = useState<number | null>(null);
+  const [fokus, setFokus] = useState<FokusEintrag[]>([]);
   const runtimeRef = useRef<Runtime | null>(null);
   const liveRef = useRef<Held | null>(null);
   const kartenFortRef = useRef<EffektId[]>([]);
+  const fokusStand = useRef<{ bereit: boolean; src?: string; held?: Held | null }>({ bereit: false });
 
   const refreshSaves = useCallback(() => {
     setSlots(listSavedGames());
@@ -141,6 +145,44 @@ export function GameApp() {
     }
     spieleKlang("seite");
   }, [mode, szenenKey]);
+
+  useEffect(() => {
+    if (mode !== "play") {
+      fokusStand.current = { bereit: false };
+      setFokus([]);
+    }
+  }, [mode]);
+
+  useEffect(() => {
+    if (mode !== "play" || !view) return;
+    const src = artSrcFor(view.art, view.artSrc);
+    const stand = fokusStand.current;
+    if (!stand.bereit) {
+      fokusStand.current = { bereit: true, src, held: view.held ? cloneHeld(view.held) : null };
+      setFokus([{ art: "bild", src, titel: view.title }]);
+      return;
+    }
+    if (leiterOpen) {
+      fokusStand.current = { bereit: true, src, held: view.held ? cloneHeld(view.held) : null };
+      return;
+    }
+    const queue: FokusEintrag[] = [];
+    if (src !== stand.src) queue.push({ art: "bild", src, titel: view.title });
+    if (view.held) {
+      queue.push(...wissenFokus(neuesWissen(stand.held, view.held)));
+      const quest = neueQuest(stand.held, view.held);
+      if (quest) {
+        const geschichte = questGeschichte(quest.quest, quest.wert);
+        if (geschichte) queue.push(geschichte);
+      }
+    }
+    fokusStand.current = { bereit: true, src, held: view.held ? cloneHeld(view.held) : null };
+    if (queue.length) {
+      if (queue.some((item) => item.art === "wissen")) spieleKlang("oeffnen");
+      if (queue.some((item) => item.art === "quest")) spieleKlang("ende");
+      setFokus((alt) => [...alt, ...queue]);
+    }
+  }, [leiterOpen, mode, view]);
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
@@ -307,6 +349,10 @@ export function GameApp() {
     const restored = rueckgaengigAuflage(schluessel);
     if (restored) setPatch(restored);
   }, [schluessel]);
+
+  const fokusWeiter = useCallback(() => {
+    setFokus((rest) => rest.slice(1));
+  }, []);
 
   const onEffekt = useCallback((id: EffektId, an: boolean) => {
     const live = liveRef.current;
@@ -512,11 +558,15 @@ export function GameApp() {
         onResetKarte={onResetKarte}
         onRueckgaengig={onRueckgaengig}
         authorMode={leiterOpen}
-        wissenAnzahl={shown.held ? deriveKnowledge(shown.held).size : 0}
+        wissenAnzahl={shown.held ? (shown.held.karten?.length || deriveKnowledge(shown.held).size) : 0}
         weltAnzahl={anzahlAuflagen()}
         weltPunkt={!auflageLeer(kartenPatch)}
         onEffekt={onEffekt}
         onTageszeit={onTageszeit}
+        onProbe={(ergebnis) => {
+          spieleKlang(ergebnis.erfolg ? "erfolg" : "misserfolg");
+          setView((current) => (current ? { ...current, probe: ergebnis } : current));
+        }}
         onHerkunft={onHerkunft}
         onLageVorlegen={onLageVorlegen}
         lageIndex={lageIndex}
@@ -526,6 +576,7 @@ export function GameApp() {
         }}
         onLageSchliessen={() => setLageIndex(null)}
       />
+      {fokus[0] ? <Fokus eintrag={fokus[0]} onWeiter={fokusWeiter} /> : null}
       {welt}
       {login}
       {system}

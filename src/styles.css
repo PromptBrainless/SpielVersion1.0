@@ -327,6 +327,31 @@ html[data-bewegung="wenig"] .koernung::before {
   }
 }
 
+@keyframes bild-fokus {
+  0% {
+    transform: scale(1.16);
+    filter: brightness(0.55);
+  }
+  40% {
+    transform: scale(1.03);
+    filter: brightness(1);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+.bild-fokus {
+  animation: bild-fokus 2.1s var(--ease-out) both;
+  transform-origin: 50% 42%;
+}
+
+html[data-bewegung="aus"] .bild-fokus,
+html[data-bewegung="wenig"] .bild-fokus {
+  animation-duration: 0.8s;
+}
+
 .ken-burns {
   animation: ken-burns 48s var(--ease-out) alternate infinite;
   transform-origin: 52% 38%;

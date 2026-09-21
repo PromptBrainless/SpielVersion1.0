@@ -61,9 +61,10 @@
           "art": "chapel",
           "portrait": "beggar",
           "lines": [
-            "„In einer Woche kommt die Baumannschaft. Vahl hat im Rat verkündet, hinter der Gerberei stehe ein Lagerhaus. Als wäre da nie etwas gewesen.“",
-            "Fenn sagt es ohne Klage. Klage wäre schon Politik. Er hält das Holz, als sei es der letzte Zeuge, der noch keinen Sitz im Rat braucht.",
-            "„Trotzdem muss einer zuhören, bevor sie Bretter über die Gasse legen.“ Die Füße bleiben im Wasser. Das Wasser bleibt in der Mulde."
+            "Du hast deinen Platz so gewählt, dass die Kirchentür dich nicht trifft, wenn sie aufschlägt — eine Berechnung, die nur ein Mensch anstellt, der diesen Platz nicht zum ersten Mal einnimmt. Die Dämmerung liegt schwer auf dem nassen Dach der Steinkapelle, und der Geruch von nassem Stein und fauligem Moos drückt dir in die Nase, kalt, erdig, mit dem metallischen Beigeschmack von altem Eisen im Mörtel. Wasser sickert in dünnen Fäden über die Kante und tropft neben deinem Ohr auf den Boden, regelmäßig wie ein schwacher Puls.",
+            "Der Stein unter dir ist abgewetzt zu einer sanften Mulde, genau von der Form, die ein Körper über viele, viele Winter hinterlässt. Dein Gewicht sinkt hinein, die Kälte greift durch Hose und Haut bis in die Hüfte, zäh und bleiern, und die Mulde nimmt dich auf, als hätte sie schon lange auf genau dieses Maß gewartet. Die Kirchmauer im Rücken ist rau, fleckig von dunklen Flechten, die sich wie vertrocknete Wunden über die Blöcke ziehen; jeder Atemzug reibt deine Schultern daran, und du spürst das feine Abschaben, das Gewicht deines eigenen Körpers, das den Stein weiter aushöhlt.",
+            "Wer hier sitzt, sitzt nicht zum ersten Mal, und er sitzt auch nicht zum zehnten. Die Kälte hat sich in die Gelenke gesetzt, ein dumpfer Druck hinter den Knien, und der nasse Geruch steigt weiter, mischt sich mit dem schwachen Hauch von verrottetem Laub, der unter der Mauer hervorquillt.",
+            "„Weißt du, warum dort niemand mehr geht?“ Du stellst die Frage, ohne eine Antwort zu erwarten, als wäre die Frage selbst schon die halbe Last, die du abzugeben hattest. Der Dampf deines Atems hängt einen Moment vor dem Gesicht, dann reißt ihn die Dämmerung weg, und du bleibst in der Mulde sitzen, schwer, kalt, mit dem Stein, der dich hält."
           ],
           "choices": [
             "Weiter"
@@ -183,9 +184,13 @@
           "art": "chapel",
           "portrait": null,
           "lines": [
-            "Unter der Kirche ist es nicht heilig. Es ist trocken genug für Papier und nass genug, dass niemand lange bleibt, der nicht muss.",
-            "Ein Gewölbebogen trägt Kerben, abgezählt, nicht verziert. Ilse Brandtner hat hier gearbeitet, und Arbeit dieser Art braucht keine Kerzenweihe.",
-            "Irgendwo tropft es. Der Tropfen hält den Takt für ein Dorf, das oben so tut, als gäbe es diesen Takt nicht."
+            "Die Kirche steht kälter als der Platz. Kerzenwachs ist an den Bänken heruntergelaufen und wieder hart geworden.",
+            "Die Treppe zum Gewölbe liegt hinter einem Vorhang, den niemand zur Seite schiebt. Der Stoff ist dunkel genug, dass man ihn für eine Wand halten kann.",
+            "Unten am Platz hat jemand Gretes Stimme gehört. Oben steht der Pfarrer steifer als sonst.",
+            "Der Küster hat dich einmal gesehen. Die Tür quietscht, und der Riegel sitzt einen Fingerbreit fester.",
+            "Unten liegen die, die man ohne Namen begräbt. Oben redet niemand davon.",
+            "Der Pfarrer hat das Silber gesehen, das du trägst. Er sieht dich anders an als die, die nur fragen.",
+            "Der Pfarrer steht am Altar und tut, als gehörte die Treppe nicht zu seiner Kirche."
           ],
           "choices": [
             "Weiter"

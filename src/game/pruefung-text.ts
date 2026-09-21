@@ -28,6 +28,13 @@ export function zeilenMass(lines: string[]) {
   };
 }
 
+export function vergleichProsa(spiel: number, kanon: number, grenze = KURZ_GRENZE) {
+  return {
+    verschoben: kanon >= grenze && spiel + 40 < kanon,
+    kurz: spiel < grenze,
+  };
+}
+
 export function pruefeSzeneText(
   szene: { id: string; title: string; lines?: string[] },
   quest = "",

@@ -1,4 +1,5 @@
 import { HEILTRANK, createHeld, type EffektId, type Held } from "./types";
+import lagenStimme from "./json/lagen-stimme.json";
 
 export type HerkunftArt = "gnade" | "ordnung" | "nutzen";
 
@@ -19,7 +20,7 @@ export type HerkunftFrage = {
   antworten: HerkunftAntwort[];
 };
 
-export const HERKUNFT_FRAGEN: HerkunftFrage[] = [
+export const HERKUNFT_ROH: HerkunftFrage[] = [
   {
     id: "soldateska",
     titel: "Die Soldateska",
@@ -324,6 +325,30 @@ export const HERKUNFT_FRAGEN: HerkunftFrage[] = [
     ],
   },
 ];
+
+type StimmeLage = {
+  id: string;
+  titel: string;
+  geschichte: string[];
+  antworten: { label: string; mal: string }[];
+};
+
+function lageAusStimme(frage: HerkunftFrage): HerkunftFrage {
+  const extra = (lagenStimme as StimmeLage[]).find((item) => item.id === frage.id);
+  if (!extra?.geschichte?.length) return frage;
+  return {
+    ...frage,
+    titel: extra.titel?.trim() || frage.titel,
+    geschichte: extra.geschichte.map((z) => z.trim()).filter(Boolean),
+    antworten: frage.antworten.map((antwort, index) => ({
+      ...antwort,
+      label: extra.antworten[index]?.label?.trim() || antwort.label,
+      mal: extra.antworten[index]?.mal?.trim() || antwort.mal,
+    })),
+  };
+}
+
+export const HERKUNFT_FRAGEN: HerkunftFrage[] = HERKUNFT_ROH.map(lageAusStimme);
 
 export type HerkunftPatch = {
   titel?: string;

@@ -1,5 +1,5 @@
 import { EFFEKTE, heldEffekte, werteMitEffekt } from "../effekte";
-import { knowledgeLabels } from "../knowledge";
+import { szeneSicht } from "../json/baum";
 import { MAX_LP, type Held } from "../types";
 import { leseSpieltag, leseTageszeit } from "../tageszeit";
 import type { PlayerHudState } from "./GmToolTypes";
@@ -31,6 +31,6 @@ export function mapHeldToPlayerHud(held: Held): PlayerHudState {
     tageszeit: leseTageszeit(held),
     spieltag: leseSpieltag(held),
     lebend: held.lebend,
-    wissen: knowledgeLabels(held).sicher,
+    wissen: (held.karten ?? []).map((id) => szeneSicht(id)?.title ?? id).filter(Boolean),
   };
 }

@@ -18,7 +18,9 @@
           "lines": [
             "Du stehst jetzt mitten in Lindendorf. Der Platz ist klein genug, dass jedes Gespräch einen Zeugen findet.",
             "Vor dir liegen Rathaus, Taverne, Brunnen, die Mühle und der Weg zum Hang.",
-            "Aus dem Osten steigt Rauch. Dort liegt der alte Steinbruch."
+            "Aus dem Osten steigt Rauch. Dort liegt der alte Steinbruch.",
+            "Noch weißt du nicht, wem du glauben kannst. Du weißt nur, wo du anfangen kannst.",
+            "Der Regen hat aufgehört, aber das Wasser läuft weiter von den Dächern. Es sammelt sich in den Rillen des Platzes und trägt Stroh, Asche und etwas Dunkles zum Abfluss."
           ],
           "choices": [
             "Weiter"
@@ -38,9 +40,7 @@
           "art": "townhall",
           "portrait": "holm",
           "lines": [
-            "Im Rathaus hängt der Geruch von nassem Tuch und altem Wachs. Holm sitzt hinter einem Tisch, der zu groß ist für die wenigen Papiere darauf, und zu klein für alles, was er nicht aufschreibt.",
-            "Er sieht dich an, wie man jemanden ansieht, der eine Rechnung bringen könnte. Die Hände bleiben auf dem Holz, flach, als könne Bewegung schon ein Geständnis sein.",
-            "Hinter ihm klebt an der Wand dasselbe rote Wachs wie am Hang, hier alt und unversehrt. Holm folgt deinem Blick nicht. Er weiß, was dort hängt."
+            "Du stehst im holzvertäfelten Kontor und spürst, wie die Kälte vom Boden durch die Sohlen kriecht. Kerzen flackern über den Papieren, Ruß hängt in der Luft und legt sich bitter auf die Zunge. Holm sitzt dir gegenüber, die Hände flach auf dem Tisch, als wöge er etwas Unsichtbares ab. Du kannst den Auftrag einfach annehmen — oder ihn dir verdienen. Hinter Holm tickt eine Uhr, obwohl du keine siehst. Jeder Schlag klingt wie ein weiterer Sack Mehl, der im Steinbruch verschwindet. Das Holz der Vertäfelung riecht nach altem Wachs und feuchtem Staub. Die Papiere rascheln leise, wenn ein Luftzug die Flammen zerrt. Holms Blick bleibt schwer auf dir liegen, ohne Eile, ohne Wärme. Du spürst das Gewicht der Entscheidung in den Schultern, kalt und greifbar wie nasse Wolle. Die Kerzen tropfen, Wachs erstarrt am Rand der Leuchter. Wieder der Schlag. Wieder der Sack, der fällt und vergeht. Du atmest den Geruch von Tinte und kaltem Holz und wartest."
           ],
           "choices": [
             "Weiter"
@@ -97,9 +97,12 @@
           "art": "smithy",
           "portrait": "smith",
           "lines": [
-            "Der Schmied hebt den Hammer nicht, nur weil du in der Tür stehst. Die Esse glimmt, nicht hell. Er hat gelernt, Feuer klein zu halten, wenn Kohle teurer ist als Stolz.",
-            "„Wenn du Eisen willst, sag, was es aushalten muss“, sagt er, ohne dich anzusehen. „Wenn du reden willst, die Apotheke ist nebenan. Dort werden Sätze abgewogen.“",
-            "An der Wand hängen Messer, deren Schneiden blank sind und deren Griffe dunkel vom Schweiß anderer Hände. Keins sieht aus, als warte es auf ein Fest."
+            "Hinter dem Haus schlägt jemand auf Eisen, das den Schlag nicht mehr verdient.",
+            "Der Schmied hält eine stumpfe Hacke gegen das Licht.",
+            "„Damit gräbt man keinen Steinbruch frei. Damit macht man nur Lärm.“",
+            "Die Esse glimmt schwach. Auf dem Kohlehaufen liegt eine Decke, damit der Regen nicht nimmt, was das Dorf noch wärmen kann.",
+            "An der Wand hängen drei unbeschlagene Hufeisen. Im Stall nebenan steht kein Pferd.",
+            "Der Schmied trägt eine Lederschürze voller heller Schnitte. „Eisen ist nicht knapp“, sagt er. „Zeit ist knapp. Kohle ist knapp. Hände sind knapp.“"
           ],
           "choices": [
             "Weiter"
@@ -111,9 +114,12 @@
           "art": "apothecary",
           "portrait": "kern",
           "lines": [
-            "Kern hat die Ärmel hochgekrempelt. Auf der Waage liegt eine Mischung, die sie schon kennt, und trotzdem prüft sie das Gewicht, als könne sich das Kraut nachts verändert haben.",
-            "„Wenn du hustest, bleib unten am Brunnen nicht stehen“, sagt sie. „Wenn du nicht hustest, bleib trotzdem nicht. Das Wasser nimmt sich, wen es kriegt.“",
-            "Unter den Zetteln an der Wand sind Namen, die du vom Platz her kennst. Frische Tinte. Häuser nah am Brunnen."
+            "Witwe Kern hat ihre Apotheke geöffnet, obwohl niemand hereinkommt.",
+            "Eine Schublade klemmt. Darauf liegt ein sauber gefaltetes Tuch.",
+            "„Der Restbestand ist kleiner geworden“, sagt sie. „Nicht durch Verkauf.“",
+            "An den Wänden hängen Bündel aus Schafgarbe, Wacholder und dunklen Blättern, deren Namen du nicht kennst. Unter jedem Bündel steht mit Kohle ein Datum.",
+            "Kern trägt die Ärmel hochgekrempelt. Auf ihren Unterarmen liegen alte Brandnarben. Ihre Hände riechen nach Alkohol und Eisen.",
+            "„Verband verschwindet nicht allein“, sagt sie. „Und wer ihn stiehlt, rechnet mit Wunden.“"
           ],
           "choices": [
             "Weiter"

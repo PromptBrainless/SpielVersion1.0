@@ -1,6 +1,6 @@
 import { applyPatch, fingerprint, lookupPatch } from "./text-pack";
 import { PORTRAITS } from "./art";
-import { fundFuerSzene } from "./json/baum";
+import { fundFuerSzene, zeilenAusKanon } from "./json/baum";
 import { loesePortrait } from "./portrait";
 import { sprecherAusZeilen } from "./sprecher";
 import { cloneHeld, type ArtKey, type EffektId, type Held, type PortraitKey, type SceneView } from "./types";
@@ -73,6 +73,10 @@ export class Runtime {
     const ort = ortZustand(art);
     if (input.held) {
       synchronisiereLog(input.held, gefunden.id);
+      if (gefunden.id) {
+        if (!input.held.karten) input.held.karten = [];
+        if (!input.held.karten.includes(gefunden.id)) input.held.karten.push(gefunden.id);
+      }
       if (input.art && input.art !== vorherArt) {
         wendeOrtWechselAn(input.held, vorherArt, input.art);
       }
@@ -82,7 +86,7 @@ export class Runtime {
 
     const original = {
       title: input.title ?? this.lastTitle,
-      lines: input.lines,
+      lines: zeilenAusKanon(gefunden.id, input.title ?? this.lastTitle, input.lines),
       choices: input.choices ?? ["Weiter"],
     };
     const shown = applyPatch(original, lookupPatch(original));

@@ -282,27 +282,38 @@ export const QUESTS_ROH: QuestJson[] = [
   ]),
 ];
 
+const KI_ALIAS: Record<string, string> = {
+  "dorf-hub": "lindendorf",
+  "sanna-botin": "sanna-die-botin",
+  "bei-witwe-kern-dorf": "bei-witwe-kern",
+  "am-brunnen": "brunnen-hub",
+};
+
+function zeichen(lines?: string[]) {
+  return (lines ?? []).map((z) => z.trim()).filter(Boolean).join(" ").length;
+}
+
 function extraFuer(id: string): Volltext | undefined {
-  const ki = (kiAuflagen as Record<string, Volltext>)[id];
-  if (ki?.lines?.length) return ki;
-  return VOLLTEXTE[id];
+  const roh = kiAuflagen as Record<string, Volltext>;
+  const namen = [id, KI_ALIAS[id]].filter((n): n is string => Boolean(n));
+  const pool: Volltext[] = [];
+  for (const name of namen) {
+    if (roh[name]?.lines?.length) pool.push(roh[name]!);
+    if (VOLLTEXTE[name]?.lines?.length) pool.push(VOLLTEXTE[name]!);
+  }
+  if (!pool.length) return undefined;
+  return pool.reduce((best, item) => (zeichen(item.lines) > zeichen(best.lines) ? item : best));
 }
 
 function anreichern(szene: SzeneJson): SzeneJson {
   const extra = extraFuer(szene.id);
   if (!extra) return szene;
-  const ki = Boolean((kiAuflagen as Record<string, Volltext>)[szene.id]?.lines?.length);
-  const chars = (szene.lines ?? []).join(" ").trim().length;
-  if (!ki && chars >= 160) {
-    if (extra.portrait) return { ...szene, portrait: extra.portrait };
-    return szene;
-  }
+  const nimmText = Boolean(extra.lines?.length && zeichen(extra.lines) > zeichen(szene.lines));
   return {
     ...szene,
     title: extra.title ?? szene.title,
     art: extra.art ?? szene.art,
-    lines: extra.lines,
-    choices: extra.choices?.length ? extra.choices : szene.choices,
+    lines: nimmText ? extra.lines! : szene.lines,
     portrait: extra.portrait || szene.portrait,
   };
 }
@@ -335,6 +346,46 @@ export function fundFuerSzene(id?: string, titel?: string) {
   if (id && SZENE_INDEX.has(id)) return SZENE_INDEX.get(id)!;
   if (titel && TITEL_INDEX.has(titel)) return TITEL_INDEX.get(titel)!;
   return null;
+}
+
+/** Längste hinterlegte Vollform zu dieser Karte — ohne present()-Kurztext. */
+export function kanonZeilen(id?: string, titel?: string): string[] | undefined {
+  const extra = id ? extraFuer(id) : undefined;
+  const fund = fundFuerSzene(id, titel);
+  const fundExtra = fund?.szene.id && fund.szene.id !== id ? extraFuer(fund.szene.id) : undefined;
+  const kandidaten = [extra?.lines, fundExtra?.lines, fund?.szene.lines].filter((z): z is string[] => Boolean(z?.length));
+  if (!kandidaten.length) return undefined;
+  return kandidaten.reduce((best, z) => (zeichen(z) > zeichen(best) ? z : best));
+}
+
+/** Spieltext: Kanon/Vollform, wenn sie länger ist als der present()-Satz. Dynamische Zeilen bleiben hinten. */
+export function zeilenAusKanon(id: string | undefined, titel: string | undefined, fallback: string[]): string[] {
+  const kanon = kanonZeilen(id, titel);
+  if (!kanon?.length || zeichen(kanon) <= zeichen(fallback)) return fallback;
+  const blob = kanon.join("\n");
+  const extraZeilen = fallback.filter((zeile) => {
+    const kopf = zeile.trim().slice(0, 48);
+    return kopf.length >= 24 && !blob.includes(kopf);
+  });
+  return extraZeilen.length ? [...kanon, ...extraZeilen] : kanon;
+}
+
+export function szeneSicht(id: string): { id: string; title: string; art: string; lines: string[] } | null {
+  const lines = kanonZeilen(id);
+  if (!lines?.length) return null;
+  const extra = extraFuer(id);
+  const fund = fundFuerSzene(id);
+  return {
+    id,
+    title: extra?.title || fund?.szene.title || id,
+    art: extra?.art || fund?.szene.art || "village",
+    lines,
+  };
+}
+
+export function alleKanonIds(): string[] {
+  const roh = kiAuflagen as Record<string, Volltext>;
+  return [...new Set([...SZENE_INDEX.keys(), ...Object.keys(roh)])];
 }
 
 export function jsonDerSzene(id?: string, titel?: string) {

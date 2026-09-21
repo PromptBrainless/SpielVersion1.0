@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { istStichpunkt, pruefeSzeneBild, pruefeSzeneText, zeilenMass } from "./pruefung-text.ts";
+import { istStichpunkt, pruefeSzeneBild, pruefeSzeneText, vergleichProsa, zeilenMass } from "./pruefung-text.ts";
 
 describe("zeilenMass", () => {
   it("erkennt leere Szenen", () => {
@@ -57,5 +57,18 @@ describe("pruefeSzeneBild", () => {
   it("erlaubt fehlendes Porträt", () => {
     const mangel = pruefeSzeneBild({ id: "x", title: "X", art: "mill", portrait: null }, art, portraits);
     assert.equal(mangel.length, 0);
+  });
+});
+
+describe("vergleichProsa", () => {
+  it("erkennt Text, der im Spiel kürzer ist als der Kanon", () => {
+    const v = vergleichProsa(120, 900);
+    assert.equal(v.verschoben, true);
+    assert.equal(v.kurz, true);
+  });
+  it("lässt gebundene Vollform durch", () => {
+    const v = vergleichProsa(1265, 1265);
+    assert.equal(v.verschoben, false);
+    assert.equal(v.kurz, false);
   });
 });

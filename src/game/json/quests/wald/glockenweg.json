@@ -54,9 +54,10 @@
       "art": "chapel",
       "portrait": null,
       "lines": [
-        "Die Kapellenglocke ist klein und trotzdem das lauteste, was dieser Hang besitzt, wenn jemand sie bewegt.",
-        "Das Seil ist neuer als das Holz. Jemand pflegt das Zeichen, nicht die Kapelle. Unten im Steinbruch wartet man auf genau dieses Zeichen, oder man fürchtet es.",
-        "Wer die Glocke stillhält, stiehlt niemandem Silber. Er stiehlt einer Warnung die Stimme."
+        "Die Glocke ist klein. Ihr Ton wäre es nicht.",
+        "Das Seil wurde an einer Stelle neu geknotet. Jemand benutzt sie regelmäßig.",
+        "Der Knoten besteht aus drei verschiedenen Fasern: Hanf, roter Wolle und etwas, das unter deinen Fingern kalt bleibt, obwohl es trocken ist.",
+        "Auf der Innenseite der Glocke sind Namen eingeritzt. Einige wurden abgeschabt. Der letzte ist noch lesbar: kein Name, nur ein Datum."
       ],
       "choices": [
         "Weiter"

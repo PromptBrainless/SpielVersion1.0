@@ -25,9 +25,12 @@
       "art": "smithy",
       "portrait": "smith",
       "lines": [
-        "Der Schmied hebt den Hammer nicht, nur weil du in der Tür stehst. Die Esse glimmt, nicht hell. Er hat gelernt, Feuer klein zu halten, wenn Kohle teurer ist als Stolz.",
-        "„Wenn du Eisen willst, sag, was es aushalten muss“, sagt er, ohne dich anzusehen. „Wenn du reden willst, die Apotheke ist nebenan. Dort werden Sätze abgewogen.“",
-        "An der Wand hängen Messer, deren Schneiden blank sind und deren Griffe dunkel vom Schweiß anderer Hände. Keins sieht aus, als warte es auf ein Fest."
+        "Hinter dem Haus schlägt jemand auf Eisen, das den Schlag nicht mehr verdient.",
+        "Der Schmied hält eine stumpfe Hacke gegen das Licht.",
+        "„Damit gräbt man keinen Steinbruch frei. Damit macht man nur Lärm.“",
+        "Die Esse glimmt schwach. Auf dem Kohlehaufen liegt eine Decke, damit der Regen nicht nimmt, was das Dorf noch wärmen kann.",
+        "An der Wand hängen drei unbeschlagene Hufeisen. Im Stall nebenan steht kein Pferd.",
+        "Der Schmied trägt eine Lederschürze voller heller Schnitte. „Eisen ist nicht knapp“, sagt er. „Zeit ist knapp. Kohle ist knapp. Hände sind knapp.“"
       ],
       "choices": [
         "Weiter"
@@ -39,9 +42,12 @@
       "art": "apothecary",
       "portrait": "kern",
       "lines": [
-        "Kern hat die Ärmel hochgekrempelt. Auf der Waage liegt eine Mischung, die sie schon kennt, und trotzdem prüft sie das Gewicht, als könne sich das Kraut nachts verändert haben.",
-        "„Wenn du hustest, bleib unten am Brunnen nicht stehen“, sagt sie. „Wenn du nicht hustest, bleib trotzdem nicht. Das Wasser nimmt sich, wen es kriegt.“",
-        "Unter den Zetteln an der Wand sind Namen, die du vom Platz her kennst. Frische Tinte. Häuser nah am Brunnen."
+        "Witwe Kern hat ihre Apotheke geöffnet, obwohl niemand hereinkommt.",
+        "Eine Schublade klemmt. Darauf liegt ein sauber gefaltetes Tuch.",
+        "„Der Restbestand ist kleiner geworden“, sagt sie. „Nicht durch Verkauf.“",
+        "An den Wänden hängen Bündel aus Schafgarbe, Wacholder und dunklen Blättern, deren Namen du nicht kennst. Unter jedem Bündel steht mit Kohle ein Datum.",
+        "Kern trägt die Ärmel hochgekrempelt. Auf ihren Unterarmen liegen alte Brandnarben. Ihre Hände riechen nach Alkohol und Eisen.",
+        "„Verband verschwindet nicht allein“, sagt sie. „Und wer ihn stiehlt, rechnet mit Wunden.“"
       ],
       "choices": [
         "Weiter"

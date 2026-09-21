@@ -1,20 +1,128 @@
-import { KNOWLEDGE_META, deriveKnowledge, knowledgeLabels, type KnowledgeKey } from "./knowledge";
+import { ART } from "./art";
+import { szeneSicht } from "./json/baum";
+import { deriveKnowledge, knowledgeLabels, type KnowledgeKey } from "./knowledge";
 import type { ArtKey, Held } from "./types";
 
 export type WissenTafel = {
   id: string;
   title: string;
-  art: ArtKey;
+  bild: string;
   offen: boolean;
   lines: string[];
 };
 
-const ART_FUER = {
-  material: "evidence",
-  sozial: "townhall",
-  ort: "village",
-  übernatürlich: "chapel",
-} as const satisfies Record<string, ArtKey>;
+export const WISSEN_BILD: Record<KnowledgeKey, string> = {
+  dorf_ankunft: "/art/wissen/dorf_ankunft.jpg",
+  artefakt_gesehen: "/art/wissen/artefakt_gesehen.jpg",
+  artefakt_erhalten: "/art/wissen/artefakt_erhalten.jpg",
+  holm_besucht: "/art/wissen/holm_besucht.jpg",
+  auftrag_erhalten: "/art/wissen/auftrag_erhalten.jpg",
+  banditen_bekannt: "/art/wissen/banditen_bekannt.jpg",
+  rotes_siegel_gesehen: "/art/wissen/rotes_siegel_gesehen.jpg",
+  hang_hinweis: "/art/wissen/hang_hinweis.jpg",
+  glockenweg_bekannt: "/art/wissen/glockenweg_bekannt.jpg",
+  glocke_vorteil: "/art/wissen/glocke_vorteil.jpg",
+  banditen_gewarnt: "/art/wissen/banditen_gewarnt.jpg",
+  muehle_stillstand: "/art/wissen/muehle_stillstand.jpg",
+  renniks_druck: "/art/wissen/renniks_druck.jpg",
+  fluechtlinge_muehle: "/art/wissen/fluechtlinge_muehle.jpg",
+  wasser_truebung: "/art/wissen/wasser_truebung.jpg",
+  grovin_zisterne: "/art/wissen/grovin_zisterne.jpg",
+  dennek_schuld: "/art/wissen/dennek_schuld.jpg",
+  versorgung_muster: "/art/wissen/versorgung_muster.jpg",
+  gasse_leer: "/art/wissen/gasse_leer.jpg",
+  kesseljahr: "/art/wissen/kesseljahr.jpg",
+  ilses_liste: "/art/wissen/ilses_liste.jpg",
+};
+
+const OFFEN_BILD = "/art/wissen/offen.jpg";
+
+export function wissenBildFuer(id: string, art?: string) {
+  const szene = `/art/wissen/${id}.jpg`;
+  if (WISSEN_SZENE.has(id)) return szene;
+  const key = id as KnowledgeKey;
+  if (key in WISSEN_BILD) return WISSEN_BILD[key];
+  if (art && art in ART) return ART[art as ArtKey];
+  return ART.village;
+}
+
+/** Wird nach dem Ablegen der Tafeln gefüllt — siehe public/art/wissen. */
+export const WISSEN_SZENE = new Set<string>([
+  "ablaufgraben",
+  "an-der-zisterne",
+  "bei-witwe-kern",
+  "bei-witwe-kern-dorf",
+  "beim-schmied",
+  "bertok-am-mahlwerk",
+  "brunnen-hub",
+  "brunnen-krug",
+  "brunnen-und-dorfplatz",
+  "brunnenschacht",
+  "der-fremde-am-weg",
+  "die-kapellenglocke",
+  "dorf-platz",
+  "ein-name-unter-vielen",
+  "ein-zweites-schweigen",
+  "ende",
+  "fenn",
+  "fenn-an-der-kirchmauer",
+  "gasse-hub",
+  "gasse-kirche",
+  "gerbereigasse",
+  "glockenweg",
+  "graben",
+  "grete",
+  "gretes-kate",
+  "grovins-zisterne",
+  "hinter-dem-brunnen",
+  "hinter-dem-stein",
+  "hinter-der-nische",
+  "hinter-der-taverne",
+  "im-gewoelbe",
+  "intro-ankunft",
+  "intro-fremder-am-weg",
+  "intro-hang",
+  "intro-lindendorf",
+  "intro-tal",
+  "intro-weg",
+  "jorren-im-geroell",
+  "kirchengewoelbe",
+  "klares-wasser",
+  "kornkammer",
+  "lager-hub",
+  "lager-kampf",
+  "lager-reden",
+  "lager-schleich",
+  "lager-tor",
+  "lagerhaus-am-fluss",
+  "lene-in-der-kornkammer",
+  "lindendorf",
+  "mehl-mit-rauen-haenden",
+  "morscher-steg",
+  "muehle-hub",
+  "muehle-stumm",
+  "rathaus",
+  "ratsherr-dennek",
+  "ratsherr-vahl",
+  "renniks-kontor",
+  "sanna-botin",
+  "sanna-die-botin",
+  "schmiede-apotheke",
+  "sicheres-mehl-leere-blicke",
+  "stille-rechnung",
+  "stilles-mehl",
+  "uferpfad",
+  "unter-der-kirche",
+  "vahls-stube",
+  "vahls-stube-abend",
+  "wald",
+  "was-ausgegraben-bleibt",
+  "was-die-liste-wiegt",
+  "wasser-mit-einem-riss",
+  "wasserrad",
+  "zum-letzten-fass",
+  "zwei-brunnen-ein-dorf"
+]);
 
 const INNERES: Record<KnowledgeKey, string[]> = {
   dorf_ankunft: [
@@ -103,25 +211,48 @@ const INNERES: Record<KnowledgeKey, string[]> = {
   ],
 };
 
+export function szeneTafelFuer(id: string): WissenTafel | null {
+  const sicht = szeneSicht(id);
+  if (!sicht) return null;
+  return {
+    id: sicht.id,
+    title: sicht.title,
+    bild: wissenBildFuer(sicht.id, sicht.art),
+    offen: false,
+    lines: sicht.lines,
+  };
+}
+
+export function wissenTafelFuer(key: KnowledgeKey): WissenTafel {
+  const lines = INNERES[key];
+  return {
+    id: key,
+    title: lines[0] ?? "",
+    bild: WISSEN_BILD[key],
+    offen: false,
+    lines,
+  };
+}
+
 export function wissenTafeln(held: Held): WissenTafel[] {
-  const wissen = deriveKnowledge(held);
-  const labels = knowledgeLabels(held);
   const tafeln: WissenTafel[] = [];
-  for (const key of wissen) {
-    const meta = KNOWLEDGE_META[key];
-    tafeln.push({
-      id: key,
-      title: meta.label,
-      art: ART_FUER[meta.typ],
-      offen: false,
-      lines: INNERES[key],
-    });
+  const gesehen = new Set<string>();
+  for (const id of held.karten ?? []) {
+    const tafel = szeneTafelFuer(id);
+    if (!tafel || gesehen.has(tafel.id)) continue;
+    gesehen.add(tafel.id);
+    tafeln.push(tafel);
   }
-  labels.offen.forEach((frage, index) => {
+  if (!tafeln.length) {
+    for (const key of deriveKnowledge(held)) {
+      tafeln.push(wissenTafelFuer(key));
+    }
+  }
+  knowledgeLabels(held).offen.forEach((frage, index) => {
     tafeln.push({
       id: `offen-${index}`,
-      title: "Was offen bleibt",
-      art: "evidence",
+      title: frage,
+      bild: OFFEN_BILD,
       offen: true,
       lines: [
         frage,
