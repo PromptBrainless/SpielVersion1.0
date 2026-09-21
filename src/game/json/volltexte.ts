@@ -57,7 +57,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "bertok-am-mahlwerk": {
-    portrait: null,
+    portrait: "miller",
     lines: [
       "Bertok prüft das Mahlwerk, obwohl es längst justiert ist. Der Stein ist kalt. Er sagt das mit den Schultern, nicht mit dem Mund.",
       "„Kein Mehl heute. Kein Mehl seit zwei Wochen.“ Er sagt es, bevor du fragst, als könne eine Frage ihn zwingen, einen Namen auszusprechen.",
@@ -73,7 +73,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "lene-in-der-kornkammer": {
-    portrait: "miller",
+    portrait: "lene",
     lines: [
       "Lene zählt, als könnte Zählen eine Tür verschließen. Am Brunnen nennt man sie die Müllerin. Hier ist sie jemand, der nicht will, dass du die hintere Wand ansiehst.",
       "Ihre Finger bleiben an einem Sack hängen, der hohl klingt. Sie hat Bertoks Stimme gehört, oder sie tut so. Seither redet sie, als läge in jedem Satz ein Preis.",
@@ -117,6 +117,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "renniks-kontor": {
+    portrait: "rennik",
     lines: [
       "Im Kontor riecht es nach nassem Papier und Kupfer. Rennik wiegt nichts, während du da bist. Die Waage steht trotzdem bereit, als sei das Gespräch selbst eine Lieferung.",
       "„Getreide hat einen Preis“, sagt er. „Leute, die ihn nicht zahlen, sollen nicht so tun, als gehöre ihnen das Tal.“",
@@ -132,6 +133,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "mehl-mit-rauen-haenden": {
+    portrait: "miller",
     lines: [
       "Mehlstaub steht wieder in der Luft. Bertok bedankt sich knapp und schließt die Tür einen Spalt früher als nötig.",
       "Am Steg klebt noch etwas Dunkles am Holz. Der Regen holt es nicht ganz runter.",
@@ -155,6 +157,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "gasse-hub": {
+    portrait: "beggar",
     lines: [
       "Hinter der Gerberei liegt eine Gasse, die niemand mehr als Weg benutzt. Die Bretter an den Fenstern sind älter als die Ausreden, warum niemand dort wohnt.",
       "Fenn bleibt an der Mauer. Vahl sitzt irgendwo im Rathaus und rechnet mit Baumannschaft. Die Kirche hält die Schwelle nass.",
@@ -184,6 +187,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "vahls-stube": {
+    portrait: "vahl",
     lines: [
       "Vahls Stube im Rathaus ist wärmer als der Platz. Die Wärme kommt von einem Ofen, der mehr Holz verbraucht, als ein Ratsherr zugeben würde.",
       "Auf dem Tisch liegen Pläne, sauber, ohne die Gasse, als sei sie schon wegradiert. Ein Lineal liegt quer über Namen, die nicht mehr in der Tusche stehen.",
@@ -191,6 +195,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "ratsherr-vahl": {
+    portrait: "vahl",
     lines: [
       "Vahl lächelt, wie man lächelt, wenn man den Satz schon fertig hat. „Hinter der Gerberei liegt Ödland. Ödland wird nützlich, oder es bleibt eine offene Rechnung.“",
       "Er bietet dir keinen Stuhl. Stühle sind für Leute, die bleiben sollen. Du sollst verstehen und gehen.",
@@ -212,6 +217,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   grete: {
+    portrait: "grete",
     lines: [
       "Grete sieht dich nicht mit den Augen. Sie sieht dich an der Art, wie du die Schwelle nimmst, ob du sie abtrittst oder darüber nachdenkst.",
       "„Die Gasse hat Namen gehabt“, sagt sie. „Ilse hat sie aufgeschrieben, bevor der Rat beschlossen hat, dass Namen Unordnung sind.“",
@@ -247,6 +253,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "vahls-stube-abend": {
+    portrait: "vahl",
     lines: [
       "Abends ist Vahls Stube dunkler, und der Ofen zu warm für einen Mann, der behauptet, das Dorf habe kein Holz zu verschenken.",
       "Die Pläne liegen noch da. Das Lineal hat sich verschoben. Darunter kommt ein Name zum Vorschein, den die Tusche nicht ganz getilgt hat.",
@@ -254,6 +261,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "was-die-liste-wiegt": {
+    portrait: "vahl",
     lines: [
       "Die Liste wiegt wenig in der Hand und viel, sobald sie den Tisch berührt. Vahl sieht sie an, als könne Papier brennen, wenn man lange genug nicht blinzelt.",
       "„Das ist Unordnung“, sagt er. Unordnung heißt in diesem Mund: Zeugen.",
@@ -261,6 +269,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "ein-zweites-schweigen": {
+    portrait: "beggar",
     lines: [
       "Die Gasse bleibt leer, und die Bretter kommen trotzdem nicht. Holm hat den Bauplatz ruhen lassen. Die Liste liegt in einer Schublade, die nur er aufzieht.",
       "Ein zweites Schweigen ist nicht dasselbe wie das erste. Das erste war Angst. Das zweite ist eine Vereinbarung zwischen Leuten, die wissen, was in der Schublade liegt.",
@@ -268,6 +277,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "was-ausgegraben-bleibt": {
+    portrait: "vahl",
     lines: [
       "Was ausgegraben bleibt, bleibt nicht in der Erde. Der Rat hat Ilse Brandtners Liste gehört. Vahl hat seinen Sitz verloren, nicht seine Freunde.",
       "Die Gasse hat wieder einen Namen, den man nicht laut sagt, und trotzdem kennt ihn jetzt, wer Ohren hat.",
@@ -282,6 +292,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "stille-rechnung": {
+    portrait: "beggar",
     lines: [
       "Vahl hat die Baumannschaft abbestellt. Die Wahrheit bleibt zwischen euch, und zwischen euch ist ein Preis, der nicht in Holms Kasse steht.",
       "Stille Rechnung: die Gasse bleibt leer, Vahl bleibt sitzen, und du trägst etwas, das wie ein Siegel wirkt, nur ohne Wachs.",
@@ -289,6 +300,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "jorren-im-geroell": {
+    portrait: "jorren",
     lines: [
       "Jorren liegt im Geröll, als habe der Hang ihn ausgespuckt und es sich anders überlegt. Der Atem geht, flach. Salzstaub klebt an seinem Mund.",
       "Neben ihm eine Ledertasche, leer, der Riemen gerissen. Wer hier Salz trägt, trägt es nicht für die Küche. Er trägt es für Leute, die zahlen, ohne zu fragen, woher der weiße Staub kommt.",

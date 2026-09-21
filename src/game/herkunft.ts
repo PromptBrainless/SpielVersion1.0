@@ -24,29 +24,30 @@ export const HERKUNFT_FRAGEN: HerkunftFrage[] = [
     id: "soldateska",
     titel: "Die Soldateska",
     geschichte: [
-      "Der Schlamm hält die Stiefel fest, als du die Palisade erreichst. Hinter den Dächern steigt Rauch auf, der nicht nach Brot riecht. Die Söldner sind schon da. Ihr Anführer reitet auf einem gescheckten Gaul, ohne abzusteigen.",
-      "„Du bist der Älteste?“ Die Frage gilt dem, der antwortet. Deine Hand zuckt zum Messer. Eine dumme Geste. Die Finger kennen keine andere.",
-      "„Wir wissen, dass ihr Vorräte habt. Gebt sie her, und wir ziehen weiter. Versteckt sie — und wir nehmen sie uns. Mit Feuer.“ Hinter dir stehen Frauen, Kinder, Männer ohne Waffen. Die Angst hat keine andere Sprache.",
+      "Wenn ich mein Leben opfere, könnten die anderen entkommen, doch das Gewicht dieser Entscheidung drückt wie eine eiserne Last auf meine Brust. Der kalte Atem der Nacht kriecht in meine Lungen, während die Dunkelheit um uns herum wie eine hungrige Bestie lauert. Mein Herz pocht laut in der Stille, jeder Schlag ein Schlag gegen den Tod.",
+      "Einen Plan schmieden, Schwäche vortäuschen, einen Hinterhalt legen. Das Risiko frisst die Seele, doch das Schweigen der Angst ist noch furchtbarer. Flammen züngeln in den Schatten, die Dunkelheit ist mein Verbündeter, mein Feind. Nur Mut oder Wahnsinn können das Verderben bannen.",
+      "Was auch immer ich tue, es wird nur Blut und Asche hinterlassen. Die Zeit ist mein Feind, die Sekunden fallen wie Blätter, und in ihrem Schatten lauert der Tod. Vielleicht gibt es eine Flucht, eine Lücke im Dunkel, die nur ich nicht sehe. Der Tod ist schon hier, und das Warten wird zum Verhängnis.",
     ],
     antworten: [
       {
-        label: "Die Vorräte verraten. Das Dorf hier überlebt. Das nächste zahlt.",
-        art: "ordnung",
-        gold: 1,
-        effekte: ["erschoepfung"],
-        mal: "Vorräte hergibt, damit das Feuer woanders brennt",
+        label: "Ich muss Opfer bringen",
+        art: "gnade",
+        lp: -1,
+        effekte: ["motiviert"],
+        mal: "Ich stelle meinen Körper vor das Dorf, damit die anderen entkommen können. Mein Blut wird in den Staub sinken, während ich den Blick auf den Schatten richte, der alles verschlingt.",
       },
       {
-        label: "Lügen. Sagen, es gäbe nichts. Riskieren, dass beide Dörfer brennen.",
-        art: "nutzen",
-        effekte: ["furcht"],
-        mal: "lügt, wenn Söldner nach Mehl fragen",
-      },
-      {
-        label: "Sie an den Brunnen schicken. Das Wasser dort kennt schon Gift.",
+        label: "Ich plane den Hinterhalt",
         art: "nutzen",
         effekte: ["konzentriert"],
-        mal: "Söldner an einen Brunnen schickt, der nicht heilen soll",
+        mal: "Ich webe eine Falle aus Schatten und Feuer, auch wenn ich dafür mein Leben opfern muss. Das Risiko ist groß, doch das Dunkel verlangt Opfer.",
+      },
+      {
+        label: "Ich akzeptiere das Schicksal",
+        art: "ordnung",
+        gold: 1,
+        effekte: ["gelassen"],
+        mal: "Ich lege das Schicksal in die kalten Hände des Unvermeidlichen. Das Ende ist unausweichlich, doch ich werde im Schatten des Todes warten, bis es mich holt.",
       },
     ],
   },
@@ -54,29 +55,30 @@ export const HERKUNFT_FRAGEN: HerkunftFrage[] = [
     id: "feind",
     titel: "Der verwundete Feind",
     geschichte: [
-      "Er liegt im Graben vor dem Steinbruch, der Atem pfeift. Der Brustpanzer ist aufgerissen. Darunter eine Wunde, die nicht mehr geschlossen werden will. Am Umhang sitzt ein Zeichen, das nicht zu Lindendorf gehört.",
-      "Er sieht dich. Die Lippen bewegen sich. „Wasser.“ Am Gürtel hängt ein voller Schlauch. Das Messer ist schon in der Hand.",
+      "Der Pfeifton in der Brust ist das letzte Geräusch, das er hört. Das Blut tropft schwer auf den Boden, das Metall aufgerissen, die Wunde tobt im Inneren. Sein Atem ist flach, die Augen glasig, doch er sieht mich. Sein Blick ist wie ein Messer, das in meine Seele sticht.",
+      "Der Blick spricht mehr als Worte. Ein Flüstern, das kaum noch die Lippen verlässt, bittet um Wasser. Das Messer liegt in meiner Hand, kalt und schwer, wie der Tod selbst.",
+      "Plötzlich schießt mir das Blut durch die Adern, und ich habe die Wahl: Das Leben nehmen oder das Sterben beenden. Die Dunkelheit in seinem Blick ist schwerer als das Gewicht der Welt.",
     ],
     antworten: [
       {
-        label: "Ihm Wasser geben und die Wunde verbinden. Vielleicht kämpft er nie wieder.",
+        label: "Ich gebe Wasser",
         art: "gnade",
         lp: 1,
         effekte: ["traurig"],
-        mal: "einem Feind Wasser reicht, bevor er stirbt",
+        mal: "Ich gieße das letzte Wasser in seine trockenen Lippen, spüre die Bitterkeit des Moments. Das Leben ist ein zartes Band, das hier zerreißt, doch ich halte es fest, solange es noch besteht.",
       },
       {
-        label: "Ihm den Hals durchschneiden. Ein toter Feind zählt nicht mehr mit.",
+        label: "Ich durchtrenne das Herz",
         art: "ordnung",
         gold: 1,
         effekte: ["wunde"],
-        mal: "im Graben zu Ende bringt, was noch nach Wasser fragt",
+        mal: "Ich führe das Messer, das in meiner Hand liegt, und beende sein Leid. Es ist schwer, doch die Dunkelheit im Innern verlangt nach Erlösung, auch wenn sie blutig sein muss.",
       },
       {
-        label: "Ihn mitnehmen. Er arbeitet, bis er umfällt. Das Mehl wartet nicht.",
+        label: "Ich nehme ihn mit",
         art: "nutzen",
         effekte: ["erschoepfung"],
-        mal: "Verwundete mahlen lässt, solange sie stehen",
+        mal: "Ich hebe ihn auf, trage ihn auf meinen Schultern durch den Staub. Vielleicht verschlingt ihn die Nacht, bevor das Verderben ihn erreicht.",
       },
     ],
   },
@@ -84,28 +86,29 @@ export const HERKUNFT_FRAGEN: HerkunftFrage[] = [
     id: "ernte",
     titel: "Die gestohlene Ernte",
     geschichte: [
-      "Die Frau kniet im Staub hinter der Mühle. Drei Säcke, die nicht ihr gehören. Die Kinder halten sich an ihrem Rock, als könnte Stoff sättigen.",
-      "„Bitte“, sagt sie, ohne dich anzusehen. „Sie hungern.“ Die Strafe für Diebstahl kennt jeder: zuerst die Peitsche, beim zweiten Mal der Strick.",
+      "Die Frau kniet im Staub, die Hände voll mit drei Säcken. Der Schweiß läuft in dunklen Bahnen, die Augen sind leer, doch der Hunger brennt noch immer hell. Ihr Blick ist wie ein Messer, das in meine Seele schneidet.",
+      "Der Blick der Kinder ist wie Messer, die in die Seele stechen. Sie halten sich an ihrem Rücken fest, als könnten sie den Verstand im Stoff verstecken. Ihre kleinen Gesichter sind von Dreck und Verzweiflung gezeichnet.",
+      "Der Atem der Verzweiflung hängt schwer in der Luft. Das Mehl ist nur eine Waffe, der Hunger eine noch größere Bedrohung, und das Leben ein stummer Zeuge des Verfalls.",
     ],
     antworten: [
       {
-        label: "Sie melden. Die Strafe kommt. Die Ordnung bleibt.",
+        label: "Melde die Tat",
         art: "ordnung",
         effekte: ["konzentriert"],
-        mal: "Diebstahl anzeigt, weil das Mehl einen Herrn hat",
+        mal: "Ich kenne den Preis, doch ich spreche den Namen aus. Das Gesetz ist ein Messer, das alles zertrennt, doch die Ordnung muss sein, selbst wenn sie blutet.",
       },
       {
-        label: "Sie laufen lassen. Tun, als wäre der Staub leer gewesen.",
+        label: "Lass es sein",
         art: "gnade",
         effekte: ["gelassen"],
-        mal: "drei Säcke nicht gesehen hat",
+        mal: "Ich schließe die Augen, ignoriere das Leid. Der Hunger schreit in meinen Ohren, doch ich versuche, die Fassade der Kälte aufrechtzuerhalten.",
       },
       {
-        label: "Sie zwingen, für dich zu arbeiten. Das Leben hat einen Preis.",
+        label: "Zwinge zu Arbeit",
         art: "nutzen",
         gold: 1,
         effekte: ["wunde"],
-        mal: "Hunger in Arbeit umrechnet",
+        mal: "Ich zwinge sie zur Arbeit, die Hände in den Staub. Das Leben ist nur noch ein Kampf im Schatten der Verzweiflung.",
       },
     ],
   },
@@ -113,28 +116,29 @@ export const HERKUNFT_FRAGEN: HerkunftFrage[] = [
     id: "verraeter",
     titel: "Der Verräter",
     geschichte: [
-      "Er steht am Rand des Lagers, das Gesicht im Schatten der Bäume. Du hast ihn gesehen: den Boten, den Beutel, das Gold, das nicht aus diesem Tal stammt.",
-      "Er merkt dich. Die Augen werden groß. „Du verstehst das nicht. Meine Familie — sie haben sie.“ Er bricht ab. Du weißt, was folgt, wenn du den Namen laut sagst.",
+      "Er steht im Schatten, verborgen in der Dunkelheit, das Gesicht wie eine Maske aus Blut und Dreck. Das Gold in seiner Hand leuchtet kalt im Mondlicht, doch seine Augen sind voll Angst.",
+      "Er weiß, dass sein Geheimnis brennt. Die Stimme zittert, doch die Worte sind scharf wie Messer. Er spricht von Familie, doch sein Herz schlägt für den Verrat.",
+      "Der Blick auf ihn ist wie ein Urteil, so schwer wie das Eisen seiner Ketten. Das Blut in den Adern gefroren, während die Dunkelheit ihn verschlingt.",
     ],
     antworten: [
       {
-        label: "Ihn melden. Er hängt. Der Verrat endet mit ihm.",
+        label: "Melde ihn",
         art: "ordnung",
         effekte: ["motiviert"],
-        mal: "Namen nennt, bevor das Gold ihn kauft",
+        mal: "Ich nenne die Namen, ziehe die Ketten ab, und lasse das Gesetz der Dunkelheit walten. Der Verräter wird gehängt.",
       },
       {
-        label: "Ihn decken. Vielleicht ändert er sich. Vielleicht nicht.",
+        label: "Deckung geben",
         art: "gnade",
         effekte: ["furcht"],
-        mal: "Verrat zudeckt, weil jemand eine Familie hat",
+        mal: "Ich unterstütze ihn im Schatten, seine Flucht, während die Rache wie ein Messer in meinem Herz sitzt.",
       },
       {
-        label: "Ihn erpressen. Fortan arbeitet er für dich, gegen dieselben Leute.",
+        label: "Erpressen",
         art: "nutzen",
         gold: 2,
         effekte: ["erschoepfung"],
-        mal: "Verrat in eine zweite Rechnung verwandelt",
+        mal: "Ich zwinge ihn, für mich zu arbeiten, seine Familie im Blick. Das Gold zerfrisst seine Seele.",
       },
     ],
   },
@@ -142,28 +146,29 @@ export const HERKUNFT_FRAGEN: HerkunftFrage[] = [
     id: "brot",
     titel: "Die letzte Fuhre",
     geschichte: [
-      "Der Karren knarrt. Die Räder saufen im Schlamm. Darunter liegt das Brot für Lindendorf, das seit Tagen ohne Mehl kocht. Vor dir sitzen Kinder, ausgezehrt, die Augen zu groß für ihre Gesichter.",
-      "Eine alte Frau steht auf. „Wir haben seit Tagen nichts. Sie können nicht weiter.“ Wenn du verteilst, kommt das Dorf zu spät. Wenn du fährst, bleiben diese hier im Dreck.",
+      "Der Karren ächzt unter der Last, die Räder versinken im Schlamm. Das Brot ist die letzte Hoffnung, doch es ist nur noch ein Hauch von Mehl, der im Staub verpufft.",
+      "Die Kinder sitzen ausgemergelt, die Augen wie schwarze Löcher. Der Dreck klebt an ihren Gesichtern, als wären sie Teil des Bodens. Ihr Schweigen ist schwerer als das Gewicht der Welt.",
+      "Der Atem ist schwer, der Blick leer. Das Leben hängt an einem seidenen Faden, gespannt zwischen Tod und Überleben, während das Brot im Staub zerbricht.",
     ],
     antworten: [
       {
-        label: "Das Brot verteilen. Die Kinder essen. Lindendorf wartet hungrig.",
+        label: "Verteile das Brot",
         art: "gnade",
         lp: -1,
         effekte: ["hungrig"],
-        mal: "Brot an Kinder gibt, das einem anderen Dorf gehört",
+        mal: "Ich gebe den Kindern das letzte Brot, sehe das Leuchten in ihren Augen, während die Dämmerung naht.",
       },
       {
-        label: "Weiterfahren. Das Dorf bekommt, was auf dem Karren steht.",
+        label: "Weiterfahren",
         art: "ordnung",
         effekte: ["konzentriert"],
-        mal: "am Hunger vorbeifährt, weil ein Karren einen Auftrag hat",
+        mal: "Ich lasse das Brot im Korb, ignoriere den Hunger, und hoffe auf eine bessere Zukunft. Der Schatten des Todes wächst im Dämmerlicht.",
       },
       {
-        label: "Die Kinder mitnehmen. Wer geht, arbeitet. Wer bleibt, bleibt.",
+        label: "Kinder mitnehmen",
         art: "nutzen",
         effekte: ["erschoepfung"],
-        mal: "Kinder hinter einem Karren herlaufen lässt",
+        mal: "Ich hebe sie auf, trage sie durch den Staub, im Hoffen, dass das Leben noch eine Chance hat.",
       },
     ],
   },
@@ -171,28 +176,29 @@ export const HERKUNFT_FRAGEN: HerkunftFrage[] = [
     id: "seuche",
     titel: "Die Scheune",
     geschichte: [
-      "Die Scheune brennt nicht. Noch nicht. Die Schreie darin werden leiser. Du stehst vor der Tür, den Riegel in der Hand.",
-      "Drinnen die Kranken. Draußen die, die noch keinen Husten haben. Im Kesseljahr hat man eine Gasse so geschlossen. Das Fieber hat trotzdem den Platz geholt.",
+      "Die Scheune brennt nicht, noch nicht, doch die Schreie in ihrem Innern sind wie ein Hauch aus der Hölle. Das Fieber hat das Holz durchbohrt, die Krankheit breitet sich aus wie dunkle Tinte auf vergilbtem Papier.",
+      "Draußen stehen die Gesunden, die nur noch auf das Ende warten, während die Kranken im Rauch und Flammen verzweifeln. Das Fieber ist ihr König, der Tod ihr Herrscher.",
+      "Der Riegel knackt, die Tür ist nur noch ein Schatten. Das Feuer wird kommen, und mit ihm die endgültige Dunkelheit.",
     ],
     antworten: [
       {
-        label: "Die Tür öffnen und Hilfe holen. Einige könnten leben. Alle könnten krank werden.",
+        label: "Hilfe holen",
         art: "gnade",
         lp: -1,
         effekte: ["neugierig"],
-        mal: "eine Seuchentür öffnet, weil drinnen noch Stimmen sind",
+        mal: "Ich öffne die Tür, riskiere alles, um Leben zu retten. Das Fieber soll in die kalte Nacht getrieben werden.",
       },
       {
-        label: "Den Riegel lassen und gehen. Die Kranken sterben. Die anderen nicht.",
+        label: "Lass sie sterben",
         art: "ordnung",
         effekte: ["gelassen"],
-        mal: "eine Scheune schließt und weitergeht",
+        mal: "Ich lasse die Tür geschlossen, ignoriere das Leid, und hoffe, dass das Feuer alles verschlingt.",
       },
       {
-        label: "Die Scheune anzünden. Ein schnelles Ende. Kein Fieber auf dem Platz.",
+        label: "Brände legen",
         art: "nutzen",
         effekte: ["erschoepfung"],
-        mal: "Kranke mit der Scheune verbrennt, damit das Dorf atmet",
+        mal: "Ich zünde die Scheune an, lasse die Flammen alles verschlingen. Das Feuer bringt das Ende, und das Dorf atmet wieder auf.",
       },
     ],
   },
@@ -200,28 +206,29 @@ export const HERKUNFT_FRAGEN: HerkunftFrage[] = [
     id: "spion",
     titel: "Der Gefangene",
     geschichte: [
-      "Er ist an den Pfahl hinter der Schmiede gebunden. Das Gesicht ist eine Maske aus Blut und Dreck. In der Hand hast du die Laterne, nicht die Zange. Noch nicht.",
-      "„Ich sage nichts“, presst er hervor. Er kennt den Weg, den sie nachts nehmen. Wenn du ihn zum Reden bringst, weißt du ihn auch. Dann bist du jemand, der das getan hat.",
+      "An den Pfahl gebunden, das Gesicht wie eine Maske aus Blut und Dreck. Die Augen voller Angst, doch die Lippen verschlossen, schweigend im Schatten der Nacht.",
+      "Das Messer in meiner Hand ist wie ein kalter Schatten. Er kennt den Weg, doch seine Stimme ist erstickt im Staub.",
+      "Das Herz schlägt schwer, während ich zwischen Leben und Tod entscheide. Das Dunkel umgibt mich, schwerer als das Eisen, das ihn hält.",
     ],
     antworten: [
       {
-        label: "Ihn zum Reden bringen. Die Wahrheit kommt teuer. Du auch.",
+        label: "Zum Reden bringen",
         art: "nutzen",
         gold: 1,
         effekte: ["erschoepfung"],
-        mal: "aus einem Gefangenen holt, was der Mund nicht hergeben will",
+        mal: "Ich nenne die Namen, ziehe die Ketten ab, und lasse das Gesetz der Dunkelheit walten. Das Schweigen zerreiße ich, um die Wahrheit ans Licht zu bringen.",
       },
       {
-        label: "Ihn losbinden. Gnade ist eine Wette, die man selten gewinnt.",
+        label: "Ihn freilassen",
         art: "gnade",
         effekte: ["gelassen"],
-        mal: "einen Gefangenen losbindet und die Wette eingeht",
+        mal: "Ich unterstütze seine Flucht im Schatten, seine Schuld im Rücken. Vielleicht verschlingt das Dunkel ihn, bevor die Rache naht.",
       },
       {
-        label: "Ihn töten. Kein Risiko. Kein Weg. Kein Name mehr.",
+        label: "Töten",
         art: "ordnung",
         effekte: ["wunde"],
-        mal: "am Pfahl ein Ende macht, bevor Fragen teurer werden",
+        mal: "Ich treibe das Messer in seine Brust, bringe das Ende herbei. Das Schweigen wird zum letzten Urteil.",
       },
     ],
   },
@@ -229,28 +236,29 @@ export const HERKUNFT_FRAGEN: HerkunftFrage[] = [
     id: "waffe",
     titel: "Die letzte Waffe",
     geschichte: [
-      "Das Messer liegt zwischen euch im nassen Gras. Zwei Verwundete. Eine Klinge. Im Wald rufen Stimmen, die nicht zu euch gehören.",
-      "„Ich kann damit umgehen“, sagt der eine. „Ich halte noch“, sagt der andere. Du weißt, dass nur einer von ihnen den Morgen sieht.",
+      "Zwischen euch liegt das Messer, blutverschmiert, das Gras im nassen Tau. Zwei Verwundete, das Blut läuft wie Wasser, die Klinge glänzt im Licht des fahlen Mondes.",
+      "Der eine hält noch durch, der andere ist kaum noch bei Bewusstsein. Stimmen rufen im Wald, wie Geister, die zum Tod locken.",
+      "Nur einer wird den Morgen sehen, das ist sicher. Das Messer in meiner Hand ist der letzte Funke, das Ende oder das Erwachen im Schatten.",
     ],
     antworten: [
       {
-        label: "Dem Stärkeren geben. Er hat die bessere Rechnung.",
+        label: "Dem Stärkeren geben",
         art: "ordnung",
         effekte: ["motiviert"],
-        mal: "die letzte Klinge dem gibt, der noch stehen kann",
+        mal: "Ich gebe die letzte Klinge dem, der noch steht, im Blick das Überleben, während die Dunkelheit im Schatten lauert.",
       },
       {
-        label: "Dem Schwereren geben. Vielleicht ist es seine letzte Chance.",
+        label: "Dem Schwächeren geben",
         art: "gnade",
         lp: 1,
         effekte: ["traurig"],
-        mal: "die letzte Klinge dem in die Hand legt, der schon liegt",
+        mal: "Ich lege die Klinge in die Hand dessen, der schon liegt. Der Schatten verschlingt ihn im Dämmerlicht, aber die Chance bleibt seine.",
       },
       {
-        label: "Die Klinge zerbrechen. Niemand soll sie missbrauchen. Auch du nicht.",
+        label: "Zerbrechen",
         art: "nutzen",
         effekte: ["gelassen"],
-        mal: "eine Waffe zerbricht, bevor sie einen Herrn findet",
+        mal: "Ich zerbreche die Waffe, das letzte Streben nach Leben im Staub. Vielleicht verschwindet das Dunkel im Gras.",
       },
     ],
   },
@@ -258,28 +266,29 @@ export const HERKUNFT_FRAGEN: HerkunftFrage[] = [
     id: "burg",
     titel: "Vor dem Tor",
     geschichte: [
-      "Die Vorräte im Rathaus reichen für zwei Wochen, wenn niemand dazukommt. Vor dem Tor stehen Leute ohne Dorf, ohne Brot, mit Kindern, die nicht mehr schreien.",
-      "„Wir haben keinen Weg mehr“, sagt eine Frau. Hinter dir die Wache, müde, hungrig, aber noch in der Pflicht. Nimmst du sie auf, essen weniger von denen, die das Tor halten.",
+      "Die Vorräte im Rathaus sind nur noch ein Hauch, das Brot fehlt, doch vor dem Tor stehen hungrige Seelen, ohne Brot, mit Kindern, die im Dreck schreien. Das Tor ist eine Grenze zwischen Leben und Tod.",
+      "Die Wache steht müde, hungrig, doch in der Pflicht. Das Tor ist wie eine Klaue, die das Schicksal trennt. Wer hineinkommt, riskiert alles; wer draußen bleibt, verliert alles.",
+      "Das Schicksal liegt im Zwielicht der Entscheidung. Das Tor ist der letzte Schritt ins Unbekannte, in die Dunkelheit oder ins Licht.",
     ],
     antworten: [
       {
-        label: "Alle einlassen. Barmherzigkeit. Weniger für die, die wachen.",
+        label: "Alle einlassen",
         art: "gnade",
         lp: -1,
         effekte: ["zuversichtlich"],
-        mal: "das Tor aufmacht, obwohl das Brot nicht reicht",
+        mal: "Ich öffne das Tor, im Schatten der Barmherzigkeit. Das Leid der Hungrigen ist schwer, doch ich muss das Leben im Innern schützen, egal zu welchem Preis.",
       },
       {
-        label: "Abweisen. Die Wache überlebt. Die vor dem Tor nicht.",
+        label: "Abweisen",
         art: "ordnung",
         effekte: ["konzentriert"],
-        mal: "ein Tor geschlossen hält, weil Brot eine Zahl ist",
+        mal: "Ich verschließe das Tor, im Schatten der Pflicht. Das Leid bleibt draußen. Das Gesetz ist schwer, doch notwendig.",
       },
       {
-        label: "Nur Frauen und Kinder. Ein Schnitt, der sich gerecht anhört und es nicht ist.",
+        label: "Nur Frauen und Kinder",
         art: "nutzen",
         effekte: ["gelassen"],
-        mal: "Männer vor dem Tor lässt und die anderen zählt",
+        mal: "Ich lasse nur die Frauen und Kinder hinein, die Männer draußen im Schatten. Das ist Gerechtigkeit in einer Welt voller Dunkelheit.",
       },
     ],
   },
@@ -287,33 +296,68 @@ export const HERKUNFT_FRAGEN: HerkunftFrage[] = [
     id: "ausweg",
     titel: "Der letzte Ausweg",
     geschichte: [
-      "Der Feind ist nah. Pferde, Rufe, der nasse Wald. Eure Gruppe ist zu langsam. Einer muss zurückbleiben, sonst bleiben alle.",
-      "„Ich kann nicht mehr“, sagt der Verwundete. „Wir lassen niemanden“, sagt der, der führt. Du weißt, dass Führen hier nur eine Richtung hat: weg, oder gar nicht.",
+      "Der Feind ist nah, die Rufe im Wald, die Pferde trampeln im Schlamm. Einer bleibt zurück, um die Flucht zu sichern, damit andere entkommen.",
+      "Der Verwundete sinkt auf die Knie, sein Atem ist schwer, doch er weigert sich aufzugeben. Die Dunkelheit wächst im Schatten, während die Entscheidung schwer auf den Schultern lastet.",
+      "Das Los wird geworfen, das Schicksal entscheidet, wer im Nebel bleibt, während die Angst wie ein Messer in der Brust liegt.",
     ],
     antworten: [
       {
-        label: "Selbst zurückbleiben. Die anderen gehen. Du zählst den Wald.",
+        label: "Zurückbleiben",
         art: "gnade",
         lp: -1,
         inventar: [HEILTRANK],
         effekte: ["motiviert"],
-        mal: "zurückbleibt, damit andere den Wald verlassen",
+        mal: "Ich bleibe im Schatten, während die anderen fliehen. Mein Blut wird im Staub liegen, doch ich halte stand, bis das Dunkel mich verschlingt.",
       },
       {
-        label: "Den Verwundeten lassen. Er würde ohnehin nicht ankommen.",
+        label: "Den Verwundeten lassen",
         art: "ordnung",
         effekte: ["furcht"],
-        mal: "den Langsamsten im Wald lässt, weil Tempo eine Waffe ist",
+        mal: "Ich lasse ihn auf den Knien, gebe ihm den letzten Atemzug. Der Schatten verschlingt ihn, während die Flucht im Nebel verschwindet.",
       },
       {
-        label: "Auslosen. Das Los hat keine Meinung. Deshalb hält es.",
+        label: "Auslosen",
         art: "nutzen",
         effekte: ["gelassen"],
-        mal: "das Los werfen lässt, wenn niemand sterben will",
+        mal: "Das Los entscheidet, wer bleibt. Ich ziehe den Strick, während die Angst in meinen Knochen sitzt und der Schatten naht.",
       },
     ],
   },
 ];
+
+export type HerkunftPatch = {
+  titel?: string;
+  geschichte?: string[];
+  antworten?: { label?: string; mal?: string }[];
+};
+
+export function lageLeer(patch: HerkunftPatch | undefined) {
+  if (!patch) return true;
+  if (patch.titel?.trim()) return false;
+  if (patch.geschichte?.some((z) => z.trim())) return false;
+  if (patch.antworten?.some((a) => a.label?.trim() || a.mal?.trim())) return false;
+  return true;
+}
+
+export function mergenFrage(kanon: HerkunftFrage, patch?: HerkunftPatch): HerkunftFrage {
+  if (!patch || lageLeer(patch)) return kanon;
+  return {
+    ...kanon,
+    titel: patch.titel?.trim() || kanon.titel,
+    geschichte: patch.geschichte?.map((z) => z.trim()).filter(Boolean).length
+      ? patch.geschichte.map((z) => z.trim()).filter(Boolean)
+      : kanon.geschichte,
+    antworten: kanon.antworten.map((antwort, index) => ({
+      ...antwort,
+      label: patch.antworten?.[index]?.label?.trim() || antwort.label,
+      mal: patch.antworten?.[index]?.mal?.trim() || antwort.mal,
+    })),
+  };
+}
+
+export function mitLagen(lagen: Record<string, HerkunftPatch> | undefined): HerkunftFrage[] {
+  return HERKUNFT_FRAGEN.map((frage) => mergenFrage(frage, lagen?.[frage.id]));
+}
 
 function klemme(n: number, min = 1, max = 10) {
   return Math.max(min, Math.min(max, n));
@@ -347,25 +391,33 @@ export function legeHerkunftAufHeld(held: Held, antwort: HerkunftAntwort, maxMal
   }
 }
 
+function spiegelMal(male: string[], titel?: string) {
+  if (!male.length) return "";
+  const ich = male.every((mal) => /^ich\b/i.test(mal.trim()));
+  const satz = ich ? male.join(" ") : `Du bist jemand, der ${male.join(", der ")}.`;
+  return titel ? `Nach ${titel}: ${satz}` : satz;
+}
+
 export function wendeHerkunftAn(
   held: Held,
   frageIndex: number,
   antwortIndex: number,
+  fragen: HerkunftFrage[] = HERKUNFT_FRAGEN,
 ): { titel: string; antwort: HerkunftAntwort } | null {
-  const frage = HERKUNFT_FRAGEN[frageIndex];
+  const frage = fragen[frageIndex];
   const antwort = frage?.antworten[antwortIndex];
   if (!frage || !antwort) return null;
   legeHerkunftAufHeld(held, antwort, 3);
-  held.mal = `Nach ${frage.titel}: jemand, der ${antwort.mal}.`;
+  held.mal = spiegelMal([antwort.mal], frage.titel);
   return { titel: frage.titel, antwort };
 }
 
-export function baueHeldAusHerkunft(name: string, gewaehlt: number[]): Held {
+export function baueHeldAusHerkunft(name: string, gewaehlt: number[], fragen: HerkunftFrage[] = HERKUNFT_FRAGEN): Held {
   const held = createHeld(name, 10, 10, 10);
   const male: string[] = [];
   const arten: HerkunftArt[] = [];
   gewaehlt.forEach((index, frageIndex) => {
-    const frage = HERKUNFT_FRAGEN[frageIndex];
+    const frage = fragen[frageIndex];
     const antwort = frage?.antworten[index];
     if (!antwort) return;
     legeHerkunftAufHeld(held, antwort, 3);
@@ -373,9 +425,6 @@ export function baueHeldAusHerkunft(name: string, gewaehlt: number[]): Held {
     arten.push(antwort.art);
   });
   held.lp = klemme(held.lp, 4, 10);
-  const letzte = male.slice(-3);
-  held.mal = letzte.length
-    ? `${urteil(arten)} Du bist jemand, der ${letzte.join(", der ")}.`
-    : urteil(arten);
+  held.mal = `${urteil(arten)} ${spiegelMal(male.slice(-3))}`.trim();
   return held;
 }

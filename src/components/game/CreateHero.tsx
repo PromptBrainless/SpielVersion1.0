@@ -1,10 +1,12 @@
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ART } from "@/game/art";
+import { ART, lageBild } from "@/game/art";
 import { EFFEKTE, werteMitEffekt } from "@/game/effekte";
-import { HERKUNFT_FRAGEN, baueHeldAusHerkunft } from "@/game/herkunft";
+import { baueHeldAusHerkunft } from "@/game/herkunft";
+import { fasseEthik, SCHULE_NAME } from "@/game/ethik";
 import { peekSaveForName } from "@/game/save";
+import { sichtbareHerkunft } from "@/game/welt";
 import type { Held } from "@/game/types";
 
 export function CreateHero({
@@ -22,10 +24,12 @@ export function CreateHero({
   const [schritt, setSchritt] = useState(-1);
   const [antworten, setAntworten] = useState<number[]>([]);
 
-  const frage = schritt >= 0 ? HERKUNFT_FRAGEN[schritt] : undefined;
-  const fertig = schritt >= HERKUNFT_FRAGEN.length;
-  const held = fertig ? baueHeldAusHerkunft(name, antworten) : null;
+  const fragen = sichtbareHerkunft();
+  const frage = schritt >= 0 ? fragen[schritt] : undefined;
+  const fertig = schritt >= fragen.length;
+  const held = fertig ? baueHeldAusHerkunft(name, antworten, fragen) : null;
   const vorhandenerStand = useMemo(() => peekSaveForName(name), [name]);
+  const hintergrund = fertig ? ART.village : frage ? lageBild(frage.id) || ART.road : ART.road;
 
   function waehle(index: number) {
     const next = [...antworten.slice(0, schritt), index];
@@ -35,7 +39,7 @@ export function CreateHero({
 
   return (
     <div className="relative min-h-dvh overflow-x-hidden overflow-y-auto bg-bg text-fg">
-      <img src={fertig ? ART.village : ART.road} alt="" className="absolute inset-0 size-full object-cover" />
+      <img src={hintergrund} alt="" className="absolute inset-0 size-full object-cover grayscale" />
       <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/70 to-bg/35" />
       <div
         className={`safe-bottom relative z-10 mx-auto flex min-h-dvh max-w-xl flex-col px-5 py-8 ${
@@ -100,8 +104,13 @@ export function CreateHero({
           {frage ? (
             <>
               <p className="mt-1 text-xs text-muted-fg">
-                Geschichte {schritt + 1} von {HERKUNFT_FRAGEN.length}
+                Geschichte {schritt + 1} von {fragen.length}
               </p>
+              {lageBild(frage.id) ? (
+                <figure className="mt-3 overflow-hidden rounded-md border border-border">
+                  <img src={lageBild(frage.id)} alt="" className="h-44 w-full object-cover grayscale sm:h-56" />
+                </figure>
+              ) : null}
               <div className="mt-3 space-y-2.5 text-sm leading-relaxed text-fg sm:text-base">
                 {frage.geschichte.map((absatz) => (
                   <p key={absatz.slice(0, 28)}>{absatz}</p>
@@ -133,6 +142,16 @@ export function CreateHero({
           {held ? (
             <>
               <p className="mt-3 text-sm leading-relaxed text-fg/90">{held.mal}</p>
+              {(() => {
+                const lesung = fasseEthik(fragen, antworten);
+                return (
+                  <div className="mt-3 rounded-md border border-border bg-surface/70 px-3 py-2">
+                    <p className="text-xs uppercase tracking-wide text-muted-fg">Ethik · {SCHULE_NAME[lesung.haupt]}</p>
+                    <p className="mt-1 text-sm leading-relaxed">{lesung.satz}</p>
+                    {lesung.stand ? <p className="mt-1 text-xs text-muted-fg">{lesung.stand}</p> : null}
+                  </div>
+                );
+              })()}
               {(() => {
                 const werte = werteMitEffekt(held);
                 return (

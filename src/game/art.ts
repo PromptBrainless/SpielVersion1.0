@@ -35,11 +35,15 @@ export const PORTRAITS: Record<PortraitKey, string> = {
   smith: "/art/smith.jpg",
   beggar: "/art/beggar.jpg",
   grovin: "/art/grovin.jpg",
+  dennek: "/art/dennek.jpg",
+  lene: "/art/lene.jpg",
+  vahl: "/art/vahl.jpg",
+  grete: "/art/grete.jpg",
+  rennik: "/art/rennik.jpg",
+  jorren: "/art/jorren.jpg",
 };
 
-export const PORTRAIT_MOTION: Partial<Record<PortraitKey, string>> = {
-  grovin: "/art/grovin.mp4",
-};
+export const PORTRAIT_MOTION: Partial<Record<PortraitKey, string>> = {};
 
 export function isMotion(src: string) {
   return /\.(mp4|webm)$/i.test(src);
@@ -50,13 +54,32 @@ export function artSrcFor(art: ArtKey, override?: string) {
 }
 
 export function portraitSrcFor(portrait: PortraitKey | undefined, override?: string) {
-  if (override) return override;
+  const extra = override?.trim();
+  if (extra) return extra;
   if (!portrait) return "";
-  return PORTRAIT_MOTION[portrait] || PORTRAITS[portrait];
+  return PORTRAITS[portrait] ?? "";
 }
 
 export function posterFor(src: string, art?: ArtKey) {
   if (!isMotion(src)) return undefined;
   if (art && ART[art]) return ART[art];
   return undefined;
+}
+
+export const LAGEN_ART: Record<string, string> = {
+  soldateska: "/art/lagen/soldateska.jpg",
+  feind: "/art/lagen/feind.jpg",
+  ernte: "/art/lagen/ernte.jpg",
+  verraeter: "/art/lagen/verraeter.jpg",
+  brot: "/art/lagen/brot.jpg",
+  seuche: "/art/lagen/seuche.jpg",
+  spion: "/art/lagen/spion.jpg",
+  waffe: "/art/lagen/waffe.jpg",
+  burg: "/art/lagen/burg.jpg",
+  ausweg: "/art/lagen/ausweg.jpg",
+};
+
+export function lageBild(id?: string) {
+  if (!id) return "";
+  return LAGEN_ART[id] ?? "";
 }

@@ -1,0 +1,189 @@
+[
+  {
+    "id": "soldateska",
+    "titel": "Die Soldateska",
+    "geschichte": [
+      "Die Dunkelheit liegt auf dem Dorf, als wäre sie mit den Söldnern gekommen. Sie drückt feucht und schwer gegen die Haut, riecht nach nassem Holz, Pferdeschweiß und kaltem Eisen.",
+      "Hinter der Palisade halten die Leute den Atem. Kinder an Röcken, Finger verkrampft im Stoff, kleine Körper an größere gepresst. Kein Krieger, der diesen Namen verdient; nur steife Glieder und flache Brustkörbe.",
+      "Ihr Anführer steigt nicht ab. Der Sattel knarrt unter seinem Gewicht, der Atem des Pferdes dampft weiß. Kalt, unbarmherzig. „Vorräte. Jetzt. Oder Feuer.“",
+      "Jemand Älteres als du sagt mit zittriger Stimme: „Nehmt, was ihr wollt. Lasst uns leben.“ Die Worte zittern wie die Hände, die sie formt.",
+      "Sie fangen an zu plündern. Stiefel schieben sich durch den Matsch, Säcke knirschen, Metall schlägt dumpf auf Holz. Die Verzweiflung in den Gesichtern wächst schneller als der Haufen auf dem Karren; Angst riecht bitter und warm zwischen den Zähnen.",
+      "Du trittst zwischen sie und das Dorf. Die letzte Habe am Gürtel zieht nach unten, kalt und schwer gegen die Hüfte. Einige lachen. Andere warten, ob du wirklich stehst. Hinter dir atmet das Dorf. Vor dir Männer, die Feuer kennen."
+    ],
+    "antworten": [
+      {
+        "label": "Du gehst einen Schritt weiter vor, die Hand schon am Gurt. Wenn ich mein Leben gebe, kommen die anderen vielleicht durch.",
+        "mal": "sein leben vor die vorräte stellt, damit andere atmen"
+      },
+      {
+        "label": "Du lässt die Schultern sinken, spielst den Schwächeren, während der Blick schon den Winkel sucht. Ein Plan. Schwäche vortäuschen. Einen Hinterhalt.",
+        "mal": "söldner täuscht, obwohl das feuer alle nehmen kann"
+      },
+      {
+        "label": "Du hebst die leere Hand und redest langsam, kaufst Atemzüge. Zeit kaufen. Vielleicht findet danach jemand den Ausweg.",
+        "mal": "zeit kauft, weil das los schon gefallen ist"
+      }
+    ]
+  },
+  {
+    "id": "feind",
+    "titel": "Der verwundete Feind",
+    "geschichte": [
+      "Du stehst im Graben vor dem Steinbruch, wo der Lehm naß und schwer an den Stiefeln zieht. Die Kälte kommt von unten, durch Sohle und Knochen, und der Wind schiebt den Geruch von Steinmehl, altem Schweiß und Eisen über den Rand. Vor dir liegt er schief im Dreck, der Atem pfeift dünn und naß, als stecke ihm etwas Queres in der Lunge.",
+      "Der Brustpanzer ist aufgerissen, die Ränder nach außen gebogen wie blecherne Zähne. Darunter eine Wunde, die nicht mehr geschlossen werden will; das Fleisch quillt dunkel, das Blut hat sich mit dem Schlamm vermischt und riecht süßlich faul. Am Umhang sitzt ein Zeichen, das nicht zu Lindendorf gehört, verdreckt, aber klar genug, daß du es nicht übersehen kannst.",
+      "Er sieht dich. Die Augen sind glasig, die Lippen bewegen sich kaum. „Wasser.“ Am Gürtel hängt ein voller Schlauch, kühl und prall, das Leder glänzt feucht. Das Messer ist schon in deiner Hand, die Klinge zieht Gewicht und Kälte, und der Graben ist eng genug, daß jeder Atemzug zwischen euch beiden bleibt."
+    ],
+    "antworten": [
+      {
+        "label": "Du reichst ihm den Schlauch, läßt ihn trinken, und drückst den Stoff fest auf die Wunde, bis deine Finger im Warmem kleben.",
+        "mal": "einem feind wasser reicht, bevor er stirbt"
+      },
+      {
+        "label": "Du setzt die Klinge an seinen Hals und ziehst durch, bis das Pfeifen verstummt und der Lehm das Blut aufnimmt.",
+        "mal": "im graben zu ende bringt, was noch nach wasser fragt"
+      },
+      {
+        "label": "Du packst ihn am Kragen, zerrst ihn hoch und schleifst ihn mit. Er arbeitet, bis er umfällt.",
+        "mal": "verwundete mahlen lässt, solange sie stehen"
+      }
+    ]
+  },
+  {
+    "id": "ernte",
+    "titel": "Die gestohlene Ernte",
+    "geschichte": [
+      "Du bleibst stehen hinter der Mühle, wo der Schatten kalt auf dem Boden liegt und der Staub nach altem Mehl und nassem Stein riecht. Die Frau kniet darin, die Knie schon grau, die Finger fest um den groben Stoff der drei Säcke, die nicht ihr gehören; ihr Gewicht drückt Mulden in den Boden, schwer und stumm.",
+      "Die Kinder halten sich an ihrem Rock, dünne Hände im Stoff, als könnte Stoff sättigen, als könnte der Griff den Hunger wegdrücken. Ihre Atemzüge sind flach, weiß in der Kälte. Niemand spricht zuerst.",
+      "„Bitte“, sagt sie, ohne dich anzusehen, die Stimme rauh vom Staub. „Sie hungern.“ Die Strafe für Diebstahl kennt jeder: zuerst die Peitsche, beim zweiten Mal der Strick. Die Säcke riechen nach Getreide und Diebstahl zugleich, und du stehst noch immer da."
+    ],
+    "antworten": [
+      {
+        "label": "Du rufst laut genug, dass es um die Mühle hallt, und meldest, was im Staub liegt. Die Strafe kommt, schwer wie die Säcke.",
+        "mal": "diebstahl anzeigt, weil das mehl einen herrn hat"
+      },
+      {
+        "label": "Du siehst weg, lässt den Staub leer scheinen und gehst weiter, als wären die drei Säcke nie da gewesen. Deine Schritte drücken nichts fest.",
+        "mal": "drei säcke nicht gesehen hat"
+      },
+      {
+        "label": "Du greifst ihren Arm, spürst den Knochen unter der Haut, und zwingst sie, ab jetzt für dich zu schleppen. Hunger wird Arbeit.",
+        "mal": "hunger in arbeit umrechnet"
+      }
+    ]
+  },
+  {
+    "id": "verraeter",
+    "titel": "Der Verräter",
+    "geschichte": [
+      "Du stehst im nassen Gras am Rand des Lagers, wo die Bäume den Rauch der Feuer und den Geruch von nassem Leder und kaltem Eisen zurückhalten. Er ist noch da, das Gesicht halb im Schatten der Stämme, der Beutel schwer an der Hüfte, das Metall darin klingt leise bei jedem Atemzug.",
+      "Du hast ihn gesehen: den Boten, den Beutel, das Gold, das nicht aus diesem Tal stammt. Es riecht nach fremdem Schweiß und nach dem scharfen Gewicht von Münzen, die hier niemand schlägt; die Kälte kriecht dir in die Finger, als hättest du es selbst angefasst.",
+      "Er merkt dich. Die Augen werden groß, der Atem stockt weiß in der Luft. „Du verstehst das nicht. Meine Familie — sie haben sie.“ Er bricht ab. Das Gewicht seiner Angst liegt zwischen euch wie nasser Stoff, und du weißt, was folgt, wenn du den Namen laut sagst."
+    ],
+    "antworten": [
+      {
+        "label": "Du gehst und meldest ihn. Er hängt, bevor die Nacht kälter wird.",
+        "mal": "namen nennt, bevor das gold ihn kauft"
+      },
+      {
+        "label": "Du deckst ihn und lässt den Beutel, wo er ist. Vielleicht ändert er sich.",
+        "mal": "verrat zudeckt, weil eine familie ihn bindet"
+      },
+      {
+        "label": "Du nimmst den Beutel nicht. Du erpresst ihn, und fortan arbeitet er für dich.",
+        "mal": "verrat in eine zweite rechnung verwandelt"
+      }
+    ]
+  },
+  {
+    "id": "brot",
+    "titel": "Die letzte Fuhre",
+    "geschichte": [
+      "Der Karren knarrt unter dem nassen Holz. Die Räder saufen im Schlamm, der kalt an den Speichen klebt, nach fauler Erde und altem Mist stinkt und das Gewicht der Fuhre tiefer in den Matsch drückt.",
+      "Darunter, unter der schweren, feuchten Plane, liegt das Brot für Lindendorf, das seit Tagen ohne Mehl kocht. Harte Laibe, die nach Hefe und trockener Kruste riechen, kalt und schwer in deinen Händen, wenn du sie heben würdest.",
+      "Vor dir sitzen Kinder im Dreck. Ausgezehrt, die Rippen unter dünner Haut sichtbar, die Augen zu groß für ihre Gesichter, der Atem weiß und dünn in der Kälte. Eine alte Frau steht auf, der nasse Rock schlägt gegen die Waden. „Wir haben seit Tagen nichts. Sie können nicht weiter.“ Wenn du verteilst, kommt das Dorf zu spät. Wenn du fährst, bleiben diese hier im Dreck."
+    ],
+    "antworten": [
+      {
+        "label": "Du reißt die Plane auf und drückst den Kindern die kalten Laibe in die schmutzigen Hände. Sie essen. Lindendorf wartet hungrig.",
+        "mal": "brot an kinder gibt, das einem anderen dorf gehört"
+      },
+      {
+        "label": "Du greifst die Zügel fester und treibst die Räder weiter durch den kalten Schlamm. Das Dorf bekommt, was auf dem Karren steht.",
+        "mal": "am hunger vorbeifährt, weil ein karren einen auftrag hat"
+      },
+      {
+        "label": "Du winkst den Kindern, sie sollen mit. Wer geht, arbeitet. Ihre Füße schleifen im Matsch hinter dem knarrenden Karren her.",
+        "mal": "kinder hinter einem karren herlaufen lässt"
+      }
+    ]
+  },
+  {
+    "id": "seuche",
+    "titel": "Die Scheune",
+    "geschichte": [
+      "Die Scheune brennt nicht. Noch nicht. Die Schreie darin werden leiser, sinken in das nasse Stroh, als ob das Holz sie schlucke. Du stehst vor der Tür, den Riegel in der Hand; das Eisen ist kalt, schwer, feucht von Tau und von dem dünnen Film, der von innen durch die Ritzen kriecht und nach süßem Verderben riecht.",
+      "Drinnen die Kranken. Ihre Atemzüge kratzen gegen die Bretter, kurz, nass, immer seltener. Draußen die, die noch keinen Husten haben, stehen mit steifen Schultern in der Kälte, der Wind drückt den Geruch von altem Rauch und faulendem Stroh gegen dein Gesicht, das Gewicht des Riegels zieht deine Hand nach unten.",
+      "Im Kesseljahr hat man eine Gasse so geschlossen. Das Fieber hat trotzdem den Platz geholt, hat sich in die Kleider gelegt, in die Haare, in den Boden unter den Schuhen. Derselbe Riegel, dieselbe Tür, dieselbe Entscheidung, nur enger, kälter, der Geruch dichter."
+    ],
+    "antworten": [
+      {
+        "label": "Du schiebst den Riegel zurück. Die Tür gibt nach unter dem feuchten Holz, und du holst Hilfe, solange drinnen noch Stimmen gegen die Bretter stoßen.",
+        "mal": "eine seuchentür öffnet weil drinnen noch stimmen sind"
+      },
+      {
+        "label": "Du lässt den Riegel, wo er ist. Das Eisen bleibt kalt in der Öse, und du gehst, den Geruch und das Gewicht hinter dir.",
+        "mal": "eine scheune schließt und weitergeht"
+      },
+      {
+        "label": "Du zündest das nasse Stroh an der Schwelle. Die Flamme fasst, das Holz fängt an zu arbeiten, und die Kranken verbrennen mit der Scheune.",
+        "mal": "kranke mit der scheune verbrennt damit das dorf atmet"
+      }
+    ]
+  },
+  {
+    "id": "spion",
+    "titel": "Der Gefangene",
+    "geschichte": [
+      "Du stehst hinter der Schmiede, wo der Wind den Rauch flach über den Hof drückt und der Boden nach nasser Asche, Eisen und altem Schweiß riecht. Er ist an den Pfahl gebunden, die Seile haben sich in die Handgelenke gefressen, das Gesicht eine Maske aus Blut und Dreck, die Wangen kalt und steif. In der Hand hast du die Laterne, nicht die Zange. Noch nicht.",
+      "„Ich sage nichts“, presst er hervor, die Lippen aufgerissen, der Atem ein dünner Dampf, der nach Metall und Fäulnis schmeckt. Die Laterne wirft sein Gesicht in harte Schatten; unter dem Dreck glänzt frisches Blut. Er kennt den Weg, den sie nachts nehmen.",
+      "Wenn du ihn zum Reden bringst, weißt du ihn auch. Das Gewicht der Laterne zieht an deinem Handgelenk, die Kälte sitzt in den Fingern, und irgendwo in Reichweite wartet das andere Werkzeug. Dann bist du jemand, der das getan hat."
+    ],
+    "antworten": [
+      {
+        "label": "Du greifst zur Zange und holst aus ihm heraus, was der Mund nicht hergeben will.",
+        "mal": "aus einem gefangenen holt, was der mund nicht hergeben will"
+      },
+      {
+        "label": "Du bindest die Seile los und gehst die Wette ein, dass er nicht sofort alles ruinieren wird.",
+        "mal": "einen gefangenen losbindet und die wette eingeht"
+      },
+      {
+        "label": "Du machst am Pfahl ein Ende, bevor Fragen teurer werden als dieser eine stille Atemzug.",
+        "mal": "am pfahl ein ende macht, bevor fragen teurer werden"
+      }
+    ]
+  },
+  {
+    "id": "waffe",
+    "titel": "Die letzte Waffe",
+    "geschichte": [
+      "Das Messer liegt zwischen euch im nassen Gras, die Klinge stumpf vor Dreck und einem dünnen Film aus Blut, der schon kalt geworden ist. Der Geruch von Eisen und aufgeweichter Erde steigt euch in die Nase, schwer und bitter, während der Regen in eure offenen Stellen klopft und das Gewicht der Nässe eure Kleider an die Haut preßt. Zwei Verwundete. Eine Klinge. Eure Atemzüge dampfen kurz und reißen ab.",
+      "Im Wald rufen Stimmen, die nicht zu euch gehören; sie kommen näher, ungeduldig, und das Laub knackt unter Tritten, die ihr nicht sehen könnt. Der Boden unter euch ist weich wie faules Fleisch, und jedes Zucken schickt einen Stoß Schmerz durch Knochen und Sehnen.",
+      "„Ich kann damit umgehen“, sagt der eine, die Stimme rauh vom Blut in der Kehle, die Hand noch fest genug, um zuzupacken. „Ich halte noch“, sagt der andere, flacher, schon halb im Gras versunken, die Finger naß und zitternd. Du weißt, dass nur einer von ihnen den Morgen sieht."
+    ],
+    "antworten": [
+      {
+        "label": "Du drückst dem, der noch auf den Beinen bleibt, den Griff in die Hand. Das Metall ist schwer und naß.",
+        "mal": "die letzte klinge dem gibt, der noch stehen kann"
+      },
+      {
+        "label": "Du legst dem, der schon im Matsch liegt, die Klinge in die offene Hand. Seine Finger schließen sich langsam.",
+        "mal": "die letzte klinge dem in die hand legt, der schon liegt"
+      },
+      {
+        "label": "Du nimmst die Klinge und brichst sie über dem Knie. Das Metall quietscht, springt, wird nutzlos.",
+        "mal": "eine waffe zerbricht, bevor sie einen herrn findet"
+      }
+    ]
+  }
+]

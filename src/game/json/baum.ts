@@ -47,7 +47,7 @@ export const QUESTS_ROH: QuestJson[] = [
         "Vor der Apotheke hustet ein Kind, trocken und hart, als sitze ihm etwas Falsches in der Brust fest. Die Mutter hält es fester, als das bloße Husten verlangt — mit einem Griff, der weniger dem Kind gilt als der eigenen Angst.",
         "Am Brunnenrand steht Ratsherr Dennek und rührt mit einem Stock im Eimer. Langsam. Im Kreis. Als ließe sich vergiftetes Wasser klären wie ein Brei, dem nur noch Geduld fehlt.",
         "Er sieht dabei niemanden an — weder das Kind noch die Mutter noch die Vorübergehenden. Als hoffe er, dass die Bewegung seiner Hand auch die Fragen im Kreis hält.",
-      ]),
+      ], ["Weiter"], "dennek"),
       karte(
         "brunnen-hub",
         "Trübes Wasser",
@@ -63,6 +63,7 @@ export const QUESTS_ROH: QuestJson[] = [
           "Den Graben am Brunnenrand verfolgen",
           "Zurück zum Dorfplatz",
         ],
+        "dennek",
       ),
     ]),
     teil("brunnen", "kern", "Witwe Kern", [
@@ -93,6 +94,7 @@ export const QUESTS_ROH: QuestJson[] = [
           "Ihn an die Mauer drücken (Stärke, mittel)",
           "Ihn am Eimer lassen",
         ],
+        "dennek",
       ),
     ]),
     teil("brunnen", "schacht", "Schacht und Graben", [
@@ -171,7 +173,7 @@ export const QUESTS_ROH: QuestJson[] = [
         "Vor der Tür lehnt ein leerer Karren, dessen Deichsel schon Moos angesetzt hat.",
         "Bertok steht im Eingang, bevor du klopfen kannst. Seine Hände sind mehlweiß, obwohl seit Tagen nichts gemahlen wurde.",
         "Hinter ihm bewegt sich etwas zwischen den Säcken — zu schnell für eine Ratte.",
-      ]),
+      ], ["Weiter"], "miller"),
       karte(
         "muehle-hub",
         "Mühle",
@@ -189,7 +191,7 @@ export const QUESTS_ROH: QuestJson[] = [
     ]),
     teil("muehle", "kammer", "Kornkammer", [
       karte("kornkammer", "Kornkammer", "mill"),
-      karte("lene-in-der-kornkammer", "Lene in der Kornkammer", "mill"),
+      karte("lene-in-der-kornkammer", "Lene in der Kornkammer", "mill", [], ["Weiter"], "lene"),
       karte("hinter-der-nische", "Hinter der Nische", "mill"),
     ]),
     teil("muehle", "ufer", "Ufer und Kontor", [
@@ -197,7 +199,7 @@ export const QUESTS_ROH: QuestJson[] = [
       karte("uferpfad", "Uferpfad", "ditch"),
       karte("morscher-steg", "Morscher Steg", "ditch"),
       karte("lagerhaus-am-fluss", "Lagerhaus am Fluss", "mill"),
-      karte("renniks-kontor", "Renniks Kontor", "mill"),
+      karte("renniks-kontor", "Renniks Kontor", "mill", [], ["Weiter"], "rennik"),
     ]),
     teil("muehle", "ende", "Ausgänge", [
       karte("sicheres-mehl-leere-blicke", "Sicheres Mehl, leere Blicke", "mill", [], ["Weiter"], "holm"),
@@ -208,22 +210,16 @@ export const QUESTS_ROH: QuestJson[] = [
   quest("gasse", "Das Kesseljahr", "Erinnerung", [
     teil("gasse", "kirche", "Kirche und Fenn", [
       karte("gasse-kirche", "Vor der Kirche", "chapel", [], ["Weiter"], "beggar"),
-      karte(
-        "gasse-hub",
-        "Die leere Gasse",
-        "gate",
-        [],
-        ["Bei Fenn an der Kirchmauer bleiben", "Ratsherr Vahl im Rathaus aufsuchen", "Die Gasse hinter der Gerberei ansehen", "Zurück zum Dorfplatz"],
-      ),
+      karte("gasse-hub", "Die leere Gasse", "gate", [], ["Bei Fenn an der Kirchmauer bleiben", "Ratsherr Vahl im Rathaus aufsuchen", "Die Gasse hinter der Gerberei ansehen", "Zurück zum Dorfplatz"], "beggar"),
       karte("fenn", "Fenn", "chapel", [], ["Weiter"], "beggar"),
       karte("fenn-an-der-kirchmauer", "Fenn an der Kirchmauer", "chapel", [], ["Weiter"], "beggar"),
-      karte("vahls-stube", "Vahls Stube", "townhall"),
-      karte("ratsherr-vahl", "Ratsherr Vahl", "townhall"),
+      karte("vahls-stube", "Vahls Stube", "townhall", [], ["Weiter"], "vahl"),
+      karte("ratsherr-vahl", "Ratsherr Vahl", "townhall", [], ["Weiter"], "vahl"),
     ]),
     teil("gasse", "ort", "Gerbereigasse", [karte("gerbereigasse", "Gerbereigasse", "gate")]),
     teil("gasse", "grete", "Grete", [
-      karte("gretes-kate", "Gretes Kate", "village"),
-      karte("grete", "Grete", "village"),
+      karte("gretes-kate", "Gretes Kate", "village", [], ["Weiter"], "grete"),
+      karte("grete", "Grete", "village", [], ["Weiter"], "grete"),
     ]),
     teil("gasse", "gewoelbe", "Gewölbe", [
       karte("kirchengewoelbe", "Kirchengewölbe", "chapel"),
@@ -232,12 +228,12 @@ export const QUESTS_ROH: QuestJson[] = [
       karte("hinter-dem-stein", "Hinter dem Stein", "evidence"),
     ]),
     teil("gasse", "schluss", "Ausgänge", [
-      karte("vahls-stube-abend", "Vahls Stube, Abend", "townhall"),
-      karte("was-die-liste-wiegt", "Was die Liste wiegt", "evidence"),
-      karte("ein-zweites-schweigen", "Ein zweites Schweigen", "gate"),
-      karte("was-ausgegraben-bleibt", "Was ausgegraben bleibt", "chapel"),
+      karte("vahls-stube-abend", "Vahls Stube, Abend", "townhall", [], ["Weiter"], "vahl"),
+      karte("was-die-liste-wiegt", "Was die Liste wiegt", "evidence", [], ["Weiter"], "vahl"),
+      karte("ein-zweites-schweigen", "Ein zweites Schweigen", "gate", [], ["Weiter"], "beggar"),
+      karte("was-ausgegraben-bleibt", "Was ausgegraben bleibt", "chapel", [], ["Weiter"], "vahl"),
       karte("ein-name-unter-vielen", "Ein Name unter vielen", "village"),
-      karte("stille-rechnung", "Stille Rechnung", "village"),
+      karte("stille-rechnung", "Stille Rechnung", "village", [], ["Weiter"], "beggar"),
     ]),
   ]),
   quest("wald", "Hang und Wald", "Hauptfluss", [
@@ -261,7 +257,7 @@ export const QUESTS_ROH: QuestJson[] = [
         ["Weiter"],
         "sanna",
       ),
-      karte("jorren-im-geroell", "Jorren im Geröll", "chapel"),
+      karte("jorren-im-geroell", "Jorren im Geröll", "chapel", [], ["Weiter"], "jorren"),
       karte("die-kapellenglocke", "Die Kapellenglocke", "chapel"),
     ]),
     teil("wald", "wald", "Wald", [karte("wald", "Wald", "forest")]),
@@ -269,16 +265,16 @@ export const QUESTS_ROH: QuestJson[] = [
   quest("lager", "Banditenlager", "Hauptfluss", [
     teil("lager", "hub", "Steinbruch", [lagerHub]),
     teil("lager", "schleich", "Schleichen", [
-      karte("lager-schleich", "Schleichen", "sneak", LAGER_WEGE.schleich.erfolg, [...LAGER_WEGE.schleich.choicesWeiter]),
+      karte("lager-schleich", "Schleichen", "sneak", LAGER_WEGE.schleich.erfolg, [...LAGER_WEGE.schleich.choicesWeiter], "kess"),
     ]),
     teil("lager", "reden", "Reden", [
       karte("lager-reden", LAGER_WEGE.reden.title, "camp", LAGER_WEGE.reden.lines, [...LAGER_WEGE.reden.choices], "kess"),
     ]),
     teil("lager", "kampf", "Kampf", [
-      karte("lager-kampf", LAGER_WEGE.kampf.title, "combat", LAGER_WEGE.kampf.auf),
+      karte("lager-kampf", LAGER_WEGE.kampf.title, "combat", LAGER_WEGE.kampf.auf, ["Weiter"], "kess"),
     ]),
     teil("lager", "tor", "Seitentor", [
-      karte("lager-tor", LAGER_WEGE.tor.title, "gate", LAGER_WEGE.tor.lines, [...LAGER_WEGE.tor.choices]),
+      karte("lager-tor", LAGER_WEGE.tor.title, "gate", LAGER_WEGE.tor.lines, [...LAGER_WEGE.tor.choices], "kess"),
     ]),
   ]),
   quest("ende", "Ende", "Hauptfluss", [
@@ -298,7 +294,7 @@ function anreichern(szene: SzeneJson): SzeneJson {
   const ki = Boolean((kiAuflagen as Record<string, Volltext>)[szene.id]?.lines?.length);
   const chars = (szene.lines ?? []).join(" ").trim().length;
   if (!ki && chars >= 160) {
-    if (extra.portrait !== undefined) return { ...szene, portrait: extra.portrait };
+    if (extra.portrait) return { ...szene, portrait: extra.portrait };
     return szene;
   }
   return {
@@ -307,7 +303,7 @@ function anreichern(szene: SzeneJson): SzeneJson {
     art: extra.art ?? szene.art,
     lines: extra.lines,
     choices: extra.choices?.length ? extra.choices : szene.choices,
-    portrait: extra.portrait !== undefined ? extra.portrait : szene.portrait,
+    portrait: extra.portrait || szene.portrait,
   };
 }
 

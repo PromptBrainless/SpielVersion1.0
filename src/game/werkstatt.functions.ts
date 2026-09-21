@@ -1,3 +1,4 @@
+import { PORTRAITS as PORTRAIT_DATEIEN } from "./art";
 import { createServerFn } from "@tanstack/react-start";
 import { fundFuerSzene } from "./json/baum";
 import { SzeneSchema, type SzeneJson } from "./json/schema";
@@ -28,7 +29,7 @@ const ART = new Set([
   "death",
   "return",
 ]);
-const PORTRAITS = new Set(["holm", "mara", "kess", "miller", "kern", "sanna", "smith", "beggar", "grovin"]);
+const PORTRAITS = new Set(Object.keys(PORTRAIT_DATEIEN));
 
 function alsSzene(parsed: SzeneJson, data: RagEingabe): SzeneJson {
   const vorlage = fundFuerSzene(data.id, data.title)?.szene;

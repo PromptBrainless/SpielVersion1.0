@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Runtime } from "@/game/runtime";
 import { spielen } from "@/game/script";
-import { ART, PORTRAITS } from "@/game/art";
+import { ART, LAGEN_ART, PORTRAITS } from "@/game/art";
 import { cloneHeld, type EffektId, type Held, type SceneView } from "@/game/types";
 import { hasSavedGame, listSavedGames, loadGame, loadGameByName, saveGame, type SaveSlotInfo } from "@/game/save";
 import { hatEffekt, setzeEffekt } from "@/game/effekte";
-import { setzeTageszeit, type Tageszeit } from "@/game/tageszeit";
+import { type Tageszeit } from "@/game/tageszeit";
+import { vorschauGmCommand, wendeGmCommandAn } from "@/game/gm/gmCommand";
 import { wendeHerkunftAn } from "@/game/herkunft";
 import {
   anzahlAuflagen,
@@ -15,6 +16,7 @@ import {
   merkeAuflage,
   rueckgaengigAuflage,
   setzeWeltAktiv,
+  sichtbareHerkunft,
   weltAktiv,
   wendePatchAn,
   type KartePatch,
@@ -60,7 +62,7 @@ export function GameApp() {
   }, []);
 
   useEffect(() => {
-    for (const src of [...Object.values(ART), ...Object.values(PORTRAITS)]) {
+    for (const src of [...Object.values(ART), ...Object.values(PORTRAITS), ...Object.values(LAGEN_ART)]) {
       const image = new Image();
       image.src = src;
     }
@@ -182,8 +184,10 @@ export function GameApp() {
   const onEffekt = useCallback((id: EffektId, an: boolean) => {
     const live = liveRef.current;
     if (!live) return;
-    setzeEffekt(live, id, an);
-    const next = cloneHeld(live);
+    const cmd = { art: "effekt" as const, id, an };
+    vorschauGmCommand(cmd);
+    const next = wendeGmCommandAn(live, cmd);
+    liveRef.current = next;
     setHeld(next);
     setView((current) => (current ? { ...current, held: next } : current));
   }, []);
@@ -191,8 +195,10 @@ export function GameApp() {
   const onTageszeit = useCallback((zeit: Tageszeit) => {
     const live = liveRef.current;
     if (!live) return;
-    setzeTageszeit(live, zeit);
-    const next = cloneHeld(live);
+    const cmd = { art: "tageszeit" as const, zeit };
+    vorschauGmCommand(cmd);
+    const next = wendeGmCommandAn(live, cmd);
+    liveRef.current = next;
     setHeld(next);
     setView((current) => (current ? { ...current, held: next } : current));
   }, []);
@@ -200,7 +206,7 @@ export function GameApp() {
   const onHerkunft = useCallback((frageIndex: number, antwortIndex: number) => {
     const live = liveRef.current;
     if (!live) return;
-    const getroffen = wendeHerkunftAn(live, frageIndex, antwortIndex);
+    const getroffen = wendeHerkunftAn(live, frageIndex, antwortIndex, sichtbareHerkunft());
     if (!getroffen) return;
     const next = cloneHeld(live);
     setHeld(next);
@@ -244,11 +250,15 @@ export function GameApp() {
     });
   }
 
+  const rawSicht = view ? (view.held ? view : held ? { ...view, held } : view) : introAlsSzene();
+  const gefunden = auflageFuerSicht(rawSicht);
+  const kartenPatch = gefunden.schluessel === schluessel ? patch : gefunden.patch;
+
   const welt = leiterOpen ? (
     <WeltEditor
-      szene={view ?? introAlsSzene()}
-      auflage={patch}
-      schluessel={schluessel}
+      szene={rawSicht}
+      auflage={kartenPatch}
+      schluessel={gefunden.schluessel}
       held={view?.held ?? held}
       onChange={onPatch}
       onReset={onResetKarte}
@@ -257,6 +267,7 @@ export function GameApp() {
       onLage={onLageVorlegen}
       onRueckgaengig={onRueckgaengig}
       onTageszeit={onTageszeit}
+      startFach={mode === "create" ? "held" : "karte"}
     />
   ) : null;
 
@@ -309,8 +320,8 @@ export function GameApp() {
     );
   }
 
-  const raw = view.held ? view : held ? { ...view, held } : view;
-  const shown = wendePatchAn(raw, patch);
+  const raw = rawSicht;
+  const shown = wendePatchAn(raw, kartenPatch);
 
   return (
     <>
@@ -324,16 +335,16 @@ export function GameApp() {
       knowledgeOpen={knowledgeOpen}
       debug={debug}
       leiterOpen={leiterOpen}
-      patch={patch}
-      schluessel={schluessel}
+      patch={kartenPatch}
+      schluessel={gefunden.schluessel}
       onLeiter={toggleWelt}
       onPatch={onPatch}
       onResetKarte={onResetKarte}
       onRueckgaengig={onRueckgaengig}
-      authorMode={false}
+      authorMode={leiterOpen}
       wissenAnzahl={shown.held ? deriveKnowledge(shown.held).size : 0}
       weltAnzahl={anzahlAuflagen()}
-      weltPunkt={!auflageLeer(patch)}
+      weltPunkt={!auflageLeer(kartenPatch)}
       onEffekt={onEffekt}
       onTageszeit={onTageszeit}
       onHerkunft={onHerkunft}

@@ -2,6 +2,7 @@ import { Dices, PenLine } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ART, PORTRAITS, artSrcFor, isMotion, portraitSrcFor } from "@/game/art";
+import { probeZeile } from "@/game/gm/probeZeile";
 import type { KartePatch } from "@/game/welt";
 import type { EffektId, SceneView } from "@/game/types";
 import { leseTageszeit, tageszeitSchleier, type Tageszeit } from "@/game/tageszeit";
@@ -175,10 +176,8 @@ export function SceneStage({
               <div className="mb-3 flex items-start gap-2 rounded-md border border-border bg-surface/80 px-3 py-2 text-sm" role="status" aria-live="polite">
                 <Dices className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
                 <div>
-                  <p>
-                    Probe{view.probe.beschreibung ? ` (${view.probe.beschreibung})` : ""}:{" "}
-                    {view.probe.attributName} {view.probe.attributWert} + W10 ({view.probe.wurf}) ={" "}
-                    <span className="tabular-nums">{view.probe.summe}</span> gegen {view.probe.schwierigkeit}
+                  <p className="tabular-nums">
+                    Probe{view.probe.beschreibung ? ` (${view.probe.beschreibung})` : ""}: {probeZeile(view.probe)}
                   </p>
                   <p className={view.probe.erfolg ? "text-ok" : "text-hp"}>{view.probe.erfolg ? "Erfolg." : "Misserfolg."}</p>
                 </div>

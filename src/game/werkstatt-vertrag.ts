@@ -6,7 +6,7 @@ export const ART_SICHT: Record<string, string> = {
   village: "Siedlung am Wasser in der Dämmerung: Fachwerk, Mühlrad.",
   townhall: "Holzvertäfeltes Kontor, Kerzen, Papiere.",
   tavern: "Innenraum mit Fässern, Feuer, nassem Holz.",
-  well: "Enge Dorfstraße in der Dämmerung, Frau im Tuch, Kind an der Hand.",
+  well: "Steinbrunnen, holzerner Eimer mit trübem Wasser, Frau und Kind im Hintergrund.",
   mill: "Steinmühle am Fluss, großes Wasserrad.",
   apothecary: "Kräuterstube, Gläser, Mörser, getrocknete Bündel.",
   smithy: "Esse, Glut, Amboss, Rauch.",

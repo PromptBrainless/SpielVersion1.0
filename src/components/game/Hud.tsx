@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { BookOpen, ChevronDown, Coins, FlaskConical, Heart, KeyRound, Save, ScrollText } from "lucide-react";
-import { HEILTRANK, MAX_LP, SCHLUESSEL, type EffektId, type Held } from "@/game/types";
+import { HEILTRANK, SCHLUESSEL, type EffektId, type Held } from "@/game/types";
+import { mapHeldToPlayerHud } from "@/game/gm/mapHeldToPlayerHud";
 import { rufListe } from "@/game/reputation";
-import { leseSpieltag, leseTageszeit, TAGESZEIT_TEXT } from "@/game/tageszeit";
+import { TAGESZEIT_TEXT } from "@/game/tageszeit";
 import { Button } from "@/components/ui/button";
 import { SeitenFuss } from "./SeitenFuss";
 import { ZustandLeiste } from "./ZustandLeiste";
@@ -35,21 +36,22 @@ export function Hud({
   fort?: EffektId[];
 }) {
   const [offen, setOffen] = useState(false);
-  const hpPct = Math.max(0, Math.min(100, (held.lp / MAX_LP) * 100));
-  const anzahl = held.effekte?.length ?? 0;
+  const hud = mapHeldToPlayerHud(held);
+  const hpPct = Math.max(0, Math.min(100, (hud.lp / hud.maxLp) * 100));
+  const anzahl = hud.gunst.length + hud.last.length;
   const rufe = rufListe(held);
-  const zeit = TAGESZEIT_TEXT[leseTageszeit(held)];
-  const spieltag = leseSpieltag(held);
+  const zeit = TAGESZEIT_TEXT[hud.tageszeit];
+  const spieltag = hud.spieltag;
 
   return (
     <div className="sticky top-0 z-20 border-b border-border bg-ink/94 px-3 py-2 pt-[max(0.5rem,env(safe-area-inset-top))] shadow-sm backdrop-blur-md sm:px-4">
       <div className="mx-auto flex max-w-5xl items-center gap-2 text-xs text-fg sm:gap-3 sm:text-sm">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3">
-            <p className="truncate font-display text-base font-semibold tracking-tight sm:text-lg">{held.name}</p>
+            <p className="truncate font-display text-base font-semibold tracking-tight sm:text-lg">{hud.name}</p>
             <span className="inline-flex shrink-0 items-center gap-1 font-mono tabular-nums text-muted-fg">
               <Heart className="size-3.5 text-hp" aria-hidden />
-              {held.lp}/{MAX_LP}
+              {hud.lp}/{hud.maxLp}
             </span>
             <span className="hidden shrink-0 text-muted-fg sm:inline">
               {zeit.name} · Tag {spieltag}
@@ -130,15 +132,15 @@ export function Hud({
           <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-fg">
             <span className="inline-flex items-center gap-1 tabular-nums">
               <Coins className="size-3.5" aria-hidden />
-              {held.gold}
+              {hud.gold}
             </span>
-            {held.inventar.includes(HEILTRANK) ? (
+            {hud.inventar.includes(HEILTRANK) ? (
               <span className="inline-flex items-center gap-1">
                 <FlaskConical className="size-3.5" aria-hidden />
                 Trank
               </span>
             ) : null}
-            {held.inventar.includes(SCHLUESSEL) ? (
+            {hud.inventar.includes(SCHLUESSEL) ? (
               <span className="inline-flex items-center gap-1">
                 <KeyRound className="size-3.5" aria-hidden />
                 Schlüssel

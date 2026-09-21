@@ -10,10 +10,9 @@
       "art": "mill",
       "portrait": null,
       "lines": [
-        "Kein Mehlstaub in der Luft, obwohl das Rad sich dreht.",
-        "Vor der Tür lehnt ein leerer Karren, dessen Deichsel schon Moos angesetzt hat.",
-        "Bertok steht im Eingang, bevor du klopfen kannst. Seine Hände sind mehlweiß, obwohl seit Tagen nichts gemahlen wurde.",
-        "Hinter ihm bewegt sich etwas zwischen den Säcken — zu schnell für eine Ratte."
+        "Das große Wasserrad schlägt schwer gegen das Wasser und mahlt nichts. Jeder Schlag drückt nasse Kälte in die Balken, das Holz stinkt nach Schlamm und altem Fett, und das Gewicht des stillen Rades lastet auf dem gesamten Bau, als wolle es ihn in den Fluss drücken. Der monotonen Geräuschkulisse des Wassers, das unermüdlich gegen die Mühlsteine plätschert, steht die Stille des stillstehenden Mahlwerks gegenüber; tropfendes Nass sammelt sich in den Rillen, riecht stechend nach nassem Stein und verrottetem Mehlstaub. Es ist, als würde die Mühle selbst in eine Art tiefen Schlaf gefallen sein, unfähig, ihre Bestimmung zu erfüllen, die Steine kalt und stumpf unter einer Haut aus Feuchtigkeit.",
+        "Bertok bleibt am Mahlwerk, sein Blick konzentriert auf die beweglichen Teile gerichtet, während seine Hände die abgenutzten Oberflächen abtasten. Die Finger gleiten über kaltes Eisen, spüren jede Scharte, jedes abgewetzte Gewicht, den groben Staub, der an der Haut klebt und bitter schmeckt, wenn er ihn unwillkürlich berührt. Aus der Kornkammer dringt das leise Klicken von gezählten Säcken, ein Geräusch, das in dieser trostlosen Umgebung wie ein Echo aus besseren Zeiten wirkt; die Säcke liegen schwer, der Stoff rau und feucht, der Geruch von altem Korn mischt sich mit dem kalten Zug, der vom Rad heraufzieht.",
+        "Hinter dem Haus fällt der Boden zum Fluss ab, und die sanfte Neigung führt hinunter zu dem glitzernden Wasser, das in der Sonne funkelt. Der Abhang ist glitschig von Nässe, Erde und fauligem Gras, die Kälte steigt vom Wasser herauf und legt sich auf die Haut wie nasses Tuch. Fenn hat vom Kesseljahr erzählt, einem Jahr, das für viele in der Gegend eine besondere Bedeutung hatte, als die Felder reichlich Ertrag brachten und das Land aufgeteilt wurde, um den Bedürfnissen der Dorfbewohner gerecht zu werden. Die Mühle steht auf diesem Land, das damals in mühsamer Arbeit gewonnen wurde, und Bertok mahlt, als gehörte der Grund ihm. Er fühlt sich verbunden mit der Erde, als wäre sie ein Teil seiner selbst, auch wenn die Realität ihm oft das Gegenteil vor Augen führt; das Gewicht der stehenden Steine, der kalte Geruch von Schlamm und Stein, das nutzlose Schlagen des Rades halten ihn fest an diesem einen Fleck."
       ],
       "choices": [
         "Weiter"
@@ -42,12 +41,11 @@
       "art": "mill",
       "portrait": null,
       "lines": [
-        "Bertok prüft das Mahlwerk, obwohl es längst justiert ist. Der Stein ist kalt. Er sagt das mit den Schultern, nicht mit dem Mund.",
-        "„Kein Mehl heute. Kein Mehl seit zwei Wochen.“ Er sagt es, bevor du fragst, als könne eine Frage ihn zwingen, einen Namen auszusprechen.",
-        "„Das Wasser steht zu niedrig. Das Korn ist schlecht. Ärger mit der Lieferung.“ Namen nennt er nicht. Der Blick geht zum Ufer, dann zur Kornkammer, als könnten beide ihn hören."
+        "Die Worte hallen in deinem Kopf wider, während du ihm näherkommst. Feuchte Kälte steigt vom Boden, vermischt mit dem faulen Geruch alten Mehls, das in den Ritzen der Steinmühle klebt und unter deinen Schritten zu grauem Brei wird. Bertok prüft das Mahlwerk, obwohl es längst justiert ist. Seine Finger fahren langsam über die grobe Oberfläche, drücken, tasten, als könnten sie eine Schuld finden, die der Stein nicht trägt. Der Stein ist kalt, ein Zeichen für die Untätigkeit, die ihn umgibt. Die Kälte frisst sich in seine Haut, macht die Hand schwer und taub, während das große Wasserrad draußen dumpf und gleichmäßig knarzt, Wasser spritzt, Gewicht verlagert, ohne dass hier drinnen etwas mahlt.",
+        "„Kein Mehl heute. Kein Mehl seit zwei Wochen.“ Er sagt es, bevor du fragst, als wüsste er bereits um die drängenden Fragen, die in dir brodeln. Die Worte kommen trocken, ohne Atem dazwischen, und der Geruch von nassem Gestein und abgestandenem Getreide legt sich über alles. Seit du Druck gemacht hast, bleiben seine Sätze kurz, prägnant, fast schon abweisend. Die Hand auf dem Mahlstein zittert trotzdem, ein feines Zittern, das die Unsicherheit und den inneren Kampf widerspiegelt, den er zu führen scheint. Das Zittern läuft durch den kalten Stein, spürbar als leichtes Vibrieren unter dem Druck seiner Finger, während das Rad draußen weiter lastet und das Wasser kalt und schwer gegen die Schaufeln schlägt."
       ],
       "choices": [
-        "Vertrauen gewinnen",
+        "Vertrauen gewinnen (Charisma, mittel)",
         "Druck machen",
         "Zurück in die Mühle"
       ]

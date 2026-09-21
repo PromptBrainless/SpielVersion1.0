@@ -1,4 +1,8 @@
 import { applyPatch, fingerprint, lookupPatch } from "./text-pack";
+import { PORTRAITS } from "./art";
+import { fundFuerSzene } from "./json/baum";
+import { loesePortrait } from "./portrait";
+import { sprecherAusZeilen } from "./sprecher";
 import { cloneHeld, type ArtKey, type EffektId, type Held, type PortraitKey, type SceneView } from "./types";
 import { ortZustand, wendeEffektListenAn, wendeOrtWechselAn } from "./seiten-zustaende";
 import { synchronisiereLog } from "./taten";
@@ -27,6 +31,7 @@ export class Runtime {
   lastArt: ArtKey = "title";
   lastTitle = "Lindendorf";
   lastPortrait: PortraitKey | undefined;
+  lastId: string | undefined;
 
   constructor(
     private readonly setView: (view: SceneView) => void,
@@ -47,10 +52,18 @@ export class Runtime {
   async present(input: PresentInput): Promise<number> {
     const gen = this.generation;
     const vorherArt = this.lastArt;
+    const portrait =
+      loesePortrait({
+        gesetzt: input.portrait,
+        kanon: portraitAusKanon(input.id, input.title),
+        artWechsel: Boolean(input.art && input.art !== this.lastArt),
+        seitenWechsel: Boolean((input.id && input.id !== this.lastId) || (input.title && input.title !== this.lastTitle)),
+        zuletzt: this.lastPortrait,
+      }) ?? sprecherAusZeilen(input.lines);
     if (input.art) this.lastArt = input.art;
     if (input.title) this.lastTitle = input.title;
-    if (input.portrait === null) this.lastPortrait = undefined;
-    else if (input.portrait) this.lastPortrait = input.portrait;
+    if (input.id) this.lastId = input.id;
+    this.lastPortrait = portrait;
 
     const art = this.lastArt;
     const ort = ortZustand(art);
@@ -73,7 +86,7 @@ export class Runtime {
       id: input.id ?? szeneSchluessel(original.title),
       title: shown.title,
       art,
-      portrait: input.portrait === null ? undefined : (input.portrait ?? this.lastPortrait),
+      portrait,
       artSrc: input.artSrc,
       portraitSrc: input.portraitSrc,
       lines: shown.lines,
@@ -97,4 +110,12 @@ export class Runtime {
       };
     });
   }
+}
+
+function portraitAusKanon(id?: string, titel?: string): PortraitKey | null | undefined {
+  const fund = fundFuerSzene(id, titel);
+  if (!fund) return undefined;
+  const key = fund.szene.portrait;
+  if (!key) return null;
+  return key in PORTRAITS ? (key as PortraitKey) : null;
 }

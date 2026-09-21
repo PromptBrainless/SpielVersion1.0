@@ -18,7 +18,7 @@
     "check:szenen": "node scripts/check-szenen.mjs",
     "check:knowledge": "node scripts/check-knowledge-gates.mjs",
     "check:hud": "node scripts/check-hud-welt.mjs",
-    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/app-data/app-data.test.ts src/lib/app-data/readiness-schedule.test.ts src/lib/auth/gate-identity.test.ts src/lib/auth/sign-in-gate.test.ts src/game/pruefung-text.test.ts",
+    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/app-data/app-data.test.ts src/lib/app-data/readiness-schedule.test.ts src/lib/auth/gate-identity.test.ts src/lib/auth/sign-in-gate.test.ts src/game/pruefung-text.test.ts src/game/portrait.test.ts src/game/sprecher.test.ts",
     "lint": "eslint .",
     "format": "prettier --write ."
   },

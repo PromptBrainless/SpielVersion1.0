@@ -1,8 +1,19 @@
 # Weltwerkzeug — eine Fläche, drei Speicher
 
-**Stand:** Planung, 20. September 2026. **Nicht gebaut.**
+**Stand:** gebaut bis Schritt 4 plus Tageszeit, 20. September 2026. `/editor` bleibt als Fach Prüfen ohne Partie. Schritt 9 (Anfassen auf der Bühne) ist geplant, noch nicht gebaut.
 Ersetzt als Zielbild: `docs/SPIELLEITER.md` + `docs/EDITOR.md`.
 Beide Oberflächen tun dasselbe: die Welt anfassen. Sie sollen **eine** werden, **während des Spiels** erreichbar.
+
+### Werkstatt — ehrlich
+
+- Wissen: `KNOWLEDGE_META`, 21 Schlüssel, fertig.
+- Dead-Node Fluss: echt, nur Übersicht `FLUSS`.
+- Dead-Node Lager: **nicht mehr** zwei identische Listen. Liest `LAGER_WEGE`.
+- Questpfad: echt, nur `QUEST_PFADE`.
+- Asset-Check: HEAD, echt.
+- Export: JSON + Zod. Import: Zod, kein Kanon-Schreiben.
+- Zustand: **nicht** im Einsatz, aus den Dependencies.
+- Monaco: nur Fach Prüfen, JSON, lazy. Nicht in den Kartentexten.
 
 ---
 
@@ -52,11 +63,11 @@ Jede Änderung sagt, **wohin** sie geht. Heute passiert das still.
 
 **Was:** LP, Gold, Inventar, Flags, `effekte`, `entscheidungen`.
 
-**Wann:** Gunst/Last am Held, Lage vorlegen, Wissen-Flags **nur** wenn eine Partie läuft und du „auf diesen Held" wählst.
+**Wann:** Gunst/Last am Held, Lage vorlegen, Wissen-Flags **nur** wenn eine Partie läuft und du „auf diesen Held“ wählst.
 
 **Lebensdauer:** mit dem Spielstand. Neues Abenteuer = weg. Anderer Browser = weg.
 
-**Ergänzung — Ruf und Erinnerung sind hier keine eigenen Felder, sondern Ansichten auf `entscheidungen`:** Eine „Gunst am Held ändern"-Aktion im Weltwerkzeug schreibt keinen Ruf-Wert direkt, sondern einen Eintrag `{ typ: "ruf", ziel, wert }` ins Log — genau wie es eine normale Szene auch täte. `rufAus(held, ziel)` liest danach denselben Weg zurück, den auch das Spiel nutzt. Das Werkzeug bekommt dadurch keinen Sonderpfad, der am eigentlichen Spielcode vorbeischreibt — jede Werkzeug-Aktion ist eine simulierte Spielhandlung, kein Direktzugriff auf ein Zahlenfeld.
+**Ruf und Erinnerung sind hier keine eigenen Felder, sondern Ansichten auf `entscheidungen`.** Eine Gunst-Aktion im Weltwerkzeug schreibt keinen Ruf-Wert direkt, sondern denselben Eintrag `{ typ: "ruf", ziel, wert }` ins Log, den auch eine Szene schreiben würde. `rufAus(held, ziel)` liest denselben Weg. Kein Sonderpfad am Spielcode vorbei — jede Werkzeug-Aktion ist eine simulierte Spielhandlung.
 
 ### 2. Auflage — die Welt in diesem Browser
 
@@ -64,13 +75,13 @@ Jede Änderung sagt, **wohin** sie geht. Heute passiert das still.
 
 **Was:** Abweichung **pro Szene**: Titel, Zeilen, Wahlen (gleiche Anzahl), Bild, Portrait, Karten-Zustände an/fort.
 
-**Schlüssel:** `szeneId` an `present({ id })`. Solange eine Szene keine Id hat: alter Text-Hash als Fallback, sichtbar als „hält nur, solange der Satz gleich bleibt".
+**Schlüssel:** `szeneId` an `present({ id })`. Solange eine Szene keine Id hat: alter Text-Hash als Fallback, sichtbar als „hält nur, solange der Satz gleich bleibt“.
 
-**Wann:** „Auf dieser Karte merken". Auto-merken wie heute ist erlaubt, aber mit sichtbarer Marke *gemerkt* und einer Liste aller Auflagen.
+**Wann:** „Auf dieser Karte merken“. Auto-merken wie heute ist erlaubt, aber mit sichtbarer Marke *gemerkt* und einer Liste aller Auflagen.
 
 **Lebensdauer:** über Partien hinweg, nur in diesem Browser. Quelltext-Änderung mit stabiler Id überlebt. Ohne Id stirbt die Auflage.
 
-**Ergänzung — Verlauf statt nur Endstand:** Jede Auflage speichert zusätzlich `vorherigerText` (eine Ebene zurück, kein voller Undo-Stack). Ein Klick auf **Rückgängig** in der Karte stellt genau die letzte Fassung wieder her, ohne das ganze `welt.v2` durchsuchen zu müssen. Das ist bewusst kein History-Stack wie bei einem Texteditor — nur eine Sicherheitsstufe gegen den häufigsten Fehler: aus Versehen überschrieben.
+**Verlauf statt nur Endstand:** Jede Auflage speichert `vorherigerText` (eine Ebene zurück, kein voller Undo-Stack). **Rückgängig** stellt genau die letzte Fassung wieder her. Bewusst keine History wie in einem Texteditor — nur Schutz gegen versehentliches Überschreiben.
 
 ### 3. Kanon — der Quelltext des Spiels
 
@@ -84,7 +95,7 @@ Jede Änderung sagt, **wohin** sie geht. Heute passiert das still.
 
 Bilder, die du hochlädst, liegen unter `public/art/sl/`. Die Auflage speichert den Pfad. In den Kanon kommen sie erst, wenn du sie einer `ArtKey`/`PortraitKey` zuweist — das bleibt Auftrag, keine Automatik.
 
-**Ergänzung — Kanon-Diff vor dem Schreiben:** „In den Kanon" zeigt vor der Bestätigung eine zeilengenaue Gegenüberstellung Kanon-Text vs. Auflage-Text (nicht nur die Zahl „n Karten weichen ab"). Ohne das committet man leicht eine vergessene Testzeile mit. Der Diff ist reine Anzeige, kein eigener Speicher — er liest live aus (2) und (3) und vergleicht.
+**Kanon-Diff vor dem Schreiben:** „In den Kanon“ zeigt vorher eine zeilengenaue Gegenüberstellung Kanon gegen Auflage (nicht nur „n Karten weichen ab“). Ohne das committet man leicht eine Testzeile mit. Der Diff ist reine Anzeige, kein eigener Speicher.
 
 ---
 
@@ -100,26 +111,26 @@ Die aktuelle Szene. Genau das, was der Spielleiter schon kann, plus:
 - Hintergrund, Portrait, Upload
 - Zustände, die diese Karte **gibt** und **nimmt**
 - Zurücksetzen auf den Kanon dieser Id
-- **Rückgängig** (letzte Auflage-Fassung, siehe oben)
-- **Diff-Ansicht** (Kanon vs. Auflage, ausklappbar, standardmäßig eingeklappt)
-- Badge **gemerkt**, wenn diese Karte eine Auflage hat — sichtbar auch, wenn das Fach geschlossen ist (siehe HUD unten)
+- **Rückgängig** (letzte Auflage-Fassung)
+- **Diff-Ansicht** (Kanon vs. Auflage, ausklappbar, standardmäßig zu)
+- Badge **gemerkt**, wenn diese Karte eine Auflage hat — auch sichtbar, wenn das Fach zu ist
 
-Ohne laufende Szene: leer, Hinweis „erst spielen, dann die Karte anfassen".
+Ohne laufende Szene: leer, Hinweis „erst spielen, dann die Karte anfassen“.
 
 Speichert nach **Auflage** (2), nicht in den Held.
 
 ### Fach Held
 
-Nur mit laufender Partie, sonst ein klarer Simulator-Modus mit Banner **nicht die Partie**.
+Nur mit laufender Partie, sonst Simulator mit Banner **nicht die Partie**.
 
-- Gunst/Last sofort auf den lebendigen Held → schreibt einen `entscheidungen`-Eintrag → Speicher **Partie** (1)
+- Gunst/Last auf den lebendigen Held → schreibt einen `entscheidungen`-Eintrag → Speicher **Partie** (1)
 - Lage vorlegen (Herkunft) → Partie
-- **Ruf-Anzeige** (abgeleitet über `rufAus()`, nicht editierbar als Zahl — nur über Gunst/Last-Aktionen veränderbar, damit jede Änderung im Log nachvollziehbar bleibt)
-- **Wissens-Ansicht** (neu): Ausgabe von `deriveKnowledge(held)`, gruppiert nach `KNOWLEDGE_META`-Typ (material/sozial/ort/übernatürlich) statt einer flachen Liste — macht auf einen Blick sichtbar, wovon der Held wie viel weiß
-- **Erinnerungs-Ansicht** (neu): `entscheidungen`-Einträge vom Typ `npc`, gruppiert nach NPC — zeigt, was sich welche Figur merkt, ohne den Rohcode des Logs lesen zu müssen
+- **Ruf** über `rufAus()`, nicht als Zahl editierbar — nur über Gunst/Last, damit jede Änderung im Log bleibt
+- **Wissen:** `deriveKnowledge(held)`, gruppiert nach `KNOWLEDGE_META`-Typ (material / sozial / ort / übernatürlich)
+- **Erinnerung:** Log-Einträge `typ=npc`, gruppiert nach Figur
 - Probe **auf diesen Held** nur hinter einem extra Knopf; Standard-Probe schreibt nichts
 
-Die Werkstatt-Wissensflags gehören hierher, nicht in ein eigenes Fenster. Kippen ohne „auf diesen Held" bleibt Simulation und verfällt beim Schließen.
+Wissensflags aus der alten Werkstatt liegen hier. Kippen ohne „auf diesen Held“ bleibt Simulation und verfällt beim Schließen.
 
 ### Fach Prüfen
 
@@ -128,10 +139,10 @@ Alles, was die alte Werkstatt konnte und **keine** Welt schreibt, außer du expo
 - Fluss durchklicken (Vorschau, startet keine Partie)
 - Questpfade legen (Journal-Vorschau)
 - Tote Knoten, Bildschlüssel
-- **Schwierigkeitskurve** (neu): Proben nach Kapitel/Ort gruppiert, min/max/Durchschnitt — macht sichtbar, wenn eine einzelne Probe unbemerkt zu leicht oder zu schwer geworden ist
-- Module: JSON holen / JSON lesen, **pro Modul einzeln** (Wissen, Proben, Wege, Quests getrennt exportierbar, nicht eine Sammeldatei), jeweils gegen das eigene Zod-Schema validiert vor dem Export
-- **In den Kanon** nur hier, mit Zähler „n Karten weichen ab" **und** der Diff-Ansicht aus dem Kanon-Abschnitt oben, bevor bestätigt wird
-- Link auf den bestehenden Mobile-Smoke-Test (`scripts/check-darkfantasy-mobile.mjs`) statt eines zweiten, parallelen Testwegs
+- **Schwierigkeitskurve:** Proben nach Ort gruppiert, min / max / Schnitt
+- Module: JSON holen / lesen, **pro Modul einzeln** (Wissen, Proben, Wege, Quests), jeweils gegen das eigene Zod-Schema
+- **In den Kanon** nur hier, mit Zähler **und** Diff, bevor bestätigt wird
+- Verweis auf den bestehenden Mobile-Smoke-Test statt eines zweiten Testwegs
 
 Playwright bleibt außerhalb. Prüfen misst Fluss, Bilder, Wissen im Browser.
 
@@ -139,28 +150,24 @@ Playwright bleibt außerhalb. Prüfen misst Fluss, Bilder, Wissen im Browser.
 
 ## Öffnen während des Spiels — HUD
 
-Bisherige Zeile:
-
 ```
 HUD:  Status ▾   Speichern   Wissen   Welt
 ```
 
-Das ist ein guter Anfang, verrät aber nicht, *ob* gerade etwas von der Norm abweicht. Erweiterung um Zustandsanzeigen statt reiner Aktions-Knöpfe:
+Erweiterung um Zustandsanzeigen, nicht um extra Knöpfe:
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  Status ▾    Speichern    Wissen (7)    Welt ● 3     │
-└─────────────────────────────────────────────────────┘
+Status ▾    Speichern    Wissen (7)    Welt ● 3
 ```
 
-- **Wissen (7)** — Zahl in Klammern ist die aktuelle Größe von `deriveKnowledge(held)`. Kein neuer Zustand, nur eine Anzeige dessen, was ohnehin berechnet wird.
-- **Welt ● 3** — der Punkt erscheint nur, wenn die aktuelle Szene eine Auflage hat (Kanon ≠ Auflage). Die Zahl daneben ist die Gesamtzahl abweichender Karten in diesem Browser, nicht nur der aktuellen. Ohne Abweichungen: schlicht „Welt" ohne Punkt und Zahl — kein leerer Platzhalter, der Aufmerksamkeit bindet, wenn nichts abweicht.
-- Simulator-Banner (Fach Held ohne Partie) bekommt eine feste Farbe (Orange/Gelb-Ton), damit er sich von normalen Hinweisen abhebt und man ihn nicht mit einem Fehler verwechselt.
-- Mobile: dieselbe Zeile, aber die Schublade öffnet als Bottom-Sheet (nicht als Seitenpanel) und respektiert die Safe-Area unten — passend zum bestehenden Mobile-Smoke-Test, der genau das schon prüft.
-- Tastenkürzel-Übersicht: `Alt+S` öffnet Welt, `Esc` schließt die Schublade, ohne die Partie zu unterbrechen — beides an derselben Stelle wie heute dokumentieren (`docs/PROJEKTKONTEXT.md`), damit es nicht nur im Code steht.
+- **Wissen (7)** — Größe von `deriveKnowledge(held)`. Kein neuer Zustand.
+- **Welt ● 3** — Punkt nur, wenn die **aktuelle** Szene eine Auflage hat. Die Zahl zählt alle abweichenden Karten in diesem Browser. Ohne Abweichung: schlicht „Welt“, kein leerer Platzhalter.
+- Simulator-Banner (Held ohne Partie): feste Warnfarbe, nicht wie ein Fehler.
+- Mobil: dieselbe Zeile, Schublade als **Bottom-Sheet** mit Safe-Area unten.
+- Tasten: `Alt+S` öffnet Welt, `Esc` schließt die Schublade, Partie läuft weiter. Beides in `docs/PROJEKTKONTEXT.md` festhalten.
 
-**Welt** öffnet die Schublade auf Fach **Karte**.
-Titel-Schalter Textmodus entfällt: wer Welt öffnet, darf Zeilen in der Karte ändern. Inline-Stifte auf der Bühne nur, wenn die Schublade offen ist — sonst spielt man.
+**Welt** öffnet Fach **Karte**.
+Titel-Schalter Textmodus entfällt. Inline-Stifte auf der Bühne nur bei offener Schublade — sonst spielt man.
 
 Kein zweites Panel. Kein `/editor` parallel zur Partie.
 
@@ -170,13 +177,13 @@ Kein zweites Panel. Kein `/editor` parallel zur Partie.
 
 Ohne das bleibt jede Auflage ein Würfelwurf gegen den nächsten Textschliff.
 
-1. `present()` bekommt optionales `id: string` (`"lager-hub"`, `"muehle-eingang"`). Fehlt es, Fallback-Hash wie heute, in der UI als brüchig markiert.
+1. `present()` bekommt optionales `id: string` (`"lager-hub"`, `"muehle-eingang"`). Fehlt es, Fallback-Hash, in der UI als brüchig markiert.
 2. Runtime reicht `id` in `SceneView`.
 3. Lookup: erst Id, dann Hash, dann Titel-Notnagel.
-4. Ein Schema `WeltAuflage` (Zod), Version 2. Beim Laden: v1-Karten und Text-Pack **einmal** mergen, nicht dauerhaft doppeltschreiben.
-5. **Neu:** Dieselbe Zod-Disziplin, die für `WeltAuflage` gilt, auf `entscheidungen` im Held anwenden (siehe separates Held-Schema-Vorhaben) — sonst validiert das Weltwerkzeug seine eigenen Schreibvorgänge strenger als das Spiel selbst seine.
+4. Schema `WeltAuflage` (Zod), Version 2. Beim Laden: v1-Karten und Text-Pack **einmal** mergen, nicht dauerhaft doppeltschreiben.
+5. Dieselbe Zod-Disziplin auf `entscheidungen` im Held (liegt schon in `heldSchema.ts`) — das Werkzeug darf sich nicht strenger prüfen als das Spiel.
 
-Das ist der einzige Code-Schritt, der vor der Oberflächen-Zusammenlegung stehen sollte. Alles andere ist UI-Umzug.
+Das ist der einzige Code-Schritt vor der Oberflächen-Zusammenlegung. Alles andere ist UI-Umzug.
 
 ---
 
@@ -187,11 +194,187 @@ Das ist der einzige Code-Schritt, der vor der Oberflächen-Zusammenlegung stehen
 - Neue ArtKeys ohne Bildplan
 - Ereignis-Würfel / Wetter — weiter leer, bis Auftrag
 - Automatisch Git, automatisch Kanon
-- Zustand- oder Monaco-Editor
+- Zustand-Library. Monaco nur für JSON im Fach Prüfen.
 - Die Partie im Fluss-Fach starten (sonst zwei Runtime)
-- Ein eigener Undo-Stack über mehrere Ebenen (bewusst nur eine Stufe zurück, siehe Auflage-Abschnitt) — ein echter History-Stack ist ein eigenes, größeres Vorhaben
+- Undo-Stack über mehrere Ebenen (nur eine Stufe zurück)
 
 ---
+
+## Ergänzung: Anfassen direkt auf der Bühne
+
+Fach Karte deckt inhaltlich schon alles ab — Titel, Text, Bild, Portrait, Wahlen, Diff, Rückgängig. Was fehlt, ist nur die Art, wie man hinkommt: man öffnet die Schublade, sucht das richtige Feld im Formular. Der ursprüngliche Wunsch war direkter: auf die Sache zeigen, die nicht passt, und sie genau dort ändern, ohne den Umweg über ein Formular.
+
+Das ist keine zweite Speicherlogik — `welt.ts` mit `merkeAuflage()`, `auflageFuerSicht()`, `kanonDiff()`, `rueckgaengigAuflage()` bleibt exakt wie es ist. Es ist nur eine zweite Tür zu denselben Funktionen, direkt auf der Bühne statt im Fach Karte.
+
+### Wie es sich anfühlt
+
+Du spielst. Du drückst `Alt+S` wie bisher — aber statt dass sich nur die Schublade öffnet, bekommt jedes sichtbare Element auf der Bühne einen leisen Umriss, sobald die Maus darüberfährt. Ein Klick auf den Titel öffnet ein kleines Feld genau an der Stelle, an der der Titel steht. Ein Klick auf das Hintergrundbild zeigt eine kleine Bildauswahl darüber. Die Schublade bleibt für alles, was einen Überblick braucht — Diff, Rückgängig, die Effekt-Chips —, aber die alltägliche Änderung eines einzelnen Satzes braucht sie nicht mehr.
+
+### Die Grundlage: eine Adresse pro sichtbarem Feld
+
+```ts
+// ➕ neue Datei: src/game/anfassen.ts
+export type AnfassAdresse =
+  | { feld: "titel" }
+  | { feld: "zeile"; index: number }
+  | { feld: "wahl"; index: number }
+  | { feld: "hintergrund" }
+  | { feld: "portrait" };
+
+export function adresseZuText(a: AnfassAdresse): string {
+  switch (a.feld) {
+    case "titel": return "Titel";
+    case "zeile": return `Zeile ${a.index + 1}`;
+    case "wahl": return `Wahl ${a.index + 1}`;
+    case "hintergrund": return "Hintergrundbild";
+    case "portrait": return "Portrait";
+  }
+}
+```
+
+Diese Adresse braucht keine neue Speicherform — sie beschreibt nur, **welcher Teil** der bereits vorhandenen `WeltAuflage` (aus `welt.ts`) gerade gemeint ist. Ein Klick auf `{ feld: "titel" }` bedeutet am Ende schlicht `onChange({ ...auflage, title: neuerText })` — derselbe Aufruf, den `WeltKarte.tsx` heute schon für das Titel-Eingabefeld macht.
+
+### Der Zustand, der Hover und Auswahl trägt
+
+```tsx
+// ➕ neue Datei: src/game/anfassen-context.tsx
+import { createContext, useContext, useState, type ReactNode } from "react";
+import type { AnfassAdresse } from "./anfassen";
+
+type Ctx = {
+  gewaehlt: AnfassAdresse | null;
+  waehle: (a: AnfassAdresse | null) => void;
+};
+
+const AnfassenCtx = createContext<Ctx | null>(null);
+
+export function AnfassenProvider({ children }: { children: ReactNode }) {
+  const [gewaehlt, setGewaehlt] = useState<AnfassAdresse | null>(null);
+  return <AnfassenCtx.Provider value={{ gewaehlt, waehle: setGewaehlt }}>{children}</AnfassenCtx.Provider>;
+}
+
+export function useAnfassen() {
+  const ctx = useContext(AnfassenCtx);
+  if (!ctx) throw new Error("useAnfassen ohne AnfassenProvider");
+  return ctx;
+}
+```
+
+Ob der Modus überhaupt aktiv ist, entscheidet weiterhin `weltAktiv()` aus `welt.ts` — kein zweiter Schalter, dieselbe Taste `Alt+S`, dasselbe Flag.
+
+### Der Wrapper um jedes anfassbare Element
+
+```tsx
+// ➕ neue Datei: src/components/game/Anfassbar.tsx
+import { autoUpdate, offset, useFloating } from "@floating-ui/react"; // ➕ npm install @floating-ui/react (MIT, ~5 kB)
+import { type ReactNode, useState } from "react";
+import { useAnfassen } from "@/game/anfassen-context";
+import type { AnfassAdresse } from "@/game/anfassen";
+import { adresseZuText } from "@/game/anfassen";
+
+export function Anfassbar({
+  adresse,
+  aktiv,
+  children,
+  editor,
+}: {
+  adresse: AnfassAdresse;
+  aktiv: boolean; // = weltAktiv()
+  children: ReactNode;
+  editor: (schliessen: () => void) => ReactNode;
+}) {
+  const { gewaehlt, waehle } = useAnfassen();
+  const [hover, setHover] = useState(false);
+  const offen = gewaehlt === adresse;
+  const { refs, floatingStyles } = useFloating({
+    open: offen,
+    placement: "bottom-start",
+    middleware: [offset(6)],
+    whileElementsMounted: autoUpdate,
+  });
+
+  if (!aktiv) return <>{children}</>;
+
+  return (
+    <span
+      ref={refs.setReference}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={(e) => {
+        e.stopPropagation();
+        waehle(offen ? null : adresse);
+      }}
+      title={adresseZuText(adresse)}
+      className={
+        "cursor-pointer rounded outline outline-2 transition-colors " +
+        (offen ? "outline-amber-400" : hover ? "outline-amber-300/50" : "outline-transparent")
+      }
+    >
+      {children}
+      {offen && (
+        <span ref={refs.setFloating} style={floatingStyles} className="z-50">
+          {editor(() => waehle(null))}
+        </span>
+      )}
+    </span>
+  );
+}
+```
+
+### Einbau in `SceneStage.tsx` — bestehende Funktionen wiederverwenden
+
+`SceneStage.tsx` bekommt bereits `patch: KartePatch` und `onPatch` als Props (siehe Werkstatt-Stand). Der Anfassen-Wrapper ruft genau `onPatch` auf, nichts Neues:
+
+```tsx
+// ➕ Titel-Zeile umschließen
+<Anfassbar
+  adresse={{ feld: "titel" }}
+  aktiv={weltAktiv()}
+  editor={(schliessen) => (
+    <TextFeld
+      wert={patch.title ?? view.title}
+      aufSpeichern={(neu) => { onPatch({ ...patch, title: neu }); schliessen(); }}
+      aufAbbrechen={schliessen}
+    />
+  )}
+>
+  <h2>{view.title}</h2>
+</Anfassbar>
+```
+
+```tsx
+// ➕ Jede Zeile einzeln, jede Wahl einzeln — gleiches Prinzip:
+{view.lines.map((line, i) => (
+  <Anfassbar key={i} adresse={{ feld: "zeile", index: i }} aktiv={weltAktiv()} editor={/* Textarea-Popover, schreibt in patch.lines[i] */}>
+    <p>{line}</p>
+  </Anfassbar>
+))}
+```
+
+```tsx
+// ➕ Hintergrund — zeigt beim Klick eine Miniaturauswahl aus ART, bereits importiert in SceneStage.tsx:
+<Anfassbar
+  adresse={{ feld: "hintergrund" }}
+  aktiv={weltAktiv()}
+  editor={(schliessen) => (
+    <BildRaster
+      quelle={ART}
+      aktuell={patch.art ?? view.art}
+      aufWahl={(art) => { onPatch({ ...patch, art }); schliessen(); }}
+    />
+  )}
+>
+  <img src={artSrcFor(view.art)} alt="" />
+</Anfassbar>
+```
+
+`TextFeld` und `BildRaster` sind zwei kleine, neue, generische Komponenten — kein neues Muster, nur ausgelagert, weil beide an mehreren Stellen gebraucht werden. `onReset`, `onRueckgaengig` und die Diff-Ansicht aus `WeltKarte.tsx` bleiben unverändert in der Schublade; sie werden von der Bühne aus nicht dupliziert.
+
+### Was mit dieser Ergänzung bewusst nicht mitkommt
+
+- Die Effekt-Chips (was eine Karte gibt/nimmt) bleiben in Fach Karte — das sind Zustände, keine sichtbaren Bühnenelemente, für die ein Klick-auf-die-Bühne keinen Sinn ergibt.
+- Eine neue Seite anlegen bleibt vorerst der Werkstatt vorbehalten (`WeltEntwurf.tsx`, bereits vorhanden) — kein Versuch, zur Laufzeit Code in `script.ts` zu schreiben.
+- Kein zweiter Speicher, keine zweite Zod-Struktur — `WeltAuflage` bleibt die einzige Form, in der eine Änderung existiert.
 
 ## Reihenfolge, wenn gebaut wird (nicht jetzt)
 
@@ -201,11 +384,12 @@ Das ist der einzige Code-Schritt, der vor der Oberflächen-Zusammenlegung stehen
 | 1 | `id` an `present`, in `SceneView` | niedrig |
 | 2 | `welt.v2` + einmalige Übernahme der zwei Alt-Speicher | niedrig |
 | 3 | Eine Schublade, drei Fächer, HUD **Welt**, Titel ein Einstieg | mittel (nur UI) |
-| 4 | HUD-Badges (Wissen-Zahl, Welt-Punkt) + Rückgängig auf Auflage-Ebene | niedrig, nach 3 |
+| 4 | HUD-Badges (Wissen-Zahl, Welt-Punkt) + Rückgängig auf Auflage | niedrig, nach 3 |
 | 5 | `/editor` und Textmodus-Flag entfernen | niedrig, nach 3 |
-| 6 | Kanon-Diff-Ansicht vor dem Schreiben | niedrig, nach 3 |
+| 6 | Kanon-Diff vor dem Schreiben | niedrig, nach 3 |
 | 7 | Kanon-Schreiben nur für Module, die schon `content.ts` sind | mittel, einzeln |
-| 8 | Schwierigkeitskurve + Content-Export pro Modul in Fach Prüfen | niedrig, nach 7 |
+| 8 | Schwierigkeitskurve + Export pro Modul in Fach Prüfen | niedrig, nach 7 |
+| 9 | Anfassen direkt auf der Bühne (Hover, Klick, Inline-Editor über `Anfassbar`) | niedrig, reine Erweiterung von Fach Karte |
 
 Spielbar nach jedem Schritt. Kein Big-Bang.
 
@@ -213,4 +397,4 @@ Spielbar nach jedem Schritt. Kein Big-Bang.
 
 ## Erfolg
 
-Du spielst. Du öffnest **Welt**. Du siehst am Knopf, dass diese Karte schon einmal geändert wurde. Du änderst den Satz am Brunnen. Du siehst **gemerkt (Auflage)**. Bei Bedarf machst du sie mit einem Klick rückgängig. Du speicherst die Partie extra. Du schreibst den Satz nur dann in den Kanon, wenn du das willst — und siehst vorher genau, was sich ändert. Die Werkstatt ist kein zweites Spiel mehr, sondern dasselbe Fach **Prüfen**.
+Du spielst. Du öffnest **Welt**. Du siehst am Knopf, dass diese Karte schon einmal geändert wurde. Du änderst den Satz am Brunnen. Du siehst **gemerkt (Auflage)**. Bei Bedarf eine Stufe zurück. Die Partie speicherst du extra. In den Kanon nur, wenn du das willst — und du siehst vorher die Zeilen. Die Werkstatt ist kein zweites Spiel, sondern Fach **Prüfen**.

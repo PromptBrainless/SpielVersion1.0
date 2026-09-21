@@ -2,17 +2,20 @@ import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import type { SceneView } from "@/game/types";
-import type { WeltAuflage } from "@/game/welt";
+import { auflageLeer, type WeltAuflage } from "@/game/welt";
+import { vorschauGmCommand } from "@/game/gm/gmCommand";
 import { formuliereText, legeKiSzeneAb } from "@/game/werkstatt.functions";
 
 export function WeltEntwurf({
   szene,
+  auflage,
+  schluessel = "",
   onChange,
 }: {
   szene: SceneView | null;
-  held?: unknown;
+  auflage?: WeltAuflage;
+  schluessel?: string;
   onChange?: (next: WeltAuflage) => void;
-  onJson?: (code: string) => void;
 }) {
   const rufen = useServerFn(formuliereText);
   const ablegen = useServerFn(legeKiSzeneAb);
@@ -21,6 +24,7 @@ export function WeltEntwurf({
   const [hinweis, setHinweis] = useState("");
   const [busy, setBusy] = useState(false);
   const [meldung, setMeldung] = useState<string | null>(null);
+  const stand = auflage && !auflageLeer(auflage) ? "Auflage" : "Kanon";
 
   useEffect(() => {
     if (!szene) return;
@@ -47,7 +51,7 @@ export function WeltEntwurf({
         return;
       }
       setAusgabe(fund.text);
-      setMeldung("Vorschlag bereit. Noch nicht gespeichert.");
+      setMeldung("Vorschlag bereit. Noch nicht auf der Karte.");
     } catch (fehler) {
       setMeldung(fehler instanceof Error ? fehler.message : "xAI nicht erreichbar.");
     } finally {
@@ -62,14 +66,21 @@ export function WeltEntwurf({
       .filter(Boolean);
   }
 
-  async function speichern() {
+  async function alsAuflage() {
     if (!ausgabe.trim() || !szene || busy) return;
     const lines = zeilenAus(ausgabe);
     if (!lines.length) return;
+    const patch: WeltAuflage = {
+      title: szene.title,
+      lines,
+      choices: szene.choices,
+      art: szene.art,
+      portrait: szene.portrait ?? null,
+    };
+    const vorschau = vorschauGmCommand({ art: "auflage", schluessel: schluessel || szene.id || szene.title, patch });
     setBusy(true);
-    setMeldung("Schreibe…");
-    const auflage: WeltAuflage = { title: szene.title, lines, choices: szene.choices, art: szene.art, portrait: szene.portrait ?? null };
-    onChange?.(auflage);
+    setMeldung(`${vorschau.satz}. Schreibt die Heldensicht nicht.`);
+    onChange?.(patch);
     try {
       const fund = await ablegen({
         data: {
@@ -85,10 +96,10 @@ export function WeltEntwurf({
         },
       });
       if (!fund.ok) {
-        setMeldung(`Auf der Karte gemerkt. Datei: ${fund.error}`);
+        setMeldung(`Auflage gemerkt. Datei: ${fund.error}`);
         return;
       }
-      setMeldung(`Gespeichert in ${fund.datei}.`);
+      setMeldung(`Auflage in ${fund.datei}.`);
     } catch (fehler) {
       setMeldung(fehler instanceof Error ? fehler.message : "Ablegen fehlgeschlagen. Auflage bleibt auf der Karte.");
     } finally {
@@ -98,7 +109,8 @@ export function WeltEntwurf({
 
   return (
     <div className="grid gap-3">
-      <p className="text-sm text-muted-fg">Grok schreibt die Szene weiter: sichtbar, körperlich, länger. Speichern legt den Text auf die Karte und in die Datei.</p>
+      <p className="text-xs text-muted-fg">{stand} · Stimme legt nur Auflage, keinen Held-State.</p>
+      <p className="text-sm text-muted-fg">Grok schreibt die Szene weiter. Legen speichert als Auflage.</p>
       <label className="text-xs text-muted-fg">
         Hinweis (optional)
         <input
@@ -136,8 +148,8 @@ export function WeltEntwurf({
         <Button type="button" variant="secondary" className="h-11 px-4" disabled={!szene} onClick={() => szene && setEingabe(szene.lines.join("\n\n"))}>
           Text der Karte
         </Button>
-        <Button type="button" className="h-11 px-4" disabled={!ausgabe.trim() || !szene || busy} onClick={() => void speichern()}>
-          Speichern
+        <Button type="button" className="h-11 px-4" disabled={!ausgabe.trim() || !szene || busy} onClick={() => void alsAuflage()}>
+          Als Auflage legen
         </Button>
       </div>
       {meldung ? <p className="text-xs text-muted-fg">{meldung}</p> : null}

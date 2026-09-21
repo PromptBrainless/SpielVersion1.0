@@ -68,7 +68,7 @@ export function TitleScreen({
           ) : null}
           <Button variant="secondary" size="lg" onClick={onRules}>
             <ScrollText className="size-4" aria-hidden />
-            Kurzregeln lesen
+            So wird gespielt
           </Button>
           <Button variant="secondary" size="lg" onClick={onWelt}>
             <Globe className="size-4" aria-hidden />

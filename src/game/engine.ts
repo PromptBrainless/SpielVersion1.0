@@ -5,17 +5,15 @@ import {
   type ProbeResult,
   tot,
 } from "./types";
-import { attributMitEffekt, hatEffekt, setzeEffekt } from "./effekte";
+import { attributMitEffekt, setzeEffekt } from "./effekte";
 import { zeitModifikator, type ProbenAktion } from "./tageszeit";
 
 export function w10(): number {
   return 1 + Math.floor(Math.random() * 10);
 }
 
-export function situationsModifikator(held: Held, lage?: "nebel"): number {
-  let extra = 0;
-  if (lage === "nebel") extra -= 2;
-  return extra;
+export function situationsModifikator(_held: Held, lage?: "nebel"): number {
+  return lage === "nebel" ? -2 : 0;
 }
 
 export function probe(
@@ -27,17 +25,18 @@ export function probe(
   lage?: "nebel",
   aktion?: ProbenAktion,
 ): ProbeResult {
-  const wert =
-    attributMitEffekt(held, attributName, attributWert) +
-    situationsModifikator(held, lage) +
-    zeitModifikator(held, aktion, attributName);
+  const attribut = attributMitEffekt(held, attributName, attributWert);
+  const mod = zeitModifikator(held, aktion, attributName);
+  const nebel = situationsModifikator(held, lage);
   const wurf = w10();
-  const summe = wurf + wert;
+  const summe = wurf + attribut + mod + nebel;
   return {
     beschreibung,
     attributName,
-    attributWert: wert,
+    attributWert: attribut,
     wurf,
+    mod,
+    nebel,
     summe,
     schwierigkeit,
     erfolg: summe >= schwierigkeit,

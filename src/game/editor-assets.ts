@@ -1,11 +1,11 @@
-import { ART, PORTRAITS } from "./art";
+import { ART, LAGEN_ART, PORTRAITS } from "./art";
 import type { ArtKey, PortraitKey } from "./types";
 
 export type AssetBefund = {
   schluessel: string;
   src: string;
   ok: boolean;
-  art: "bild" | "portrait";
+  art: "bild" | "portrait" | "lage";
   erwartet: boolean;
   hinweis?: string;
 };
@@ -40,6 +40,14 @@ export async function pruefeAssets(): Promise<AssetBefund[]> {
       ok: false,
       erwartet: true,
       hinweis: zugewiesen(src) ? undefined : "im Kanon erwartet, aber kein Bild zugewiesen",
+    })),
+    ...Object.entries(LAGEN_ART).map(([schluessel, src]) => ({
+      schluessel,
+      src,
+      art: "lage" as const,
+      ok: false,
+      erwartet: true,
+      hinweis: zugewiesen(src) ? undefined : "Lage ohne Zeichnung",
     })),
   ];
 

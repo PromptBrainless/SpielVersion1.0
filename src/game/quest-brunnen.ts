@@ -22,7 +22,7 @@ export async function dorfTruebesWasser(rt: Runtime, held: Held) {
       id: "brunnen-krug",
       title: "Der bittere Krug",
       art: "well",
-      portrait: null,
+      portrait: "dennek",
       held,
       lines: [
         "Der Wassereimer am Dorfbrunnen steht noch halb voll von der Nacht. Niemand hat sich heute Morgen die Mühe gemacht, ihn zu leeren und neu zu füllen — nicht vor dem Brot, nicht vor dem Vieh.",
@@ -51,7 +51,7 @@ export async function dorfTruebesWasser(rt: Runtime, held: Held) {
       id: "brunnen-hub",
       title: "Trübes Wasser",
       art: "well",
-      portrait: null,
+      portrait: "dennek",
       held,
       lines: [
         "Das Wasser im Eimer bleibt trüb bis auf den Grund, gleich wie oft man danach sieht, und es schmeckt nach Eisen, sobald der Wind vom Wald herüberzieht, als trüge er selbst einen Rest der Wahrheit mit sich, die man ihm sonst nirgendwo abringen kann.",
@@ -150,9 +150,10 @@ export async function kernWasser(rt: Runtime, held: Held) {
 async function dennekGespraech(rt: Runtime, held: Held) {
   if (held.dennekEntlarvt) {
     await rt.present({
+      id: "ratsherr-dennek",
       title: "Ratsherr Dennek",
       art: "well",
-      portrait: null,
+      portrait: "dennek",
       held,
       lines: [
         "Dennek trommelt nicht mehr. Die Finger liegen jetzt flach auf dem kalten Stein der Brunnenmauer, ausgebreitet, fast als müssten sie sich dort festhalten, um nicht ins Wanken zu geraten.",
@@ -195,9 +196,10 @@ async function dennekGespraech(rt: Runtime, held: Held) {
   ];
 
   const wahl = await rt.present({
+    id: "ratsherr-dennek",
     title: "Ratsherr Dennek",
     art: "well",
-    portrait: null,
+    portrait: "dennek",
     held,
     lines,
     choices: items.map((item) => item.label),

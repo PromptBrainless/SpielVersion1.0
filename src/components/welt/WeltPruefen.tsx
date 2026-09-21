@@ -1,17 +1,35 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
-import { pruefeAssets } from "@/game/editor-assets";
-import { FLUSS, knoten, toteFlussKnoten, unbekannteKanten } from "@/game/editor-fluss";
-import { QUEST_PFADE, probePfad } from "@/game/editor-quests";
+import { toteFlussKnoten, unbekannteKanten } from "@/game/editor-fluss";
 import { lagerToteKnoten } from "@/game/testTools";
 import { auflageLeer, kanonDiff, WeltAuflageSchema, type WeltAuflage } from "@/game/welt";
 import { modulFuerSzene, moduleDerSzene, modulNachSchluessel } from "@/game/szenen-katalog";
 import { legeKanonAufGithub, legeKiSzeneAb } from "@/game/werkstatt.functions";
 import { redirectToLoginIfRequired } from "@/lib/app-data";
 import type { Held, SceneView } from "@/game/types";
+import { detectPlayerLeaks } from "@/game/gm/detectPlayerLeaks";
+import { mapHeldToPlayerHud } from "@/game/gm/mapHeldToPlayerHud";
+import { WeltBibliothek } from "./WeltBibliothek";
+import { WeltBilder } from "./WeltBilder";
+import { WeltGraph } from "./WeltGraph";
+import { WeltPruefgraph } from "./WeltPruefgraph";
+import { WeltQuestpfad } from "./WeltQuestpfad";
+import { WeltRegeln } from "./WeltRegeln";
+import { WeltZustaende } from "./WeltZustaende";
 
 const JsonMonaco = lazy(() => import("./JsonMonaco"));
+
+function netzStand() {
+  const tot = toteFlussKnoten();
+  const kanten = unbekannteKanten();
+  const lager = lagerToteKnoten();
+  return [
+    tot.length ? `Tote Knoten: ${tot.join(", ")}` : "Keine toten Knoten im Prüfgraph.",
+    kanten.length ? `Kanten: ${kanten.join(", ")}` : "Alle Kanten existieren.",
+    lager.length ? `Lager tot: ${lager.join(", ")}` : "Lager: jeder Weg hängt am Hub.",
+  ];
+}
 
 type Quelle = string;
 
@@ -31,6 +49,7 @@ export function WeltPruefen({
   schluessel = "",
   held = null,
   onChange,
+  onSeite,
   seite = false,
 }: {
   szene: SceneView | null;
@@ -38,14 +57,12 @@ export function WeltPruefen({
   schluessel?: string;
   held?: Held | null;
   onChange?: (next: WeltAuflage) => void;
+  onSeite?: (id: string) => void;
   seite?: boolean;
 }) {
   const haupt = modulFuerSzene(szene);
-  const [netz, setNetz] = useState<string[] | null>(null);
-  const [bilder, setBilder] = useState<string[] | null>(null);
-  const [questId, setQuestId] = useState(QUEST_PFADE[0]!.id);
-  const [quest, setQuest] = useState<string[] | null>(null);
-  const [ort, setOrt] = useState("intro-weg");
+  const [netz, setNetz] = useState<string[] | null>(() => netzStand());
+  const [lecks, setLecks] = useState<string[] | null>(null);
   const [importMeldung, setImportMeldung] = useState<string | null>(null);
   const [codeOffen, setCodeOffen] = useState(seite);
   const [quelle, setQuelle] = useState<Quelle>(haupt.schluessel);
@@ -55,7 +72,6 @@ export function WeltPruefen({
   const ablegenFn = useServerFn(legeKiSzeneAb);
   const kanon = szene?.original ?? (szene ? { title: szene.title, lines: szene.lines, choices: szene.choices } : null);
   const diff = kanon ? kanonDiff(kanon, auflage) : null;
-  const aktueller = knoten(ort);
   const datei = (modulNachSchluessel(quelle, szene) ?? haupt).datei;
 
   useEffect(() => {
@@ -74,97 +90,55 @@ export function WeltPruefen({
 
   return (
     <div>
-      <Button
-        type="button"
-        variant="secondary"
-        className="h-9 px-3 text-xs"
-        onClick={() => {
-          const tot = toteFlussKnoten();
-          const kanten = unbekannteKanten();
-          const lager = lagerToteKnoten();
-          setNetz([
-            tot.length ? `Tote Knoten: ${tot.join(", ")}` : "Keine toten Knoten im Prüfgraph.",
-            kanten.length ? `Kanten: ${kanten.join(", ")}` : "Alle Kanten existieren.",
-            lager.length ? `Lager tot: ${lager.join(", ")}` : "Lager: jeder Weg hängt am Hub.",
-          ]);
-        }}
-      >
-        Netz
-      </Button>
-      {netz ? (
-        <ul className="mt-2 text-sm">
-          {netz.map((z) => (
-            <li key={z}>{z}</li>
-          ))}
-        </ul>
-      ) : null}
-
-      <p className="mt-3 text-xs text-muted-fg">Fluss — keine Partie</p>
-      <p className="font-display text-lg">{aktueller?.titel ?? ort}</p>
-      <div className="mt-1 flex flex-wrap gap-1.5">
-        {(aktueller?.weiter ?? []).map((kante) => (
-          <Button key={kante.id} variant="secondary" className="h-9 px-2 text-xs" onClick={() => setOrt(kante.id)}>
-            {kante.label}
-          </Button>
+      <p className="mb-1 text-xs text-muted-fg">Netz — Kanon-Graph, keine Partie. Tippen zeigt den Text. Öffnen holt die Karte.</p>
+      <ul className="mb-2 text-xs text-muted-fg">
+        {netz?.map((z) => (
+          <li key={z}>{z}</li>
         ))}
-      </div>
-      <button type="button" className="mt-1 text-xs text-muted-fg" onClick={() => setOrt("intro-weg")}>
-        Von vorn
-      </button>
-      <p className="mt-1 text-xs text-subtle-fg">{FLUSS.length} Orte im Prüfgraph</p>
-
-      <p className="mt-3 text-xs text-muted-fg">Questpfad</p>
-      <div className="mt-1 flex flex-wrap gap-1.5">
-        {QUEST_PFADE.map((item) => (
-          <Button key={item.id} variant={questId === item.id ? "default" : "secondary"} className="h-9 px-2 text-xs" onClick={() => setQuestId(item.id)}>
-            {item.titel}
+      </ul>
+      <Button type="button" variant="secondary" className="mb-3 h-9 px-3 text-xs" onClick={() => setNetz(netzStand())}>
+        Netz neu prüfen
+      </Button>
+      {held ? (
+        <div className="mb-3">
+          <Button
+            type="button"
+            variant="secondary"
+            className="h-9 px-3 text-xs"
+            onClick={() => {
+              const fund = detectPlayerLeaks(mapHeldToPlayerHud(held));
+              setLecks(fund.length ? fund.map((f) => `${f.pfad} · ${f.schluessel}`) : ["Heldensicht ohne Leck."]);
+            }}
+          >
+            Heldensicht prüfen
           </Button>
-        ))}
-      </div>
-      <Button
-        type="button"
-        className="mt-2 h-9 px-3 text-xs"
-        onClick={() => {
-          const fund = probePfad(questId);
-          setQuest(fund.sicher.length ? fund.sicher : ["Kein Journal-Satz."]);
-        }}
-      >
-        Pfad legen
-      </Button>
-      {quest ? (
-        <ul className="mt-2 space-y-1 text-sm text-ok">
-          {quest.map((z) => (
-            <li key={z}>{z}</li>
-          ))}
-        </ul>
+          {lecks ? (
+            <ul className="mt-1 text-xs text-muted-fg">
+              {lecks.map((z) => (
+                <li key={z}>{z}</li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
       ) : null}
+      <WeltGraph aktuell={szene?.id} onPick={onSeite} />
+      <WeltPruefgraph />
+      <WeltQuestpfad />
+      <WeltBilder />
 
-      <Button
-        type="button"
-        variant="secondary"
-        className="mt-3 h-9 px-3 text-xs"
-        onClick={async () => {
-          const liste = await pruefeAssets();
-          setBilder(
-            liste.map((item) =>
-              item.hinweis
-                ? `${item.art} ${item.schluessel}: ${item.ok ? "da" : "fehlt"} — ${item.hinweis}`
-                : `${item.art} ${item.schluessel}: ${item.ok ? "da" : "fehlt"}`,
-            ),
-          );
-        }}
-      >
-        Bilder
-      </Button>
-      {bilder ? (
-        <ul className="mt-2 text-xs">
-          {bilder.map((z) => (
-            <li key={z}>{z}</li>
-          ))}
-        </ul>
-      ) : null}
+      <details className="mt-4 rounded-sm border border-border px-3 py-2">
+        <summary className="cursor-pointer text-sm text-muted-fg">Bibliothek, Regeln, Zustände</summary>
+        <div className="mt-2">
+      <WeltBibliothek onSeite={onSeite} />
+      <WeltRegeln onSeite={onSeite} />
+      <WeltZustaende />
+        </div>
+      </details>
 
-      <p className="mt-3 text-xs text-muted-fg">
+      <details className="mt-3 rounded-sm border border-border px-3 py-2">
+        <summary className="cursor-pointer text-sm text-muted-fg">JSON, Ablegen, GitHub</summary>
+        <div className="mt-2">
+      <p className="text-xs text-muted-fg">
         JSON — {datei}
         {szene?.id ? ` · ${szene.id}` : ""}
       </p>
@@ -340,6 +314,8 @@ export function WeltPruefen({
       ) : (
         <p className="mt-3 text-xs text-muted-fg">Kanon-Diff braucht eine offene Szene.</p>
       )}
+        </div>
+      </details>
     </div>
   );
 }

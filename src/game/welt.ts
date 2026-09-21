@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { HERKUNFT_FRAGEN, lageLeer, mitLagen, type HerkunftFrage, type HerkunftPatch } from "./herkunft";
 import type { ArtKey, EffektId, PortraitKey, SceneView } from "./types";
 import { readLocalPack } from "./text-pack";
 
@@ -28,9 +29,23 @@ export const WeltAuflageSchema = z.object({
   vorherigerText: TextStandSchema.optional(),
 });
 
+export const HerkunftPatchSchema = z.object({
+  titel: z.string().optional(),
+  geschichte: z.array(z.string()).optional(),
+  antworten: z
+    .array(
+      z.object({
+        label: z.string().optional(),
+        mal: z.string().optional(),
+      }),
+    )
+    .optional(),
+});
+
 export const WeltPackSchema = z.object({
   version: z.literal(2),
   karten: z.record(z.string(), WeltAuflageSchema),
+  lagen: z.record(z.string(), HerkunftPatchSchema).optional(),
 });
 
 export type WeltAuflage = {
@@ -48,16 +63,16 @@ export type WeltAuflage = {
 
 export type KartePatch = WeltAuflage;
 
-export type WeltPack = { version: 2; karten: Record<string, WeltAuflage> };
+export type WeltPack = { version: 2; karten: Record<string, WeltAuflage>; lagen: Record<string, HerkunftPatch> };
 
 function leer(): WeltPack {
-  return { version: 2, karten: {} };
+  return { version: 2, karten: {}, lagen: {} };
 }
 
 function alsPack(value: unknown): WeltPack {
   const parsed = WeltPackSchema.safeParse(value);
   if (!parsed.success) return leer();
-  return parsed.data as WeltPack;
+  return { version: 2, karten: parsed.data.karten as WeltPack["karten"], lagen: parsed.data.lagen ?? {} };
 }
 
 export function weltAktiv(): boolean {
@@ -255,6 +270,24 @@ export function hatAuflage(schluessel: string): boolean {
   return !auflageLeer(ladeWelt().karten[schluessel]);
 }
 
+export function merkeLage(id: string, patch: HerkunftPatch) {
+  const pack = ladeWelt();
+  pack.lagen[id] = patch;
+  if (lageLeer(patch)) delete pack.lagen[id];
+  return schreibeWelt(pack);
+}
+
+export function loescheLage(id: string) {
+  const pack = ladeWelt();
+  delete pack.lagen[id];
+  schreibeWelt(pack);
+}
+
+export function sichtbareHerkunft(): HerkunftFrage[] {
+  if (typeof window === "undefined") return HERKUNFT_FRAGEN;
+  return mitLagen(ladeWelt().lagen);
+}
+
 function uniqueIds(ids: EffektId[]): EffektId[] | undefined {
   const next = [...new Set(ids)];
   return next.length ? next : undefined;
@@ -272,7 +305,8 @@ export function wendePatchAn(view: SceneView, patch: WeltAuflage | null | undefi
     art: (patch.art as ArtKey | undefined) ?? view.art,
     portrait,
     artSrc: patch.artSrc?.trim() || view.artSrc,
-    portraitSrc: patch.portraitSrc?.trim() || view.portraitSrc,
+    portraitSrc:
+      patch.portrait === null && !patch.portraitSrc?.trim() ? undefined : patch.portraitSrc?.trim() || view.portraitSrc,
     lines: patch.lines?.map((line) => line.trim()).filter(Boolean) ?? view.lines,
     choices,
     seiteHinzu: uniqueIds([...(view.seiteHinzu ?? []), ...((patch.effekte as EffektId[] | undefined) ?? [])]),

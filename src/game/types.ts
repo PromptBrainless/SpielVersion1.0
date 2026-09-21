@@ -65,7 +65,22 @@ export type ArtKey =
   | "death"
   | "return";
 
-export type PortraitKey = "holm" | "mara" | "kess" | "miller" | "kern" | "sanna" | "smith" | "beggar" | "grovin";
+export type PortraitKey =
+  | "holm"
+  | "mara"
+  | "kess"
+  | "miller"
+  | "kern"
+  | "sanna"
+  | "smith"
+  | "beggar"
+  | "grovin"
+  | "dennek"
+  | "lene"
+  | "vahl"
+  | "grete"
+  | "rennik"
+  | "jorren";
 export type Tageszeit = "daemmerung" | "tag" | "nacht";
 
 export type Held = {
@@ -153,6 +168,8 @@ export type ProbeResult = {
   attributName: string;
   attributWert: number;
   wurf: number;
+  mod: number;
+  nebel: number;
   summe: number;
   schwierigkeit: number;
   erfolg: boolean;

@@ -10,12 +10,13 @@
       "art": "townhall",
       "portrait": "holm",
       "lines": [
-        "Im Rathaus hängt der Geruch von nassem Tuch und altem Wachs. Holm sitzt hinter einem Tisch, der zu groß ist für die wenigen Papiere darauf, und zu klein für alles, was er nicht aufschreibt.",
-        "Er sieht dich an, wie man jemanden ansieht, der eine Rechnung bringen könnte. Die Hände bleiben auf dem Holz, flach, als könne Bewegung schon ein Geständnis sein.",
-        "Hinter ihm klebt an der Wand dasselbe rote Wachs wie am Hang, hier alt und unversehrt. Holm folgt deinem Blick nicht. Er weiß, was dort hängt."
+        "Du stehst im holzvertäfelten Kontor und spürst, wie die Kälte vom Boden durch die Sohlen kriecht. Kerzen flackern über den Papieren, Ruß hängt in der Luft und legt sich bitter auf die Zunge. Holm sitzt dir gegenüber, die Hände flach auf dem Tisch, als wöge er etwas Unsichtbares ab. Du kannst den Auftrag einfach annehmen — oder ihn dir verdienen. Hinter Holm tickt eine Uhr, obwohl du keine siehst. Jeder Schlag klingt wie ein weiterer Sack Mehl, der im Steinbruch verschwindet. Das Holz der Vertäfelung riecht nach altem Wachs und feuchtem Staub. Die Papiere rascheln leise, wenn ein Luftzug die Flammen zerrt. Holms Blick bleibt schwer auf dir liegen, ohne Eile, ohne Wärme. Du spürst das Gewicht der Entscheidung in den Schultern, kalt und greifbar wie nasse Wolle. Die Kerzen tropfen, Wachs erstarrt am Rand der Leuchter. Wieder der Schlag. Wieder der Sack, der fällt und vergeht. Du atmest den Geruch von Tinte und kaltem Holz und wartest."
       ],
       "choices": [
-        "Weiter"
+        "Auftrag nüchtern annehmen",
+        "Vertrauen gewinnen (Charisma, mittel)",
+        "Druck machen und Gold fordern (Charisma, schwer)",
+        "Wieder gehen"
       ]
     }
   ]

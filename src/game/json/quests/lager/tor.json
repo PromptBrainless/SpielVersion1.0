@@ -10,11 +10,11 @@
       "art": "gate",
       "portrait": null,
       "lines": [
-        "Der Schlüssel dreht sich schwer. Rost redet mit, gibt aber nach.",
-        "Du kommst hinter dem Holzstapel raus — näher an der Kiste als am Feuer.",
-        "Der Gang hinter dem Tor ist niedrig und riecht nach Moder. An der Wand stehen Zahlen, mit Kreide geschrieben und immer wieder durchgestrichen.",
-        "Unter deinen Stiefeln liegen alte Lederriemen und ein verrosteter Meißel. Der Steinbruch war einmal ein Arbeitsplatz. Das Lager hat nur gelernt, seine Knochen zu benutzen.",
-        "Durch die Spalten des Holzstapels siehst du Kess am Feuer. Er würfelt nicht mehr. Er wartet."
+        "Der Schlüssel dreht sich schwer in deiner Faust. Rost redet mit, knirscht und splittert, gibt aber nach. Das Metall ist kalt und rau, die Zähne greifen, das Schloss gibt einen dumpfen Klick. Feuchtigkeit tropft vom steinernen Torbogen in den nassen Durchgang, rinnt dir am Handgelenk hinab, riecht nach Eisen und altem Schmutz.",
+        "Du kommst hinter dem Holzstapel raus — näher an der Kiste als am Feuer. Das Holz ist nass und schwer, die Rinde schwarz, die Spalten eng. Dein Atem hängt weiß in der Luft. Die Kiste drückt kalt gegen deine Hüfte, das Feuer liegt weiter weg, wirft nur einen schwachen Streifen Licht über den Boden.",
+        "Der Gang hinter dem Tor ist niedrig und riecht nach Moder. Die Decke drückt, Stein reibt an deinen Schultern. An der Wand stehen Zahlen, mit Kreide geschrieben und immer wieder durchgestrichen. Die Striche sind grau und fett, manche verwischt von Nässe, manche neu und hart. Der Moder steigt aus den Fugen, schwer und süßlich faul, legt sich auf die Zunge.",
+        "Unter deinen Stiefeln liegen alte Lederriemen und ein verrosteter Meißel. Das Leder ist steif und rissig, knackt, wenn du darauf trittst. Der Meißel ist stumpf, der Rost blättert ab und bleibt an der Sohle haften. Der Steinbruch war einmal ein Arbeitsplatz. Das Lager hat nur gelernt, seine Knochen zu benutzen. Alles hier ist abgenutzt, kalt, schwer von Gebrauch und Vergessen.",
+        "Durch die Spalten des Holzstapels siehst du Kess am Feuer. Die Flammen sind klein, rauchen, werfen ihm Licht auf die Hände. Er würfelt nicht mehr. Die Würfel liegen still neben ihm im Dreck. Er wartet. Sein Atem geht ruhig, die Schultern gesenkt, der Blick fest auf den Durchgang gerichtet, als hätte er die Zeit und das Gewicht des Steins längst akzeptiert."
       ],
       "choices": [
         "Nur die Beute nehmen und verschwinden (Geschick, leicht)",
