@@ -36,17 +36,17 @@ Der Rohplan ist an einer Stelle überholt: Mühle, Brunnen und Kesseljahr **sind
 | 1 HeldSchema | **drin** `heldSchema.ts` |
 | 2 Entscheidungs-Log | **drin** `decisions.ts`, Default `[]` |
 | 3 KNOWLEDGE_META | **drin** |
-| 4 Proben-Modifikator Nebel/Erschöpfung | **drin** (`probe(..., "nebel")`, Erschöpfung −3 gesamt) |
+| 4 Proben-Modifikator Nebel/Erschöpfung | **drin.** Summe = W10 + ST/GE/CH + Mod + Nebel. Erschöpfung einmal im Attribut. Wunde fällt bei LP 8. |
 | 5 Ruf `rufAus` | **drin**, HUD + SL, kein Decay |
 | 6 Erinnerung | **drin**, `synchronisiereLog` beim `present` |
 | 7 Dead-Node + Lager-Checkliste | Fluss echt (`FLUSS`). Lager liest `LAGER_WEGE`, kein Stub |
 | 8 Lager nach `content.ts` | Hub **und** vier Wege in `lager-content.ts`; Ablauf bleibt `script.ts` |
 | 9 Wege | **drin** `seitentor`, `schleich_ablenkung`; `wissen_anfuehrer` / `banditen_geholfen` reserviert |
-| 10 Export/Import JSON | Export + `importiereModul` (Zod). Import schreibt nicht in den Kanon |
+| 10 Export/Import JSON | **drin** Modul-Export + Spielstand-JSON (Titel: Standdatei). Zod prüft den Kern beim Laden. |
 | 11 Orts-Module | teilweise: `seiten-zustaende.ts` |
 | 12 Quest-Module extrahieren | Mühle, Brunnen, Gasse erledigt |
 | 13 neue Quest-Typen | **nicht** — nur mit Questreihen-Skill |
-| 14 Editor | **Weltwerkzeug** im Spiel (HUD Welt). `/editor` = Prüfen ohne Partie |
+| 14 Editor | **Weltwerkzeug** im Spiel. `/editor` merkt Auflagen ohne Partie |
 | 15 Epilog aus Log | **drin**, Zusatzzeilen aus Ruf |
 
 Inhalt, der **nicht** vor dem Fundament kommt: dritte Versorgungsquest, zweite Erinnerungsquest, Chargen-Objekte, SL-Ereignis. Die Specs dafür bleiben gültig (`QUESTREGISTER`, `SZENARIO_ALTER_GLOCKENWEG`).

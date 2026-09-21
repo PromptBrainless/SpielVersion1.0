@@ -3,7 +3,7 @@ import { Runtime } from "@/game/runtime";
 import { spielen } from "@/game/script";
 import { ART, LAGEN_ART, PORTRAITS } from "@/game/art";
 import { cloneHeld, type EffektId, type Held, type SceneView } from "@/game/types";
-import { hasSavedGame, listSavedGames, loadGame, loadGameByName, saveGame, type SaveSlotInfo } from "@/game/save";
+import { hasSavedGame, importiereSpielstand, listSavedGames, loadGame, loadGameByName, saveGame, type SaveSlotInfo } from "@/game/save";
 import { hatEffekt, setzeEffekt } from "@/game/effekte";
 import { type Tageszeit } from "@/game/tageszeit";
 import { vorschauGmCommand, wendeGmCommandAn } from "@/game/gm/gmCommand";
@@ -28,6 +28,8 @@ import { CreateHero } from "./CreateHero";
 import { RulesScreen } from "./RulesScreen";
 import { SceneStage } from "./SceneStage";
 import { TitleScreen } from "./TitleScreen";
+import { leiterFrei } from "@/game/leiter-login";
+import { LeiterLogin } from "./LeiterLogin";
 import { WeltEditor } from "@/components/welt/WeltEditor";
 
 type Mode = "title" | "rules" | "create" | "play";
@@ -42,6 +44,7 @@ export function GameApp() {
   const [knowledgeOpen, setKnowledgeOpen] = useState(false);
   const [debug] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"));
   const [leiterOpen, setLeiterOpen] = useState(false);
+  const [leiterLogin, setLeiterLogin] = useState(false);
   const [patch, setPatch] = useState<KartePatch>({});
   const [schluessel, setSchluessel] = useState("");
   const [lageIndex, setLageIndex] = useState<number | null>(null);
@@ -75,6 +78,16 @@ export function GameApp() {
   useEffect(() => () => stopPlay(), [stopPlay]);
 
   useEffect(() => {
+    if (mode !== "play") return;
+    const current = view?.held ?? held;
+    if (!current) return;
+    const timer = window.setTimeout(() => {
+      if (saveGame(current)) refreshSaves();
+    }, 500);
+    return () => window.clearTimeout(timer);
+  }, [held, mode, refreshSaves, view?.held]);
+
+  useEffect(() => {
     const quelle = view ?? introAlsSzene();
     const gefunden = auflageFuerSicht(quelle);
     setSchluessel(gefunden.schluessel);
@@ -85,15 +98,12 @@ export function GameApp() {
     function onKey(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setLeiterOpen(false);
+        setLeiterLogin(false);
         return;
       }
       if (!(event.altKey && event.key.toLowerCase() === "s")) return;
       event.preventDefault();
-      setLeiterOpen((open) => {
-        const next = !open;
-        if (next) setzeWeltAktiv(true);
-        return next;
-      });
+      requestLeiter();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -108,7 +118,7 @@ export function GameApp() {
       setSaveMessage(null);
       setKnowledgeOpen(false);
       setLageIndex(null);
-      setLeiterOpen(weltAktiv());
+      setLeiterOpen(weltAktiv() && leiterFrei());
       setMode("play");
       const runtime = new Runtime(setView, setHeld);
       runtimeRef.current = runtime;
@@ -118,6 +128,7 @@ export function GameApp() {
         })
         .finally(() => {
           if (runtimeRef.current === runtime) {
+            if (liveRef.current) saveGame(liveRef.current);
             runtimeRef.current = null;
             liveRef.current = null;
             setHeld(null);
@@ -144,6 +155,20 @@ export function GameApp() {
       return true;
     },
     [startAdventure],
+  );
+
+  const importAdventure = useCallback(
+    (roh: string) => {
+      const saved = importiereSpielstand(roh);
+      if (!saved) {
+        setSaveMessage("Die Datei ist kein gültiger Spielstand.");
+        return false;
+      }
+      refreshSaves();
+      startAdventure(saved, true);
+      return true;
+    },
+    [refreshSaves, startAdventure],
   );
 
   const saveCurrentGame = useCallback(() => {
@@ -242,11 +267,15 @@ export function GameApp() {
     setView((current) => (current ? { ...current, held: next } : current));
   }, [patch.effekte, patch.effekteFort, view?.textKey]);
 
-  function toggleWelt() {
+  function requestLeiter() {
     setLeiterOpen((open) => {
-      const next = !open;
-      if (next) setzeWeltAktiv(true);
-      return next;
+      if (open) return false;
+      if (leiterFrei()) {
+        setzeWeltAktiv(true);
+        return true;
+      }
+      setLeiterLogin(true);
+      return false;
     });
   }
 
@@ -270,6 +299,16 @@ export function GameApp() {
       startFach={mode === "create" ? "held" : "karte"}
     />
   ) : null;
+  const login = leiterLogin ? (
+    <LeiterLogin
+      onOk={() => {
+        setzeWeltAktiv(true);
+        setLeiterLogin(false);
+        setLeiterOpen(true);
+      }}
+      onClose={() => setLeiterLogin(false)}
+    />
+  ) : null;
 
   if (mode === "title") {
     return (
@@ -281,17 +320,20 @@ export function GameApp() {
           onLoadName={loadAdventureByName}
           canLoad={canLoad}
           slots={slots}
-          onWelt={toggleWelt}
+          onWelt={requestLeiter}
+          onImport={importAdventure}
         />
         {welt}
+        {login}
       </>
     );
   }
   if (mode === "rules") {
     return (
       <>
-        <RulesScreen onBack={() => setMode("title")} onWelt={toggleWelt} />
+        <RulesScreen onBack={() => setMode("title")} onWelt={requestLeiter} />
         {welt}
+        {login}
       </>
     );
   }
@@ -301,10 +343,11 @@ export function GameApp() {
         <CreateHero
           onReady={startAdventure}
           onBack={() => setMode("title")}
-          onWelt={toggleWelt}
+          onWelt={requestLeiter}
           onLoadName={loadAdventureByName}
         />
         {welt}
+        {login}
       </>
     );
   }
@@ -316,6 +359,7 @@ export function GameApp() {
           Der Wald hält den Atem an…
         </div>
         {welt}
+        {login}
       </>
     );
   }
@@ -337,7 +381,7 @@ export function GameApp() {
       leiterOpen={leiterOpen}
       patch={kartenPatch}
       schluessel={gefunden.schluessel}
-      onLeiter={toggleWelt}
+      onLeiter={requestLeiter}
       onPatch={onPatch}
       onResetKarte={onResetKarte}
       onRueckgaengig={onRueckgaengig}
@@ -357,6 +401,7 @@ export function GameApp() {
       onLageSchliessen={() => setLageIndex(null)}
     />
     {welt}
+    {login}
     </>
   );
 }

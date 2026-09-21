@@ -8,7 +8,7 @@ import { mapHeldToPlayerHud } from "@/game/gm/mapHeldToPlayerHud";
 import { probeZeile } from "@/game/gm/probeZeile";
 import { vorschauGmCommand } from "@/game/gm/gmCommand";
 import { sichtbareHerkunft } from "@/game/welt";
-import type { ProbenAktion } from "@/game/zeitModifikatoren";
+import type { ProbenAktion } from "@/game/tageszeit";
 import { EffektChips } from "./EffektChips";
 import { WeltFiguren } from "./WeltFiguren";
 import { WeltMoral } from "./WeltMoral";

@@ -1,8 +1,8 @@
 # Weltwerkzeug — eine Fläche, drei Speicher
 
-**Stand:** gebaut bis Schritt 4 plus Tageszeit, 20. September 2026. `/editor` bleibt als Fach Prüfen ohne Partie.
+**Stand:** im Spiel (HUD Welt). Code: `src/components/welt/`, Verträge: `src/game/gm/`.
+`/editor` merkt Auflagen ohne Partie. Dieses Blatt ist das Zielbild, nicht der Einbau.
 Ersetzt als Zielbild: `docs/SPIELLEITER.md` + `docs/EDITOR.md`.
-Beide Oberflächen tun dasselbe: die Welt anfassen. Sie sollen **eine** werden, **während des Spiels** erreichbar.
 
 ### Werkstatt — ehrlich
 

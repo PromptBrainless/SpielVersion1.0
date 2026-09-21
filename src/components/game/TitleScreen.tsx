@@ -1,4 +1,4 @@
-import { BookOpen, FolderOpen, Globe, Play, ScrollText } from "lucide-react";
+import { BookOpen, FolderOpen, Globe, Play, ScrollText, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ART } from "@/game/art";
 import type { SaveSlotInfo } from "@/game/save";
@@ -11,6 +11,7 @@ export function TitleScreen({
   canLoad,
   slots = [],
   onWelt,
+  onImport,
 }: {
   onStart: () => void;
   onRules: () => void;
@@ -19,6 +20,7 @@ export function TitleScreen({
   canLoad: boolean;
   slots?: SaveSlotInfo[];
   onWelt: () => void;
+  onImport?: (roh: string) => boolean;
 }) {
   return (
     <div className="relative isolate min-h-dvh overflow-x-hidden overflow-y-auto bg-bg text-fg">
@@ -74,6 +76,23 @@ export function TitleScreen({
             <Globe className="size-4" aria-hidden />
             Weltwerkzeug
           </Button>
+          {onImport ? (
+            <label className="inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-md border border-border bg-surface px-4 text-sm text-fg">
+              <Upload className="size-4" aria-hidden />
+              Standdatei
+              <input
+                type="file"
+                accept="application/json,.json"
+                className="sr-only"
+                onChange={(event) => {
+                  const datei = event.target.files?.[0];
+                  event.target.value = "";
+                  if (!datei) return;
+                  void datei.text().then((roh) => onImport(roh));
+                }}
+              />
+            </label>
+          ) : null}
         </div>
         <p className="mt-6 inline-flex items-center gap-2 text-xs text-muted-fg">
           <BookOpen className="size-3.5" aria-hidden />

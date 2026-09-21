@@ -1,29 +1,28 @@
-# Übergabe — 20. September 2026, Abend
+# Übergabe — 21. September 2026
 
-Neues Fenster: zuerst `docs/KONTEXT_NEUES_FENSTER.md`.
-
-**Auftrag:** Welteditor neu unter `src/components/welt/`. Nicht alten SL-/Werkstatt-Code erweitern.
-
-Frisch starten sonst: `docs/ERNEUERUNGSPLAN.md`, `docs/QUESTREGISTER.md`.
-
-## Was im Spiel liegt
-
-Drei Nebenquests. Hauptfluss unberührt. 18 Zustände, Lagen, HUD oben. Welt-Speicher `welt.v2` und Szenen-Ids an den Hubs sitzen.
-
-| Quest | Einstieg | Modul | Status |
-|---|---|---|---|
-| Die Schuld der Mühle | `Zur Mühle gehen` | `quest-muehle.ts` | Goldstandard |
-| Das trübe Wasser | `Den trüben Eimer prüfen` | `quest-brunnen.ts` | spielbar |
-| Das Kesseljahr | `Zur Gerbereigasse gehen` | `quest-kesseljahr.ts` | spielbar |
+Neues Fenster: `docs/ERNEUERUNGSPLAN.md`, dann `AGENTS.project.md`.
 
 Repo: nur [SpielVersion1.0](https://github.com/PromptBrainless/SpielVersion1.0).
+
+## Ist
+
+Weltwerkzeug im Spiel (HUD **Welt**, Alt+S). Vier Fächer: Karte, Held, Stimme, Prüfen.  
+GameState → Mapper → Heldensicht. Probe: `W10 + ST/GE/CH + Mod + Nebel`.  
+Gunst / Last / Lage getrennt. Sprechende Figuren haben Porträt.  
+Namensslot in localStorage, Autosave nach 500 ms, JSON-Import auf dem Titel.
+
+| Quest | Einstieg | Modul |
+|---|---|---|
+| Die Schuld der Mühle | Zur Mühle gehen | `quest-muehle.ts` |
+| Das trübe Wasser | Brunnen | `quest-brunnen.ts` |
+| Das Kesseljahr | Gerbereigasse | `quest-kesseljahr.ts` |
+
+Hauptfluss und Lager: `script.ts` + `lager-content.ts`. Kanon-Texte: `json/baum.ts`.
 
 ## Stimme
 
 Deutsch. Du. Präsens. Schön, hart, düster. Vorbild `quest-muehle.ts`.
 
-## Nächster Schritt
+## Nicht ohne Auftrag
 
-Welteditor **neu einbauen** — alle Funktionen aus `docs/KONTEXT_NEUES_FENSTER.md`. Alte Dateien `SpielleiterPanel.tsx`, `Weltwerkzeug.tsx`, `EditorApp.tsx` nicht als Grundlage.
-
-Nicht ohne Auftrag: Engine, Auth, Haupt-Endtitel, neue ArtKeys, Zod-Big-Bang von `types.ts`.
+Engine-Tausch, Auth, DB, Haupt-Endtitel, Zod-Vollumbau von `types.ts`, neue ArtKeys.

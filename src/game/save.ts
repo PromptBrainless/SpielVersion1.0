@@ -1,4 +1,4 @@
-import { leseEntscheidungen } from "./heldSchema";
+import { HeldPartialSchema, leseEntscheidungen } from "./heldSchema";
 import { createHeld, type Held } from "./types";
 
 const SAVE_KEY = "lindendorf-save-v1";
@@ -21,18 +21,9 @@ export type SaveSlotInfo = {
 type SlotMap = Record<string, SavePayload>;
 
 function isHeld(value: unknown): value is Held {
-  if (!value || typeof value !== "object") return false;
+  if (!HeldPartialSchema.safeParse(value).success) return false;
   const held = value as Partial<Held>;
-  return (
-    typeof held.name === "string" &&
-    typeof held.staerke === "number" &&
-    typeof held.geschick === "number" &&
-    typeof held.charisma === "number" &&
-    typeof held.lp === "number" &&
-    Array.isArray(held.inventar) &&
-    typeof held.gold === "number" &&
-    typeof held.lebend === "boolean"
-  );
+  return Array.isArray(held.inventar) && typeof held.gold === "number" && typeof held.lebend === "boolean";
 }
 
 export function normalizeHeldName(name: string): string {
@@ -202,9 +193,43 @@ export function peekSaveForName(name: string): SaveSlotInfo | null {
   };
 }
 
+export function exportiereSpielstand(held: Held): string {
+  const name = normalizeHeldName(held.name) || "Namenlos";
+  const payload: SavePayload = {
+    version: 1,
+    savedAt: new Date().toISOString(),
+    held: { ...held, name },
+  };
+  return JSON.stringify(payload, null, 2);
+}
+
+export function importiereSpielstand(roh: string): Held | null {
+  const payload = parsePayload(roh);
+  if (!payload) return null;
+  saveGame(payload.held);
+  return payload.held;
+}
+
+export function ladeSpielstandDatei(name: string, inhalt: string) {
+  const blob = new Blob([inhalt], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `lindendorf-${nameKey(name) || "stand"}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export function clearSavedGame(): void {
   if (typeof window === "undefined") return;
+  const last = window.localStorage.getItem(LAST_NAME_KEY);
+  if (last) {
+    const slots = readSlots();
+    delete slots[nameKey(last)];
+    writeSlots(slots);
+  }
   window.localStorage.removeItem(SAVE_KEY);
+  window.localStorage.removeItem(LAST_NAME_KEY);
 }
 
 export function clearSavedGameForName(name: string): void {
