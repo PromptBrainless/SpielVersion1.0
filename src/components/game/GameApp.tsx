@@ -3,7 +3,7 @@ import { Runtime } from "@/game/runtime";
 import { spielen } from "@/game/script";
 import { ART, PORTRAITS } from "@/game/art";
 import { cloneHeld, type EffektId, type Held, type SceneView } from "@/game/types";
-import { hasSavedGame, loadGame, saveGame } from "@/game/save";
+import { hasSavedGame, listSavedGames, loadGame, loadGameByName, saveGame, type SaveSlotInfo } from "@/game/save";
 import { hatEffekt, setzeEffekt } from "@/game/effekte";
 import { setzeTageszeit, type Tageszeit } from "@/game/tageszeit";
 import { wendeHerkunftAn } from "@/game/herkunft";
@@ -34,6 +34,7 @@ export function GameApp() {
   const [mode, setMode] = useState<Mode>("title");
   const [view, setView] = useState<SceneView | null>(null);
   const [held, setHeld] = useState<Held | null>(null);
+  const [slots, setSlots] = useState<SaveSlotInfo[]>(() => listSavedGames());
   const [canLoad, setCanLoad] = useState(() => hasSavedGame());
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [knowledgeOpen, setKnowledgeOpen] = useState(false);
@@ -45,6 +46,11 @@ export function GameApp() {
   const runtimeRef = useRef<Runtime | null>(null);
   const liveRef = useRef<Held | null>(null);
   const kartenFortRef = useRef<EffektId[]>([]);
+
+  const refreshSaves = useCallback(() => {
+    setSlots(listSavedGames());
+    setCanLoad(hasSavedGame());
+  }, []);
 
   const stopPlay = useCallback(() => {
     runtimeRef.current?.cancel();
@@ -115,28 +121,38 @@ export function GameApp() {
             setHeld(null);
             setMode("title");
             setView(null);
-            setCanLoad(hasSavedGame());
+            refreshSaves();
           }
         });
     },
-    [stopPlay],
+    [refreshSaves, stopPlay],
   );
 
   const loadAdventure = useCallback(() => {
     const saved = loadGame();
     if (saved) startAdventure(saved, true);
-    else setCanLoad(false);
-  }, [startAdventure]);
+    else refreshSaves();
+  }, [refreshSaves, startAdventure]);
+
+  const loadAdventureByName = useCallback(
+    (name: string) => {
+      const saved = loadGameByName(name);
+      if (!saved) return false;
+      startAdventure(saved, true);
+      return true;
+    },
+    [startAdventure],
+  );
 
   const saveCurrentGame = useCallback(() => {
     const current = view?.held ?? held;
     if (current && saveGame(current)) {
-      setCanLoad(true);
-      setSaveMessage("Gespeichert. Laden setzt am Dorfplatz fort.");
+      refreshSaves();
+      setSaveMessage(`Gespeichert unter „${current.name}“. Derselbe Name lädt den Stand.`);
     } else {
       setSaveMessage("Speichern war in diesem Browser nicht möglich.");
     }
-  }, [held, view]);
+  }, [held, refreshSaves, view]);
 
   const onPatch = useCallback(
     (next: KartePatch) => {
@@ -251,7 +267,9 @@ export function GameApp() {
           onStart={() => setMode("create")}
           onRules={() => setMode("rules")}
           onLoad={loadAdventure}
+          onLoadName={loadAdventureByName}
           canLoad={canLoad}
+          slots={slots}
           onWelt={toggleWelt}
         />
         {welt}
@@ -269,7 +287,12 @@ export function GameApp() {
   if (mode === "create") {
     return (
       <>
-        <CreateHero onReady={startAdventure} onBack={() => setMode("title")} onWelt={toggleWelt} />
+        <CreateHero
+          onReady={startAdventure}
+          onBack={() => setMode("title")}
+          onWelt={toggleWelt}
+          onLoadName={loadAdventureByName}
+        />
         {welt}
       </>
     );

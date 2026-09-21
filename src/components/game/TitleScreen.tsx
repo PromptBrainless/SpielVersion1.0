@@ -1,18 +1,23 @@
 import { BookOpen, FolderOpen, Globe, Play, ScrollText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ART } from "@/game/art";
+import type { SaveSlotInfo } from "@/game/save";
 
 export function TitleScreen({
   onStart,
   onRules,
   onLoad,
+  onLoadName,
   canLoad,
+  slots = [],
   onWelt,
 }: {
   onStart: () => void;
   onRules: () => void;
   onLoad: () => void;
+  onLoadName?: (name: string) => void;
   canLoad: boolean;
+  slots?: SaveSlotInfo[];
   onWelt: () => void;
 }) {
   return (
@@ -38,9 +43,27 @@ export function TitleScreen({
             <div className="grid gap-1.5">
               <Button variant="secondary" size="lg" onClick={onLoad}>
                 <FolderOpen className="size-4" aria-hidden />
-                Spielstand laden
+                Letzten Spielstand laden
               </Button>
-              <p className="text-center text-xs text-muted-fg">Fortsetzung am Dorfplatz</p>
+              {slots.length > 1 ? (
+                <div className="grid gap-1">
+                  {slots.map((slot) => (
+                    <Button
+                      key={slot.nameKey}
+                      variant="ghost"
+                      className="h-9 justify-between px-3 text-xs"
+                      onClick={() => onLoadName?.(slot.name)}
+                    >
+                      <span>{slot.name}</span>
+                      <span className="text-muted-fg">LP {slot.lp}</span>
+                    </Button>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-center text-xs text-muted-fg">
+                  {slots[0] ? `Stand von ${slots[0].name} · Fortsetzung am Dorfplatz` : "Fortsetzung am Dorfplatz"}
+                </p>
+              )}
             </div>
           ) : null}
           <Button variant="secondary" size="lg" onClick={onRules}>

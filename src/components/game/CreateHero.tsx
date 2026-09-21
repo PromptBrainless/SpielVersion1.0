@@ -1,19 +1,22 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ART } from "@/game/art";
 import { EFFEKTE, werteMitEffekt } from "@/game/effekte";
 import { HERKUNFT_FRAGEN, baueHeldAusHerkunft } from "@/game/herkunft";
+import { peekSaveForName } from "@/game/save";
 import type { Held } from "@/game/types";
 
 export function CreateHero({
   onReady,
   onBack,
   onWelt,
+  onLoadName,
 }: {
   onReady: (held: Held) => void;
   onBack: () => void;
   onWelt: () => void;
+  onLoadName?: (name: string) => boolean;
 }) {
   const [name, setName] = useState("");
   const [schritt, setSchritt] = useState(-1);
@@ -22,6 +25,7 @@ export function CreateHero({
   const frage = schritt >= 0 ? HERKUNFT_FRAGEN[schritt] : undefined;
   const fertig = schritt >= HERKUNFT_FRAGEN.length;
   const held = fertig ? baueHeldAusHerkunft(name, antworten) : null;
+  const vorhandenerStand = useMemo(() => peekSaveForName(name), [name]);
 
   function waehle(index: number) {
     const next = [...antworten.slice(0, schritt), index];
@@ -62,9 +66,29 @@ export function CreateHero({
                 maxLength={24}
                 autoComplete="off"
               />
+              {vorhandenerStand ? (
+                <div className="mt-3 rounded-md border border-ok/30 bg-ok/10 px-3 py-2 text-sm">
+                  <p className="text-ok">
+                    Stand für {vorhandenerStand.name} gefunden
+                    {vorhandenerStand.savedAt
+                      ? ` · ${new Date(vorhandenerStand.savedAt).toLocaleString("de-DE")}`
+                      : ""}
+                    {` · LP ${vorhandenerStand.lp}`}
+                  </p>
+                  <Button
+                    className="mt-2 w-full"
+                    size="lg"
+                    onClick={() => {
+                      if (!onLoadName?.(vorhandenerStand.name)) return;
+                    }}
+                  >
+                    Mit diesem Namen weiterspielen
+                  </Button>
+                </div>
+              ) : null}
               <div className="mt-6 grid gap-2 sm:grid-cols-2">
                 <Button size="lg" onClick={() => setSchritt(0)}>
-                  Die Geschichten
+                  {vorhandenerStand ? "Neues Abenteuer" : "Die Geschichten"}
                 </Button>
                 <Button variant="secondary" size="lg" onClick={onBack}>
                   Zurück
