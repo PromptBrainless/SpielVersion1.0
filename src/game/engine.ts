@@ -15,7 +15,6 @@ export function w10(): number {
 export function situationsModifikator(held: Held, lage?: "nebel"): number {
   let extra = 0;
   if (lage === "nebel") extra -= 2;
-  if (hatEffekt(held, "erschoepfung")) extra -= 2;
   return extra;
 }
 
@@ -66,7 +65,10 @@ export function heilen(held: Held, punkte: number): string {
   const alt = held.lp;
   held.lp = Math.min(MAX_LP, held.lp + punkte);
   const gewonnen = held.lp - alt;
-  if (held.lp >= 8) held.verwundet = false;
+  if (held.lp >= 8) {
+    held.verwundet = false;
+    setzeEffekt(held, "wunde", false);
+  }
   return `Du heilst ${gewonnen} Lebenspunkte. LP: ${held.lp}/${MAX_LP}`;
 }
 

@@ -47,7 +47,7 @@ export const EFFEKTE: Record<
   traurig: { name: "Traurig", hint: "−1 Charisma", gruppe: "last", mod: { charisma: -1 } },
   furcht: { name: "Furcht", hint: "−1 Charisma", gruppe: "last", mod: { charisma: -1 } },
   verstossung: { name: "Verstoßung", hint: "−1 Charisma", gruppe: "last", mod: { charisma: -1 } },
-  erschoepfung: { name: "Erschöpfung", hint: "−3 auf Proben (Last + Lage)", gruppe: "last", mod: { all: -1 } },
+  erschoepfung: { name: "Erschöpfung", hint: "−1 auf alle Proben", gruppe: "last", mod: { all: -1 } },
 };
 
 export function istEffektId(value: string): value is EffektId {
