@@ -220,8 +220,10 @@ export function SceneStage({
               )}
             >
               <h2
+                id="szene-titel"
                 className="tafel-zeile mb-3 font-display text-xl font-semibold tracking-tight sm:text-2xl"
                 style={{ ["--i" as string]: 0 }}
+                aria-live="polite"
               >
                 {view.title}
               </h2>

@@ -3,6 +3,7 @@ import { BookMarked, FlaskConical, LayoutGrid, MapPinned, ShieldCheck, ShieldQue
 import { Button } from "@/components/ui/button";
 import type { EffektId, Held, SceneView } from "@/game/types";
 import type { Tageszeit } from "@/game/tageszeit";
+import { useFokusFang } from "@/game/fokus-fang";
 import {
   auflageFuerSicht,
   auflageLeer,
@@ -56,6 +57,7 @@ export function WeltEditor({
   onSpielerGeaendert?: () => void;
 }) {
   const [fach, setFach] = useState<Fach>(szene ? startFach : "pruefen");
+  const fang = useFokusFang(true);
   const [fremd, setFremd] = useState<SceneView | null>(null);
   const [fremdPatch, setFremdPatch] = useState<WeltAuflage>({});
   const [vorschau, setVorschau] = useState<string | null>(null);
@@ -112,11 +114,17 @@ export function WeltEditor({
   }
 
   return (
-    <aside className="safe-bottom fixed inset-x-0 bottom-0 z-40 max-h-[58vh] overflow-y-auto border-t border-border bg-bg text-fg sm:inset-y-0 sm:left-auto sm:right-0 sm:max-h-none sm:w-[min(28rem,100vw)] sm:border-l sm:border-t-0">
+    <aside
+      ref={fang}
+      className="safe-bottom fixed inset-x-0 bottom-0 z-40 max-h-[58vh] overflow-y-auto border-t border-border bg-bg text-fg sm:inset-y-0 sm:left-auto sm:right-0 sm:max-h-none sm:w-[min(28rem,100vw)] sm:border-l sm:border-t-0"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="welt-titel"
+    >
       <div className="mx-auto max-w-5xl px-4 py-4 sm:px-5 sm:py-5">
         <div className="mb-4 flex items-start justify-between gap-3">
           <div>
-            <h1 className="font-display text-2xl font-semibold">Welt</h1>
+            <h1 id="welt-titel" className="font-display text-2xl font-semibold">Welt</h1>
             <p className="text-xs text-muted-fg">
               {nichtHeld ? "Ansicht · nicht der Held" : werk.stand === "auflage" ? "Auflage" : "Kanon"}
               {merkt && werk.stand === "kanon" ? " · gemerkt" : ""}

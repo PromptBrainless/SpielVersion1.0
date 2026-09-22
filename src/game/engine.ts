@@ -1,3 +1,5 @@
+import { attributId } from "./attribute";
+import { probeErfolg, probeSumme } from "./probe-rechnung";
 import {
   HEILTRANK,
   MAX_LP,
@@ -7,6 +9,8 @@ import {
 } from "./types";
 import { attributMitEffekt, setzeEffekt } from "./effekte";
 import { zeitModifikator, type ProbenAktion } from "./tageszeit";
+
+export { probeErfolg, probeSumme } from "./probe-rechnung";
 
 export function w10(): number {
   return 1 + Math.floor(Math.random() * 10);
@@ -24,12 +28,13 @@ export function probe(
   beschreibung = "",
   lage?: "nebel",
   aktion?: ProbenAktion,
+  wurfFn: () => number = w10,
 ): ProbeResult {
-  const attribut = attributMitEffekt(held, attributName, attributWert);
+  const attribut = attributMitEffekt(held, attributId(attributName), attributWert);
   const mod = zeitModifikator(held, aktion, attributName);
   const nebel = situationsModifikator(held, lage);
-  const wurf = w10();
-  const summe = wurf + attribut + mod + nebel;
+  const wurf = wurfFn();
+  const summe = probeSumme(wurf, attribut, mod, nebel);
   return {
     beschreibung,
     attributName,
@@ -39,7 +44,7 @@ export function probe(
     nebel,
     summe,
     schwierigkeit,
-    erfolg: summe >= schwierigkeit,
+    erfolg: probeErfolg(summe, schwierigkeit),
   };
 }
 

@@ -1,4 +1,4 @@
-import { HeldPartialSchema, leseEntscheidungen } from "./heldSchema";
+import { HeldPartialSchema, leseEntscheidungen, SAVE_VERSION, SavePayloadSchema } from "./heldSchema";
 import { createHeld, type Held } from "./types";
 
 const SAVE_KEY = "lindendorf-save-v1";
@@ -6,7 +6,7 @@ const SLOTS_KEY = "lindendorf-saves-v2";
 const LAST_NAME_KEY = "lindendorf-save-last-name";
 
 export type SavePayload = {
-  version: 1;
+  version: typeof SAVE_VERSION;
   savedAt: string;
   held: Held;
 };
@@ -32,6 +32,10 @@ function isHeld(value: unknown): value is Held {
   return Array.isArray(held.inventar) && typeof held.gold === "number" && typeof held.lebend === "boolean";
 }
 
+export function leseSpielstandRoh(roh: string): SavePayload | null {
+  return parsePayload(roh);
+}
+
 export function normalizeHeldName(name: string): string {
   return name.trim().replace(/\s+/g, " ");
 }
@@ -55,12 +59,12 @@ function hydrateHeld(held: Held): Held {
 function parsePayload(raw: string | null): SavePayload | null {
   if (!raw) return null;
   try {
-    const payload = JSON.parse(raw) as Partial<SavePayload>;
-    if (payload.version !== 1 || !isHeld(payload.held)) return null;
+    const geprueft = SavePayloadSchema.safeParse(JSON.parse(raw));
+    if (!geprueft.success || !isHeld(geprueft.data.held)) return null;
     return {
-      version: 1,
-      savedAt: typeof payload.savedAt === "string" ? payload.savedAt : new Date().toISOString(),
-      held: hydrateHeld(payload.held),
+      version: SAVE_VERSION,
+      savedAt: geprueft.data.savedAt ?? new Date().toISOString(),
+      held: hydrateHeld(geprueft.data.held as Held),
     };
   } catch {
     return null;
@@ -76,12 +80,9 @@ function readSlots(): SlotMap {
     if (!parsed || typeof parsed !== "object") return {};
     const slots: SlotMap = {};
     for (const [key, value] of Object.entries(parsed)) {
-      if (value?.version === 1 && isHeld(value.held)) {
-        slots[key] = {
-          version: 1,
-          savedAt: value.savedAt,
-          held: hydrateHeld(value.held),
-        };
+      if (value?.version && isHeld(value.held)) {
+        const stand = parsePayload(JSON.stringify(value));
+        if (stand) slots[key] = stand;
       }
     }
     return slots;
@@ -151,7 +152,7 @@ export function saveGame(held: Held): boolean {
   if (typeof window === "undefined") return false;
   const name = normalizeHeldName(held.name) || "Namenlos";
   const payload: SavePayload = {
-    version: 1,
+    version: SAVE_VERSION,
     savedAt: new Date().toISOString(),
     held: { ...held, name },
   };
@@ -218,7 +219,7 @@ export function peekSaveForName(name: string): SaveSlotInfo | null {
 export function exportiereSpielstand(held: Held): string {
   const name = normalizeHeldName(held.name) || "Namenlos";
   const payload: SavePayload = {
-    version: 1,
+    version: SAVE_VERSION,
     savedAt: new Date().toISOString(),
     held: { ...held, name },
   };

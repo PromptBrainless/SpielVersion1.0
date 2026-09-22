@@ -90,8 +90,6 @@ function alsPack(value: unknown): WeltPack {
 
 export function weltAktiv(): boolean {
   if (typeof window === "undefined") return false;
-  const query = new URLSearchParams(window.location.search);
-  if (query.has("welt") || query.has("spielleiter") || query.has("gm")) return true;
   try {
     return window.localStorage.getItem(WELT_FLAG) === "1" || window.localStorage.getItem(ALT_FLAG) === "1";
   } catch {

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { isMotion } from "@/game/art";
 import type { FokusEintrag } from "@/game/fokus";
+import { useFokusFang } from "@/game/fokus-fang";
 import { useEinstellungen } from "@/game/use-einstellungen";
 import { spieleStimmen, stoppeStimme } from "@/game/stimme";
 
@@ -9,6 +10,7 @@ export function Fokus({ eintrag, onWeiter }: { eintrag: FokusEintrag; onWeiter: 
   const bewegung = useEinstellungen().optik.bewegung;
   const still = bewegung === "aus";
   const bildDauer = still ? 900 : 2200;
+  const fang = useFokusFang(eintrag.art !== "bild");
 
   useEffect(() => {
     if (eintrag.art !== "bild") return;
@@ -57,7 +59,7 @@ export function Fokus({ eintrag, onWeiter }: { eintrag: FokusEintrag; onWeiter: 
 
   const stimme = eintrag.art === "quest" ? "Die Geschichte" : "Was du nun weißt";
   return (
-    <div className="pointer-events-auto fixed inset-0 z-[35] flex flex-col bg-bg text-fg" role="dialog" aria-modal="true" aria-labelledby="fokus-title">
+    <div ref={fang} className="pointer-events-auto fixed inset-0 z-[35] flex flex-col bg-bg text-fg" role="dialog" aria-modal="true" aria-labelledby="fokus-title">
       <div className="relative h-[36vh] min-h-40 overflow-hidden bg-surface">
         <img src={eintrag.hintergrund} alt="" className={`size-full object-cover ${still ? "" : "bild-fokus"}`} />
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink to-transparent" aria-hidden />

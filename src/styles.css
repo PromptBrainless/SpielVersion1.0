@@ -6,15 +6,15 @@
   --color-surface: #1a1814;
   --color-surface-2: #221f1a;
   --color-fg: #efe6d6;
-  --color-muted-fg: #9a917f;
-  --color-subtle-fg: #6f685a;
+  --color-muted-fg: #c4bba8;
+  --color-subtle-fg: #9a917f;
   --color-accent: #d4c4a8;
   --color-accent-fg: #0c0b09;
   --color-border: color-mix(in oklab, #efe6d6 14%, transparent);
   --color-ring: #d4c4a8;
-  --color-hp: #b54a3a;
-  --color-ok: #6d7a58;
-  --color-warn: #b07a48;
+  --color-hp: #ef8b7a;
+  --color-ok: #9aaa74;
+  --color-warn: #e0a05a;
 
   --font-display: "Cormorant Garamond", "Times New Roman", serif;
   --font-body: "Source Serif 4", "Georgia", serif;

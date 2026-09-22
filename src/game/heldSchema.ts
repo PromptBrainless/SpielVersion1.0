@@ -32,3 +32,18 @@ export function leseEntscheidungen(value: unknown): Entscheidung[] {
     return parsed.success ? [parsed.data] : [];
   });
 }
+
+export const SAVE_VERSION = 2;
+
+export const SaveHeldSchema = HeldPartialSchema.extend({
+  inventar: z.array(z.string()),
+  gold: z.number(),
+  lebend: z.boolean(),
+}).passthrough();
+
+export const SavePayloadSchema = z.object({
+  version: z.number().int().min(1).max(SAVE_VERSION),
+  savedAt: z.string().optional(),
+  held: SaveHeldSchema,
+});
+

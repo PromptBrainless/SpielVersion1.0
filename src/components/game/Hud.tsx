@@ -74,9 +74,10 @@ export function Hud({
             </p>
             <span
               className={`inline-flex shrink-0 items-center gap-1 font-mono tabular-nums ${
-                knapp ? "text-hp" : "text-muted-fg"
+                knapp ? "text-hp font-semibold" : "text-muted-fg"
               }`}
               title={`Lebenspunkte ${hud.lp} von ${hud.maxLp}`}
+              aria-live="polite"
             >
               <Heart
                 className={`size-3.5 text-hp ${knapp ? "lp-knapp rounded-full" : ""}`}

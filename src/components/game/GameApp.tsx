@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Runtime } from "@/game/runtime";
 import { spielen } from "@/game/script";
 import { ART, LAGEN_ART, PORTRAITS, artSrcFor } from "@/game/art";
@@ -40,7 +40,6 @@ import { SceneStage } from "./SceneStage";
 import { TitleScreen } from "./TitleScreen";
 import { leiterFrei } from "@/game/leiter-login";
 import { LeiterLogin } from "./LeiterLogin";
-import { WeltEditor } from "@/components/welt/WeltEditor";
 import { Systemsteuerung } from "./Systemsteuerung";
 import { leseEinstellungen, setzeEinstellung, wendeEinstellungenAn } from "@/game/einstellungen";
 import { useEinstellungen } from "@/game/use-einstellungen";
@@ -53,6 +52,8 @@ import {
   spieleKlang,
 } from "@/game/klang";
 import { leseTageszeit } from "@/game/tageszeit";
+
+const WeltEditor = lazy(() => import("@/components/welt/WeltEditor").then((m) => ({ default: m.WeltEditor })));
 
 type Mode = "title" | "rules" | "create" | "play";
 
@@ -186,8 +187,12 @@ export function GameApp() {
   }, [leiterOpen, mode, view]);
 
   useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-    if (!(query.has("welt") || query.has("gm") || query.has("spielleiter"))) return;
+    try {
+      if (window.sessionStorage.getItem("lindendorf.leiter.wunsch") !== "1") return;
+      window.sessionStorage.removeItem("lindendorf.leiter.wunsch");
+    } catch {
+      return;
+    }
     if (leiterFrei()) {
       setzeWeltAktiv(true);
       setLeiterOpen(true);
@@ -432,26 +437,29 @@ export function GameApp() {
   const gefunden = auflageFuerSicht(rawSicht);
   const kartenPatch = gefunden.schluessel === schluessel ? patch : gefunden.patch;
 
-  const welt = leiterOpen ? (
-    <WeltEditor
-      szene={rawSicht}
-      auflage={kartenPatch}
-      schluessel={gefunden.schluessel}
-      held={view?.held ?? held}
-      onChange={onPatch}
-      onReset={onResetKarte}
-      onClose={() => setLeiterOpen(false)}
-      onEffekt={onEffekt}
-      onLage={onLageVorlegen}
-      onRueckgaengig={onRueckgaengig}
-      onTageszeit={onTageszeit}
-      startFach={mode === "create" ? "held" : "karte"}
-      onLadeSpieler={(name) => {
-        loadAdventureByName(name);
-      }}
-      onSpielerGeaendert={refreshSaves}
-    />
-  ) : null;
+  const welt =
+    leiterOpen && leiterFrei() ? (
+      <Suspense fallback={null}>
+        <WeltEditor
+          szene={rawSicht}
+          auflage={kartenPatch}
+          schluessel={gefunden.schluessel}
+          held={view?.held ?? held}
+          onChange={onPatch}
+          onReset={onResetKarte}
+          onClose={() => setLeiterOpen(false)}
+          onEffekt={onEffekt}
+          onLage={onLageVorlegen}
+          onRueckgaengig={onRueckgaengig}
+          onTageszeit={onTageszeit}
+          startFach={mode === "create" ? "held" : "karte"}
+          onLadeSpieler={(name) => {
+            loadAdventureByName(name);
+          }}
+          onSpielerGeaendert={refreshSaves}
+        />
+      </Suspense>
+    ) : null;
   const system = systemOffen ? <Systemsteuerung onClose={() => setSystemOffen(false)} /> : null;
   const oeffneSystem = () => {
     entsperreKlang();

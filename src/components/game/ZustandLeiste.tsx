@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { ATTRIBUT } from "@/game/attribute";
 import { EFFEKTE, effektDifferenz, heldEffekte, werteMitEffekt } from "@/game/effekte";
 import type { Held } from "@/game/types";
 
@@ -53,9 +54,9 @@ export function ZustandLeiste({ held, nurWerte = false }: { held: Held; nurWerte
   return (
     <div className="min-w-0">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-muted-fg">
-        <Stat label="ST" basis={held.staerke} wert={werte.staerke} />
-        <Stat label="GE" basis={held.geschick} wert={werte.geschick} />
-        <Stat label="CH" basis={held.charisma} wert={werte.charisma} />
+        <Stat label={ATTRIBUT.staerke.kurz} basis={held.staerke} wert={werte.staerke} />
+        <Stat label={ATTRIBUT.geschick.kurz} basis={held.geschick} wert={werte.geschick} />
+        <Stat label={ATTRIBUT.charisma.kurz} basis={held.charisma} wert={werte.charisma} />
       </div>
       {nurWerte ? null : (
         <>

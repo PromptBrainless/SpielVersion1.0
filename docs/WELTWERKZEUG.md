@@ -1,7 +1,7 @@
 # Weltwerkzeug — eine Fläche, drei Speicher
 
 **Stand:** im Spiel (HUD Welt). Code: `src/components/welt/`, Verträge: `src/game/gm/`.
-`/editor` leitet auf `/?welt=1` — dieselbe Fläche, hinter dem Passwort.
+`/editor` öffnet die Passworttür, nicht die Werkzeugfläche. `?welt` gilt nicht mehr.
 Ersetzt als Zielbild: `docs/SPIELLEITER.md` + `docs/EDITOR.md`.
 
 ### Werkstatt — ehrlich
@@ -44,7 +44,7 @@ Das ist ein Werkzeug, das sich in drei Türen versteckt hat.
 
 Ein **Weltwerkzeug**. Eine Schublade. Dieselbe Komponente mit und ohne laufende Partie.
 
-- Im Spiel: HUD-Knopf **Welt** (ersetzt Spielleiter). `Alt+S`. `?welt=1`.
+- Im Spiel: HUD-Knopf **Welt**. `Alt+S`. Passwort. Kein URL-Schalter.
 - Am Titel: **Weltwerkzeug** (ersetzt Werkstatt **und** den Extra-Schalter Textmodus).
 - `/editor` fällt weg oder leitet nur noch auf dasselbe Blatt.
 - Kein zweites State-Framework, kein Monaco, kein Git-Push aus der Fläche.

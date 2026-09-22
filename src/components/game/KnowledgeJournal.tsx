@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Volume2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useFokusFang } from "@/game/fokus-fang";
 import { spieleStimmen, stoppeStimme, stimmenListe } from "@/game/stimme";
 import { wissenTafeln } from "@/game/wissen-tafeln";
 import type { Held } from "@/game/types";
 
 export function KnowledgeJournal({ held, onClose }: { held: Held; debug?: boolean; onClose: () => void; an?: boolean }) {
   const tafeln = wissenTafeln(held);
+  const fang = useFokusFang(true);
   const [index, setIndex] = useState(0);
   useEffect(() => {
     setIndex((wert) => Math.min(wert, Math.max(0, tafeln.length - 1)));
@@ -20,7 +22,7 @@ export function KnowledgeJournal({ held, onClose }: { held: Held; debug?: boolea
   }, [tafel?.id, zuege.join("|")]);
 
   return (
-    <div className="pointer-events-auto fixed inset-0 z-40 bg-bg text-fg" role="dialog" aria-modal="true" aria-labelledby="wissen-tafel-title">
+    <div ref={fang} className="pointer-events-auto fixed inset-0 z-40 bg-bg text-fg" role="dialog" aria-modal="true" aria-labelledby="wissen-tafel-title">
       <div className="mx-auto flex min-h-dvh max-w-3xl flex-col">
         <div className="flex items-center justify-between gap-3 px-4 py-3">
           <p className="text-xs uppercase tracking-wide text-muted-fg">
