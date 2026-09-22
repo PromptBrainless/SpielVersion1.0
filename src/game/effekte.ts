@@ -2,10 +2,10 @@ import type { EffektId, Held } from "./types";
 
 export type { EffektId };
 
-type Mod = { all?: number; staerke?: number; geschick?: number; charisma?: number };
+type Mod = { all?: number; staerke?: number; geschick?: number; charisma?: number; uebrige?: number };
 export type EffektPol = "gunst" | "last";
 
-export const EFFEKT_IDS: EffektId[] = [
+export const ORT_EFFEKT_IDS: EffektId[] = [
   "ausgeschlafen",
   "satt",
   "motiviert",
@@ -25,6 +25,39 @@ export const EFFEKT_IDS: EffektId[] = [
   "verstossung",
   "erschoepfung",
 ];
+
+const LAGE_EFFEKT_IDS: EffektId[] = [
+  "schwer-gezeichnet",
+  "empathisch",
+  "abgebrueht",
+  "belastet",
+  "pflichtbewusst",
+  "nachsichtig",
+  "erbarmungslos",
+  "loyal",
+  "kompromittiert",
+  "paranoia",
+  "altruistisch",
+  "zielstrebig",
+  "ueberlastet",
+  "hoffnungsvoll",
+  "kaltherzig",
+  "destruktiv",
+  "unnachgiebig",
+  "vertrauensvoll",
+  "traumatisiert",
+  "kalkulierend",
+  "guetig",
+  "frustriert",
+  "ueberfordert",
+  "abgeschottet",
+  "selektiv",
+  "maertyrer",
+  "schuldbeladen",
+  "pragmatisch",
+];
+
+export const EFFEKT_IDS: EffektId[] = [...ORT_EFFEKT_IDS, ...LAGE_EFFEKT_IDS];
 
 export const EFFEKTE: Record<
   EffektId,
@@ -48,6 +81,34 @@ export const EFFEKTE: Record<
   furcht: { name: "Furcht", hint: "−1 Charisma", gruppe: "last", mod: { charisma: -1 } },
   verstossung: { name: "Verstoßung", hint: "−1 Charisma", gruppe: "last", mod: { charisma: -1 } },
   erschoepfung: { name: "Erschöpfung", hint: "−1 auf alle Proben", gruppe: "last", mod: { all: -1 } },
+  "schwer-gezeichnet": { name: "Schwer gezeichnet", hint: "+2 Stärke, −1 auf übrige Proben", gruppe: "gunst", mod: { staerke: 2, uebrige: -1 } },
+  empathisch: { name: "Empathisch", hint: "+1 Charisma, −1 Stärke", gruppe: "gunst", mod: { charisma: 1, staerke: -1 } },
+  abgebrueht: { name: "Abgebrüht", hint: "+1 Stärke, −1 Charisma", gruppe: "last", mod: { staerke: 1, charisma: -1 } },
+  belastet: { name: "Belastet", hint: "−2 auf alle Proben", gruppe: "last", mod: { all: -2 } },
+  pflichtbewusst: { name: "Pflichtbewusst", hint: "+1 Geschick", gruppe: "gunst", mod: { geschick: 1 } },
+  nachsichtig: { name: "Nachsichtig", hint: "+1 Charisma", gruppe: "gunst", mod: { charisma: 1 } },
+  erbarmungslos: { name: "Erbarmungslos", hint: "+1 Stärke, −1 Charisma", gruppe: "last", mod: { staerke: 1, charisma: -1 } },
+  loyal: { name: "Loyal", hint: "+1 Stärke", gruppe: "gunst", mod: { staerke: 1 } },
+  kompromittiert: { name: "Kompromittiert", hint: "−2 Charisma", gruppe: "last", mod: { charisma: -2 } },
+  paranoia: { name: "Paranoiabefallene Erschöpfung", hint: "−1 auf alle Proben, +2 Geschick", gruppe: "last", mod: { all: -1, geschick: 2 } },
+  altruistisch: { name: "Altruistisch", hint: "+2 Charisma, −1 Stärke", gruppe: "gunst", mod: { charisma: 2, staerke: -1 } },
+  zielstrebig: { name: "Zielstrebig", hint: "+1 Geschick", gruppe: "gunst", mod: { geschick: 1 } },
+  ueberlastet: { name: "Überlastet", hint: "−2 auf alle Proben", gruppe: "last", mod: { all: -2 } },
+  hoffnungsvoll: { name: "Hoffnungsvoll", hint: "+1 Geschick, +1 Charisma", gruppe: "gunst", mod: { geschick: 1, charisma: 1 } },
+  kaltherzig: { name: "Kaltherzig", hint: "+1 Charisma", gruppe: "last", mod: { charisma: 1 } },
+  destruktiv: { name: "Destruktiv", hint: "+2 Stärke, −2 Charisma", gruppe: "last", mod: { staerke: 2, charisma: -2 } },
+  unnachgiebig: { name: "Unnachgiebig", hint: "+1 Geschick, −1 Charisma", gruppe: "last", mod: { geschick: 1, charisma: -1 } },
+  vertrauensvoll: { name: "Vertrauensvoll", hint: "+2 Charisma", gruppe: "gunst", mod: { charisma: 2 } },
+  traumatisiert: { name: "Traumatisiert", hint: "−2 Stärke", gruppe: "last", mod: { staerke: -2 } },
+  kalkulierend: { name: "Kalkulierend", hint: "+1 Stärke", gruppe: "gunst", mod: { staerke: 1 } },
+  guetig: { name: "Gütig", hint: "+2 Charisma, −1 Stärke", gruppe: "gunst", mod: { charisma: 2, staerke: -1 } },
+  frustriert: { name: "Frustriert", hint: "−1 auf alle Proben", gruppe: "last", mod: { all: -1 } },
+  ueberfordert: { name: "Überfordert", hint: "−2 auf alle Proben, +2 Charisma", gruppe: "last", mod: { all: -2, charisma: 2 } },
+  abgeschottet: { name: "Abgeschottet", hint: "+2 Geschick", gruppe: "gunst", mod: { geschick: 2 } },
+  selektiv: { name: "Selektiv", hint: "+1 Charisma, +1 Geschick", gruppe: "gunst", mod: { charisma: 1, geschick: 1 } },
+  maertyrer: { name: "Märtyrer", hint: "+3 Stärke", gruppe: "gunst", mod: { staerke: 3 } },
+  schuldbeladen: { name: "Schuldbeladen", hint: "−2 Charisma", gruppe: "last", mod: { charisma: -2 } },
+  pragmatisch: { name: "Pragmatisch", hint: "+1 auf alle Attribute", gruppe: "gunst", mod: { all: 1 } },
 };
 
 export function istEffektId(value: string): value is EffektId {
@@ -81,6 +142,11 @@ export function attributMitEffekt(held: Held, attributName: string, basis: numbe
     if (staerke) wert += mod.staerke ?? 0;
     if (geschick) wert += mod.geschick ?? 0;
     if (charisma) wert += mod.charisma ?? 0;
+    if (mod.uebrige) {
+      if (staerke && mod.staerke == null) wert += mod.uebrige;
+      if (geschick && mod.geschick == null) wert += mod.uebrige;
+      if (charisma && mod.charisma == null) wert += mod.uebrige;
+    }
   }
   return Math.max(1, wert);
 }
@@ -98,7 +164,7 @@ export function effektNamen(held: Held | null | undefined): string[] {
 }
 
 export function effekteDerGruppe(gruppe: EffektPol): EffektId[] {
-  return EFFEKT_IDS.filter((id) => EFFEKTE[id].gruppe === gruppe);
+  return ORT_EFFEKT_IDS.filter((id) => EFFEKTE[id].gruppe === gruppe);
 }
 
 export function effektDifferenz(

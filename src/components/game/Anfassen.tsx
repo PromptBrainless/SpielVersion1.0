@@ -3,7 +3,7 @@ import { ImagePlus, PenLine, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ART, PORTRAITS } from "@/game/art";
 import { probe } from "@/game/engine";
-import { EFFEKT_IDS, effekteDerGruppe, type EffektId } from "@/game/effekte";
+import { ORT_EFFEKT_IDS, effekteDerGruppe, type EffektId } from "@/game/effekte";
 import { probeZeile } from "@/game/gm/probeZeile";
 import { ladeSpielleiterBild } from "@/game/sl-upload";
 import { LEICHT, MITTEL, SCHWER, type ArtKey, type Held, type PortraitKey, type ProbeResult } from "@/game/types";
@@ -356,12 +356,12 @@ export function KastenZustande({
         </div>
       ) : null}
       <p className="text-xs text-muted-fg">Held jetzt</p>
-      <EffektChips ids={EFFEKT_IDS} an={(id) => heldEffekte.includes(id)} onToggle={onEffekt} />
+      <EffektChips ids={ORT_EFFEKT_IDS} an={(id) => heldEffekte.includes(id)} onToggle={onEffekt} />
       <p className="mt-2 text-xs text-muted-fg">Diese Karte gibt</p>
       <EffektChips ids={effekteDerGruppe("gunst")} an={(id) => gibt.includes(id)} onToggle={(id) => toggle(gibt, id, "effekte")} />
       <EffektChips ids={effekteDerGruppe("last")} an={(id) => gibt.includes(id)} onToggle={(id) => toggle(gibt, id, "effekte")} />
       <p className="mt-2 text-xs text-muted-fg">Beim Gehen nimmt sie</p>
-      <EffektChips ids={EFFEKT_IDS} an={(id) => nimmt.includes(id)} onToggle={(id) => toggle(nimmt, id, "effekteFort")} />
+      <EffektChips ids={ORT_EFFEKT_IDS} an={(id) => nimmt.includes(id)} onToggle={(id) => toggle(nimmt, id, "effekteFort")} />
     </div>
   );
 }

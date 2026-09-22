@@ -1,4 +1,5 @@
 import { HeldPartialSchema, leseEntscheidungen, SAVE_VERSION, SavePayloadSchema } from "./heldSchema";
+import { istEffektId } from "./effekte";
 import { createHeld, type Held } from "./types";
 
 const SAVE_KEY = "lindendorf-save-v1";
@@ -50,7 +51,7 @@ function hydrateHeld(held: Held): Held {
     ...defaults,
     ...held,
     inventar: [...held.inventar],
-    effekte: [...(held.effekte ?? [])],
+    effekte: [...(held.effekte ?? [])].filter(istEffektId),
     mal: held.mal ?? "",
     entscheidungen: leseEntscheidungen(held),
   };

@@ -1,17 +1,31 @@
-import { HEILTRANK, createHeld, type EffektId, type Held } from "./types";
+import {
+  AMULETT,
+  ARTEFAKT,
+  BRANDMITTEL,
+  GEHEIMINFORMATIONEN,
+  HEILTRANK,
+  PROVIANT,
+  createHeld,
+  type EffektId,
+  type Held,
+} from "./types";
+import { zustandFifo, klemme, goldNieNegativ } from "./herkunft-fifo";
+import { urteilAusrichtung, type HerkunftArt } from "./herkunft-urteil";
 import lagenStimme from "./json/lagen-stimme.json";
-
-export type HerkunftArt = "gnade" | "ordnung" | "nutzen";
 
 export type HerkunftAntwort = {
   label: string;
   art: HerkunftArt;
   lp?: number;
+  lpFix?: number;
   gold?: number;
-  inventar?: string[];
+  beutel?: "leer" | string[];
   effekte?: EffektId[];
   mal: string;
 };
+
+export type { HerkunftArt };
+export { AUSRICHTUNG_NAME, SPIEGEL, urteilAusrichtung } from "./herkunft-urteil";
 
 export type HerkunftFrage = {
   id: string;
@@ -33,13 +47,17 @@ export const HERKUNFT_ROH: HerkunftFrage[] = [
       {
         label: "Ich muss Opfer bringen",
         art: "gnade",
-        lp: -1,
-        effekte: ["motiviert"],
+        lp: -2,
+        gold: 5,
+        beutel: [HEILTRANK],
+        effekte: ["schwer-gezeichnet"],
         mal: "Ich stelle meinen Körper vor das Dorf, damit die anderen entkommen können. Mein Blut wird in den Staub sinken, während ich den Blick auf den Schatten richte, der alles verschlingt.",
       },
       {
         label: "Ich plane den Hinterhalt",
         art: "nutzen",
+        gold: 2,
+        beutel: "leer",
         effekte: ["konzentriert"],
         mal: "Ich webe eine Falle aus Schatten und Feuer, auch wenn ich dafür mein Leben opfern muss. Das Risiko ist groß, doch das Dunkel verlangt Opfer.",
       },
@@ -47,6 +65,7 @@ export const HERKUNFT_ROH: HerkunftFrage[] = [
         label: "Ich akzeptiere das Schicksal",
         art: "ordnung",
         gold: 1,
+        beutel: "leer",
         effekte: ["gelassen"],
         mal: "Ich lege das Schicksal in die kalten Hände des Unvermeidlichen. Das Ende ist unausweichlich, doch ich werde im Schatten des Todes warten, bis es mich holt.",
       },
@@ -65,20 +84,25 @@ export const HERKUNFT_ROH: HerkunftFrage[] = [
         label: "Ich gebe Wasser",
         art: "gnade",
         lp: 1,
-        effekte: ["traurig"],
+        gold: -1,
+        beutel: "leer",
+        effekte: ["empathisch"],
         mal: "Ich gieße das letzte Wasser in seine trockenen Lippen, spüre die Bitterkeit des Moments. Das Leben ist ein zartes Band, das hier zerreißt, doch ich halte es fest, solange es noch besteht.",
       },
       {
         label: "Ich durchtrenne das Herz",
         art: "ordnung",
-        gold: 1,
-        effekte: ["wunde"],
+        gold: 2,
+        beutel: "leer",
+        effekte: ["abgebrueht"],
         mal: "Ich führe das Messer, das in meiner Hand liegt, und beende sein Leid. Es ist schwer, doch die Dunkelheit im Innern verlangt nach Erlösung, auch wenn sie blutig sein muss.",
       },
       {
         label: "Ich nehme ihn mit",
         art: "nutzen",
-        effekte: ["erschoepfung"],
+        lp: -1,
+        beutel: "leer",
+        effekte: ["belastet"],
         mal: "Ich hebe ihn auf, trage ihn auf meinen Schultern durch den Staub. Vielleicht verschlingt ihn die Nacht, bevor das Verderben ihn erreicht.",
       },
     ],
@@ -95,20 +119,25 @@ export const HERKUNFT_ROH: HerkunftFrage[] = [
       {
         label: "Melde die Tat",
         art: "ordnung",
-        effekte: ["konzentriert"],
+        gold: 1,
+        beutel: "leer",
+        effekte: ["pflichtbewusst"],
         mal: "Ich kenne den Preis, doch ich spreche den Namen aus. Das Gesetz ist ein Messer, das alles zertrennt, doch die Ordnung muss sein, selbst wenn sie blutet.",
       },
       {
         label: "Lass es sein",
         art: "gnade",
-        effekte: ["gelassen"],
+        gold: -1,
+        beutel: "leer",
+        effekte: ["nachsichtig"],
         mal: "Ich schließe die Augen, ignoriere das Leid. Der Hunger schreit in meinen Ohren, doch ich versuche, die Fassade der Kälte aufrechtzuerhalten.",
       },
       {
         label: "Zwinge zu Arbeit",
         art: "nutzen",
-        gold: 1,
-        effekte: ["wunde"],
+        gold: 3,
+        beutel: "leer",
+        effekte: ["erbarmungslos"],
         mal: "Ich zwinge sie zur Arbeit, die Hände in den Staub. Das Leben ist nur noch ein Kampf im Schatten der Verzweiflung.",
       },
     ],
@@ -125,20 +154,26 @@ export const HERKUNFT_ROH: HerkunftFrage[] = [
       {
         label: "Melde ihn",
         art: "ordnung",
-        effekte: ["motiviert"],
+        gold: 2,
+        beutel: "leer",
+        effekte: ["loyal"],
         mal: "Ich nenne die Namen, ziehe die Ketten ab, und lasse das Gesetz der Dunkelheit walten. Der Verräter wird gehängt.",
       },
       {
         label: "Deckung geben",
         art: "gnade",
-        effekte: ["furcht"],
+        lp: -1,
+        gold: -1,
+        beutel: "leer",
+        effekte: ["kompromittiert"],
         mal: "Ich unterstütze ihn im Schatten, seine Flucht, während die Rache wie ein Messer in meinem Herz sitzt.",
       },
       {
         label: "Erpressen",
         art: "nutzen",
-        gold: 2,
-        effekte: ["erschoepfung"],
+        gold: 4,
+        beutel: "leer",
+        effekte: ["paranoia"],
         mal: "Ich zwinge ihn, für mich zu arbeiten, seine Familie im Blick. Das Gold zerfrisst seine Seele.",
       },
     ],
@@ -156,19 +191,25 @@ export const HERKUNFT_ROH: HerkunftFrage[] = [
         label: "Verteile das Brot",
         art: "gnade",
         lp: -1,
-        effekte: ["hungrig"],
+        gold: -2,
+        beutel: "leer",
+        effekte: ["altruistisch"],
         mal: "Ich gebe den Kindern das letzte Brot, sehe das Leuchten in ihren Augen, während die Dämmerung naht.",
       },
       {
         label: "Weiterfahren",
         art: "ordnung",
-        effekte: ["konzentriert"],
+        beutel: "leer",
+        effekte: ["zielstrebig"],
         mal: "Ich lasse das Brot im Korb, ignoriere den Hunger, und hoffe auf eine bessere Zukunft. Der Schatten des Todes wächst im Dämmerlicht.",
       },
       {
         label: "Kinder mitnehmen",
         art: "nutzen",
-        effekte: ["erschoepfung"],
+        lp: -2,
+        gold: -1,
+        beutel: [PROVIANT],
+        effekte: ["ueberlastet"],
         mal: "Ich hebe sie auf, trage sie durch den Staub, im Hoffen, dass das Leben noch eine Chance hat.",
       },
     ],
@@ -186,19 +227,24 @@ export const HERKUNFT_ROH: HerkunftFrage[] = [
         label: "Hilfe holen",
         art: "gnade",
         lp: -1,
-        effekte: ["neugierig"],
+        gold: -1,
+        beutel: "leer",
+        effekte: ["hoffnungsvoll"],
         mal: "Ich öffne die Tür, riskiere alles, um Leben zu retten. Das Fieber soll in die kalte Nacht getrieben werden.",
       },
       {
         label: "Lass sie sterben",
         art: "ordnung",
-        effekte: ["gelassen"],
+        beutel: "leer",
+        effekte: ["kaltherzig"],
         mal: "Ich lasse die Tür geschlossen, ignoriere das Leid, und hoffe, dass das Feuer alles verschlingt.",
       },
       {
         label: "Brände legen",
         art: "nutzen",
-        effekte: ["erschoepfung"],
+        gold: 2,
+        beutel: [BRANDMITTEL],
+        effekte: ["destruktiv"],
         mal: "Ich zünde die Scheune an, lasse die Flammen alles verschlingen. Das Feuer bringt das Ende, und das Dorf atmet wieder auf.",
       },
     ],
@@ -215,20 +261,25 @@ export const HERKUNFT_ROH: HerkunftFrage[] = [
       {
         label: "Zum Reden bringen",
         art: "nutzen",
-        gold: 1,
-        effekte: ["erschoepfung"],
+        gold: 3,
+        beutel: [GEHEIMINFORMATIONEN],
+        effekte: ["unnachgiebig"],
         mal: "Ich nenne die Namen, ziehe die Ketten ab, und lasse das Gesetz der Dunkelheit walten. Das Schweigen zerreiße ich, um die Wahrheit ans Licht zu bringen.",
       },
       {
         label: "Ihn freilassen",
         art: "gnade",
-        effekte: ["gelassen"],
+        gold: -2,
+        beutel: "leer",
+        effekte: ["vertrauensvoll"],
         mal: "Ich unterstütze seine Flucht im Schatten, seine Schuld im Rücken. Vielleicht verschlingt das Dunkel ihn, bevor die Rache naht.",
       },
       {
         label: "Töten",
         art: "ordnung",
-        effekte: ["wunde"],
+        gold: 1,
+        beutel: "leer",
+        effekte: ["traumatisiert"],
         mal: "Ich treibe das Messer in seine Brust, bringe das Ende herbei. Das Schweigen wird zum letzten Urteil.",
       },
     ],
@@ -245,20 +296,25 @@ export const HERKUNFT_ROH: HerkunftFrage[] = [
       {
         label: "Dem Stärkeren geben",
         art: "ordnung",
-        effekte: ["motiviert"],
+        gold: 2,
+        beutel: "leer",
+        effekte: ["kalkulierend"],
         mal: "Ich gebe die letzte Klinge dem, der noch steht, im Blick das Überleben, während die Dunkelheit im Schatten lauert.",
       },
       {
         label: "Dem Schwächeren geben",
         art: "gnade",
-        lp: 1,
-        effekte: ["traurig"],
+        lp: 2,
+        gold: -2,
+        beutel: [AMULETT],
+        effekte: ["guetig"],
         mal: "Ich lege die Klinge in die Hand dessen, der schon liegt. Der Schatten verschlingt ihn im Dämmerlicht, aber die Chance bleibt seine.",
       },
       {
         label: "Zerbrechen",
         art: "nutzen",
-        effekte: ["gelassen"],
+        beutel: "leer",
+        effekte: ["frustriert"],
         mal: "Ich zerbreche die Waffe, das letzte Streben nach Leben im Staub. Vielleicht verschwindet das Dunkel im Gras.",
       },
     ],
@@ -275,20 +331,26 @@ export const HERKUNFT_ROH: HerkunftFrage[] = [
       {
         label: "Alle einlassen",
         art: "gnade",
-        lp: -1,
-        effekte: ["zuversichtlich"],
+        lp: -2,
+        gold: -3,
+        beutel: "leer",
+        effekte: ["ueberfordert"],
         mal: "Ich öffne das Tor, im Schatten der Barmherzigkeit. Das Leid der Hungrigen ist schwer, doch ich muss das Leben im Innern schützen, egal zu welchem Preis.",
       },
       {
         label: "Abweisen",
         art: "ordnung",
-        effekte: ["konzentriert"],
+        beutel: "leer",
+        effekte: ["abgeschottet"],
         mal: "Ich verschließe das Tor, im Schatten der Pflicht. Das Leid bleibt draußen. Das Gesetz ist schwer, doch notwendig.",
       },
       {
         label: "Nur Frauen und Kinder",
         art: "nutzen",
-        effekte: ["gelassen"],
+        lp: -1,
+        gold: -1,
+        beutel: "leer",
+        effekte: ["selektiv"],
         mal: "Ich lasse nur die Frauen und Kinder hinein, die Männer draußen im Schatten. Das ist Gerechtigkeit in einer Welt voller Dunkelheit.",
       },
     ],
@@ -305,21 +367,25 @@ export const HERKUNFT_ROH: HerkunftFrage[] = [
       {
         label: "Zurückbleiben",
         art: "gnade",
-        lp: -1,
-        inventar: [HEILTRANK],
-        effekte: ["motiviert"],
+        lp: -3,
+        lpFix: 4,
+        beutel: [HEILTRANK, ARTEFAKT],
+        effekte: ["maertyrer"],
         mal: "Ich bleibe im Schatten, während die anderen fliehen. Mein Blut wird im Staub liegen, doch ich halte stand, bis das Dunkel mich verschlingt.",
       },
       {
         label: "Den Verwundeten lassen",
         art: "ordnung",
-        effekte: ["furcht"],
+        beutel: "leer",
+        effekte: ["schuldbeladen"],
         mal: "Ich lasse ihn auf den Knien, gebe ihm den letzten Atemzug. Der Schatten verschlingt ihn, während die Flucht im Nebel verschwindet.",
       },
       {
         label: "Auslosen",
         art: "nutzen",
-        effekte: ["gelassen"],
+        gold: 1,
+        beutel: "leer",
+        effekte: ["pragmatisch"],
         mal: "Das Los entscheidet, wer bleibt. Ich ziehe den Strick, während die Angst in meinen Knochen sitzt und der Schatten naht.",
       },
     ],
@@ -384,35 +450,18 @@ export function mitLagen(lagen: Record<string, HerkunftPatch> | undefined): Herk
   return HERKUNFT_FRAGEN.map((frage) => mergenFrage(frage, lagen?.[frage.id]));
 }
 
-function klemme(n: number, min = 1, max = 10) {
-  return Math.max(min, Math.min(max, n));
-}
-
-function urteil(arten: HerkunftArt[]): string {
-  const stand = { gnade: 0, ordnung: 0, nutzen: 0 };
-  for (const art of arten) stand[art] += 1;
-  if (stand.gnade >= stand.ordnung && stand.gnade >= stand.nutzen) {
-    return "Das Tal wird merken, dass du teilst, auch wenn es dich kostet.";
-  }
-  if (stand.ordnung >= stand.nutzen) {
-    return "Das Tal wird merken, dass du zählst, bevor du hilfst.";
-  }
-  return "Das Tal wird merken, dass du nimmst, was sich nehmen lässt.";
-}
-
 export function legeHerkunftAufHeld(held: Held, antwort: HerkunftAntwort, maxMale = 3) {
-  held.lp = klemme(held.lp + (antwort.lp ?? 0), 1, 10);
-  held.gold = Math.max(0, held.gold + (antwort.gold ?? 0));
-  if (antwort.inventar) {
-    for (const ding of antwort.inventar) {
+  held.lp = klemme(held.lp + (antwort.lp ?? 0), 4, 10);
+  if (antwort.lpFix != null) held.lp = antwort.lpFix;
+  held.gold = goldNieNegativ(held.gold, antwort.gold ?? 0);
+  if (antwort.beutel === "leer") held.inventar = [];
+  else if (antwort.beutel) {
+    for (const ding of antwort.beutel) {
       if (!held.inventar.includes(ding)) held.inventar.push(ding);
     }
   }
-  if (antwort.effekte) {
-    for (const id of antwort.effekte) {
-      if (!held.effekte.includes(id)) held.effekte.push(id);
-    }
-    while (held.effekte.length > maxMale) held.effekte.shift();
+  if (antwort.effekte?.length) {
+    held.effekte = zustandFifo(held.effekte, antwort.effekte, maxMale);
   }
 }
 
@@ -450,6 +499,16 @@ export function baueHeldAusHerkunft(name: string, gewaehlt: number[], fragen: He
     arten.push(antwort.art);
   });
   held.lp = klemme(held.lp, 4, 10);
-  held.mal = `${urteil(arten)} ${spiegelMal(male.slice(-3))}`.trim();
+  const lesung = urteilAusrichtung(arten);
+  held.mal = gewaehlt.length >= fragen.length ? lesung.satz : spiegelMal(male.slice(-1), fragen[gewaehlt.length - 1]?.titel);
   return held;
+}
+
+export function herkunftStand(held: Held) {
+  return {
+    lp: held.lp,
+    gold: held.gold,
+    beutel: held.inventar.length ? held.inventar.join(", ") : "leer",
+    zustaende: held.effekte,
+  };
 }

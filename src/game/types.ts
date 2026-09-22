@@ -4,11 +4,16 @@ import type { StimmeZug } from "./stimme";
 export const LEICHT = 8;
 export const MITTEL = 12;
 export const SCHWER = 15;
-export const START_LP = 10;
+export const START_LP = 8;
 export const MAX_LP = 10;
 
 export const HEILTRANK = "Heiltrank";
 export const SCHLUESSEL = "Schlüssel";
+export const PROVIANT = "Proviant";
+export const BRANDMITTEL = "Brandmittel";
+export const GEHEIMINFORMATIONEN = "Geheiminformationen";
+export const AMULETT = "Amulett";
+export const ARTEFAKT = "Artefakt";
 
 export type { Entscheidung };
 export type Loesungsweg =
@@ -43,7 +48,35 @@ export type EffektId =
   | "traurig"
   | "furcht"
   | "verstossung"
-  | "erschoepfung";
+  | "erschoepfung"
+  | "schwer-gezeichnet"
+  | "empathisch"
+  | "abgebrueht"
+  | "belastet"
+  | "pflichtbewusst"
+  | "nachsichtig"
+  | "erbarmungslos"
+  | "loyal"
+  | "kompromittiert"
+  | "paranoia"
+  | "altruistisch"
+  | "zielstrebig"
+  | "ueberlastet"
+  | "hoffnungsvoll"
+  | "kaltherzig"
+  | "destruktiv"
+  | "unnachgiebig"
+  | "vertrauensvoll"
+  | "traumatisiert"
+  | "kalkulierend"
+  | "guetig"
+  | "frustriert"
+  | "ueberfordert"
+  | "abgeschottet"
+  | "selektiv"
+  | "maertyrer"
+  | "schuldbeladen"
+  | "pragmatisch";
 
 export type ArtKey =
   | "title"

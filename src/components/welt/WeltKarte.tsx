@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ImagePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ART, PORTRAITS } from "@/game/art";
-import { EFFEKT_IDS, effekteDerGruppe, type EffektId } from "@/game/effekte";
+import { ORT_EFFEKT_IDS, effekteDerGruppe, type EffektId } from "@/game/effekte";
 import { ladeSpielleiterBild } from "@/game/sl-upload";
 import { kanonDiff, auflageLeer, type WeltAuflage } from "@/game/welt";
 import type { ArtKey, PortraitKey, SceneView } from "@/game/types";
@@ -157,7 +157,7 @@ export function WeltKarte({
       <p className="mt-2 mb-1 text-xs text-muted-fg">Last — diese Karte gibt</p>
       <EffektChips ids={effekteDerGruppe("last")} an={(id) => gibt.includes(id)} onToggle={(id) => toggle(gibt, id, "effekte")} />
       <p className="mt-2 mb-1 text-xs text-muted-fg">Beim Gehen nimmt die Karte</p>
-      <EffektChips ids={EFFEKT_IDS} an={(id) => nimmt.includes(id)} onToggle={(id) => toggle(nimmt, id, "effekteFort")} />
+      <EffektChips ids={ORT_EFFEKT_IDS} an={(id) => nimmt.includes(id)} onToggle={(id) => toggle(nimmt, id, "effekteFort")} />
       <label className="mt-3 mb-2 block text-xs text-muted-fg">
         Text
         <textarea
