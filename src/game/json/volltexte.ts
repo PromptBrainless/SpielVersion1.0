@@ -179,7 +179,7 @@ export const VOLLTEXTE: Record<string, Volltext> = {
     ],
   },
   "fenn-an-der-kirchmauer": {
-    portrait: "beggar",
+    portrait: null,
     lines: [
       "„In einer Woche kommt die Baumannschaft. Vahl hat im Rat verkündet, hinter der Gerberei stehe ein Lagerhaus. Als wäre da nie etwas gewesen.“",
       "Fenn sagt es ohne Klage. Klage wäre schon Politik. Er hält das Holz, als sei es der letzte Zeuge, der noch keinen Sitz im Rat braucht.",

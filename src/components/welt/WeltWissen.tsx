@@ -123,6 +123,7 @@ export function WeltWissen({ aktuell }: { aktuell?: string }) {
         <StimmeFeld
           src={entwurf.stimmeSrc}
           stimmen={entwurf.stimmen}
+          syncId={entwurf.id}
           onStimmen={(stimmen) => setEntwurf({ ...entwurf, stimmen, stimmeSrc: stimmen[0]?.src ?? "" })}
         />
         <div className="flex flex-wrap items-center gap-2">

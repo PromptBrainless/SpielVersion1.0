@@ -1,5 +1,6 @@
 import { ART, PORTRAITS } from "./art";
 import { fundFuerSzene, QUESTS } from "./json/baum";
+import { stimmeDatei } from "./json/stimme";
 import { zeilenMass } from "./pruefung-text";
 import type { ArtKey, PortraitKey, SceneView } from "./types";
 
@@ -50,6 +51,7 @@ export function viewAusKanon(id: string): SceneView | null {
   const szene = fund.szene;
   const art = alsArt(szene.art);
   const portrait = alsPortrait(szene.portrait);
+  const zuege = stimmeDatei(szene.id);
   return {
     id: szene.id,
     title: szene.title,
@@ -57,6 +59,8 @@ export function viewAusKanon(id: string): SceneView | null {
     portrait,
     artSrc: ART[art],
     portraitSrc: portrait ? PORTRAITS[portrait] : undefined,
+    stimmeSrc: zuege[0]?.src,
+    stimmen: zuege.length ? zuege : undefined,
     lines: szene.lines,
     choices: szene.choices,
     original: { title: szene.title, lines: szene.lines, choices: szene.choices },

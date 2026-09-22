@@ -149,6 +149,7 @@ export function WeltKarte({
         src={auflage.stimmeSrc}
         stimmen={auflage.stimmen}
         antwort={FIGUR_NAME[(auflage.portrait ?? szene.portrait) ?? ""] ?? "Antwort"}
+        syncId={szene.id}
         onStimmen={(stimmen) => onChange({ ...auflage, stimmen, stimmeSrc: stimmen[0]?.src ?? "" })}
       />
       <p className="mb-1 text-xs text-muted-fg">Gunst — diese Karte gibt</p>

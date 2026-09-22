@@ -114,6 +114,7 @@ export function WeltEntwurf({
       <StimmeFeld
         src={auflage?.stimmeSrc ?? szene?.stimmeSrc}
         stimmen={auflage?.stimmen ?? szene?.stimmen}
+        syncId={szene?.id}
         onStimmen={(stimmen) => {
           if (!szene) return;
           onChange?.({ ...(auflage ?? {}), stimmen, stimmeSrc: stimmen[0]?.src ?? "" });

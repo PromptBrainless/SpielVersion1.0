@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { ChevronDown, ChevronUp, Mic, Square, Upload, Volume2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ladeSpielleiterTon } from "@/game/sl-upload";
+import { blobAlsBase64, ladeSpielleiterTon } from "@/game/sl-upload";
+import { merkeStimmeDatei } from "@/game/json/stimme";
 import {
   alsZuege,
   spieleStimme,
@@ -11,18 +13,23 @@ import {
   type StimmeRoh,
   type StimmeZug,
 } from "@/game/stimme";
+import { legeStimmeAb, legeTonAb } from "@/game/werkstatt.functions";
 
 export function StimmeFeld({
   src,
   stimmen,
   antwort = "Antwort",
+  syncId,
   onStimmen,
 }: {
   src?: string;
   stimmen?: StimmeRoh[];
   antwort?: string;
+  syncId?: string;
   onStimmen: (stimmen: StimmeZug[]) => void;
 }) {
+  const legeTon = useServerFn(legeTonAb);
+  const legeSync = useServerFn(legeStimmeAb);
   const liste = alsZuege(src, stimmen, antwort);
   const [status, setStatus] = useState<string | null>(null);
   const [nimmt, setNimmt] = useState(false);
@@ -40,17 +47,42 @@ export function StimmeFeld({
     setNimmt(false);
   }
 
+  async function sichereSync(next: StimmeZug[]) {
+    if (!syncId) return;
+    merkeStimmeDatei(syncId, next);
+    if (next.some((zug) => zug.src.startsWith("data:"))) {
+      setStatus("Ton liegt nur im Speicher. Datei fehlgeschlagen.");
+      return;
+    }
+    try {
+      const fund = await legeSync({ data: { id: syncId, inhalt: JSON.stringify({ id: syncId, stimmen: next }) } });
+      if (!fund.ok) setStatus(fund.error);
+    } catch (fehler) {
+      setStatus(fehler instanceof Error ? fehler.message : "Sync nicht geschrieben.");
+    }
+  }
+
   function setze(next: StimmeZug[]) {
     onStimmen(next);
+    void sichereSync(next);
   }
 
   async function nimmDatei(datei: File, davor: StimmeZug[] = liste) {
     setStatus("legt den Ton…");
+    const index = davor.length;
     try {
-      const pfad = await ladeSpielleiterTon(datei);
-      const next = [...davor, { src: pfad, name: zugName(davor.length, antwort) }];
+      let pfad = "";
+      if (syncId) {
+        const data = await blobAlsBase64(datei);
+        const fund = await legeTon({
+          data: { id: syncId, index, mime: datei.type || "audio/webm", data },
+        });
+        if (fund.ok) pfad = fund.src;
+      }
+      if (!pfad) pfad = await ladeSpielleiterTon(datei, { id: syncId, index });
+      const next = [...davor, { src: pfad, name: zugName(index, antwort) }];
       setze(next);
-      setStatus(`${next[next.length - 1]?.name ?? "Zug"} liegt.`);
+      setStatus(pfad.startsWith("data:") ? "Zug im Speicher, nicht als Datei." : `${next[next.length - 1]?.name ?? "Zug"} gespeichert.`);
       return next;
     } catch (err) {
       setStatus(err instanceof Error ? err.message : "unlesbar");
@@ -96,7 +128,9 @@ export function StimmeFeld({
   return (
     <div className="grid gap-2">
       <p className="text-xs uppercase tracking-wide text-muted-fg">Stimmen</p>
-      <p className="text-xs text-muted-fg">Jeder Zug eine Aufnahme. Name daneben — Erzähler, dann {antwort}.</p>
+      <p className="text-xs text-muted-fg">
+        Jeder Zug speichert sich selbst{syncId ? ` als ${syncId}` : ""}. Name daneben — Erzähler, dann {antwort}.
+      </p>
       {liste.length ? (
         <ol className="grid gap-1.5">
           {liste.map((zug, index) => (

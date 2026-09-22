@@ -213,6 +213,7 @@ export function SceneStage({
                     src={view.stimmeSrc}
                     stimmen={view.stimmen}
                     antwort={view.portrait ? FIGUR_NAME[view.portrait] ?? "Antwort" : "Antwort"}
+                    syncId={view.id}
                     onStimmen={(stimmen) => merke({ stimmen, stimmeSrc: stimmen[0]?.src ?? "" })}
                   />
                 </div>

@@ -13,7 +13,7 @@ export async function bildAlsJpeg(file: File, kante = 1280): Promise<Blob> {
   return blob;
 }
 
-function blobAlsBase64(blob: Blob): Promise<string> {
+export async function blobAlsBase64(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
@@ -43,7 +43,10 @@ export async function ladeSpielleiterBild(file: File): Promise<string> {
   return `data:image/jpeg;base64,${data}`;
 }
 
-export async function ladeSpielleiterTon(file: File): Promise<string> {
+export async function ladeSpielleiterTon(
+  file: File,
+  ziel?: { id?: string; index?: number },
+): Promise<string> {
   if (!file.type.startsWith("audio/") && !/\.(webm|mp3|ogg|wav|m4a)$/i.test(file.name)) {
     throw new Error("Das ist kein Ton.");
   }
@@ -54,7 +57,7 @@ export async function ladeSpielleiterTon(file: File): Promise<string> {
     const res = await fetch("/__lindendorf/upload", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ mime, data }),
+      body: JSON.stringify({ mime, data, id: ziel?.id ?? "", index: ziel?.index ?? 0 }),
     });
     const json = (await res.json()) as { ok?: boolean; src?: string };
     if (res.ok && json.ok && json.src) return json.src;

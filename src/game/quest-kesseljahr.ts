@@ -192,6 +192,7 @@ async function gasseNachspiel(rt: Runtime, held: Held) {
 async function gasseFenn(rt: Runtime, held: Held) {
   if (held.gasseGeschichteGehoert) {
     await rt.present({
+      id: "fenn",
       title: "Fenn",
       art: "chapel",
       portrait: null,
@@ -227,6 +228,7 @@ async function gasseFenn(rt: Runtime, held: Held) {
   }
 
   const wahl = await rt.present({
+    id: "fenn-an-der-kirchmauer",
     title: "Fenn an der Kirchmauer",
     art: "chapel",
     portrait: null,

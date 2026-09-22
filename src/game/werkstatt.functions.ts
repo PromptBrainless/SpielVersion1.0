@@ -346,6 +346,71 @@ export const loescheWissenAb = createServerFn({ method: "POST" })
     return { ok: true as const, id: data.id };
   });
 
+function tonEndung(mime: string) {
+  if (mime.includes("mpeg") || mime.includes("mp3")) return "mp3";
+  if (mime.includes("ogg")) return "ogg";
+  if (mime.includes("wav")) return "wav";
+  if (mime.includes("mp4")) return "m4a";
+  return "webm";
+}
+
+function sichereId(wert: string) {
+  return wert.replace(/[^a-zA-Z0-9._-]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80);
+}
+
+export const legeTonAb = createServerFn({ method: "POST" })
+  .validator((input: unknown) => {
+    const inner = innerOf(input);
+    return {
+      id: sichereId(String(inner.id ?? "")),
+      index: Math.max(0, Math.min(40, Number(inner.index) || 0)),
+      mime: String(inner.mime ?? "audio/webm").slice(0, 80),
+      data: String(inner.data ?? "").slice(0, 12_000_000),
+    };
+  })
+  .handler(async ({ data }) => {
+    if (!data.id || !data.data) return { ok: false as const, error: "Kein Ton zum Ablegen." };
+    const { mkdir, writeFile } = await import("node:fs/promises");
+    const { join } = await import("node:path");
+    const ext = tonEndung(data.mime);
+    const name = `${data.id}-${data.index + 1}.${ext}`;
+    const ordner = join(process.cwd(), "public/art/stimme");
+    await mkdir(ordner, { recursive: true });
+    await writeFile(join(ordner, name), Buffer.from(data.data, "base64"));
+    return { ok: true as const, src: `/art/stimme/${name}` };
+  });
+
+export const legeStimmeAb = createServerFn({ method: "POST" })
+  .validator((input: unknown) => {
+    const inner = innerOf(input);
+    return {
+      inhalt: String(inner.inhalt ?? "").slice(0, 80_000),
+      id: sichereId(String(inner.id ?? "")),
+    };
+  })
+  .handler(async ({ data }) => {
+    let roh: unknown;
+    try {
+      roh = JSON.parse(data.inhalt);
+    } catch {
+      return { ok: false as const, error: "Kein JSON zum Ablegen." };
+    }
+    const geprueft = (await import("./json/stimme-schema")).StimmeSyncSchema.safeParse({
+      ...(roh && typeof roh === "object" ? roh : {}),
+      id: data.id || (roh as { id?: string })?.id,
+    });
+    if (!geprueft.success) return { ok: false as const, error: "Stimme-JSON unvollständig." };
+    if (geprueft.data.stimmen.some((zug) => (typeof zug === "string" ? zug : zug.src).startsWith("data:"))) {
+      return { ok: false as const, error: "Data-URL bleibt nicht. Ton zuerst als Datei ablegen." };
+    }
+    const { mkdir, writeFile } = await import("node:fs/promises");
+    const { dirname, join } = await import("node:path");
+    const pfad = join(process.cwd(), "src/game/json/stimme", `${geprueft.data.id}.json`);
+    await mkdir(dirname(pfad), { recursive: true });
+    await writeFile(pfad, `${JSON.stringify(geprueft.data, null, 2)}\n`, "utf8");
+    return { ok: true as const, id: geprueft.data.id, datei: `json/stimme/${geprueft.data.id}.json` };
+  });
+
 function shaAus(data: unknown): string | undefined {
   if (!data || typeof data !== "object") return undefined;
   const rec = data as Record<string, unknown>;

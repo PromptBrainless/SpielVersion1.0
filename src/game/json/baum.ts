@@ -212,7 +212,7 @@ export const QUESTS_ROH: QuestJson[] = [
       karte("gasse-kirche", "Vor der Kirche", "chapel", [], ["Weiter"], "beggar"),
       karte("gasse-hub", "Die leere Gasse", "gate", [], ["Bei Fenn an der Kirchmauer bleiben", "Ratsherr Vahl im Rathaus aufsuchen", "Die Gasse hinter der Gerberei ansehen", "Zurück zum Dorfplatz"], "beggar"),
       karte("fenn", "Fenn", "chapel", [], ["Weiter"], "beggar"),
-      karte("fenn-an-der-kirchmauer", "Fenn an der Kirchmauer", "chapel", [], ["Weiter"], "beggar"),
+      karte("fenn-an-der-kirchmauer", "Fenn an der Kirchmauer", "chapel"),
       karte("vahls-stube", "Vahls Stube", "townhall", [], ["Weiter"], "vahl"),
       karte("ratsherr-vahl", "Ratsherr Vahl", "townhall", [], ["Weiter"], "vahl"),
     ]),

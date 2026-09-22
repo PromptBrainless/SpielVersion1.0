@@ -21,7 +21,7 @@
     "check:questreihe": "node scripts/check-questreihe.mjs",
     "check:hud": "node scripts/check-hud-welt.mjs",
     "check:system": "node scripts/check-systemsteuerung.mjs",
-    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/app-data/app-data.test.ts src/lib/app-data/readiness-schedule.test.ts src/lib/auth/gate-identity.test.ts src/lib/auth/sign-in-gate.test.ts src/game/einstellungen.test.ts src/game/pruefung-text.test.ts src/game/portrait.test.ts src/game/sprecher.test.ts",
+    "test": "node --test 'scripts/**/*.test.mjs' && node --experimental-strip-types --test src/lib/app-data/app-data.test.ts src/lib/app-data/readiness-schedule.test.ts src/lib/auth/gate-identity.test.ts src/lib/auth/sign-in-gate.test.ts src/game/einstellungen.test.ts src/game/pruefung-text.test.ts src/game/portrait.test.ts src/game/sprecher.test.ts src/game/faden.test.ts",
     "lint": "eslint .",
     "format": "prettier --write ."
   },

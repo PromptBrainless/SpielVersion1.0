@@ -1,6 +1,7 @@
 import { applyPatch, fingerprint, lookupPatch } from "./text-pack";
 import { PORTRAITS, artSrcFor } from "./art";
 import { fundFuerSzene, zeilenAusKanon } from "./json/baum";
+import { stimmeDatei } from "./json/stimme";
 import { loesePortrait } from "./portrait";
 import { sprecherAusZeilen } from "./sprecher";
 import { cloneHeld, type ArtKey, type EffektId, type Held, type PortraitKey, type SceneView } from "./types";
@@ -90,6 +91,7 @@ export class Runtime {
       choices: input.choices ?? ["Weiter"],
     };
     const shown = applyPatch(original, lookupPatch(original));
+    const zuege = stimmeDatei(gefunden.id);
     const view: SceneView = {
       id: gefunden.id,
       idStabil: gefunden.stabil,
@@ -98,6 +100,8 @@ export class Runtime {
       portrait,
       artSrc: artSrcFor(art, input.artSrc, gefunden.id),
       portraitSrc: input.portraitSrc,
+      stimmeSrc: zuege[0]?.src,
+      stimmen: zuege.length ? zuege : undefined,
       lines: shown.lines,
       held: input.held ? cloneHeld(input.held) : undefined,
       probe: input.probe,

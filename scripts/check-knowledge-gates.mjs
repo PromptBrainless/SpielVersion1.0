@@ -28,6 +28,7 @@ const requiredKnowledge = [
   "gasse_leer",
   "kesseljahr",
   "ilses_liste",
+  "ungerufener_name",
 ];
 for (const key of requiredKnowledge) {
   if (!knowledge.includes(`"${key}"`)) throw new Error(`Wissenspunkt fehlt: ${key}`);
@@ -48,6 +49,7 @@ const requiredHooks = [
   "Zur Gerbereigasse gehen",
   "loesungswegGasse",
   "gasseGeschichteGehoert",
+  "fadenGeschlossen",
 ];
 for (const hook of requiredHooks) {
   if (!spiel.includes(hook)) throw new Error(`Freischalthaken fehlt: ${hook}`);

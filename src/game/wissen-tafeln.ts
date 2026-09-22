@@ -1,9 +1,11 @@
 import { ART } from "./art";
 import { fundFuerSzene, szeneSicht } from "./json/baum";
+import { stimmeDatei } from "./json/stimme";
 import { wissenDatei } from "./json/wissen";
 import { deriveKnowledge, knowledgeLabels, type KnowledgeKey } from "./knowledge";
 import { szeneBildName, szeneWissenPfad } from "./szene-bilder";
 import type { ArtKey, Held } from "./types";
+import { alsZuege } from "./stimme";
 import { INNERES, WISSEN_BILD } from "./wissen-inneres";
 
 export type WissenTafel = {
@@ -34,14 +36,15 @@ export function wissenBildFuer(id: string, art?: string) {
 function tafelAusDatei(id: string, offen = false): WissenTafel | null {
   const datei = wissenDatei(id);
   if (!datei) return null;
+  const zuege = alsZuege(datei.stimmeSrc, datei.stimmen?.length ? datei.stimmen : stimmeDatei(id));
   return {
     id: datei.id,
     title: datei.title,
     bild: datei.bild,
     offen: datei.offen ?? offen,
     lines: datei.lines,
-    stimmeSrc: datei.stimmeSrc,
-    stimmen: datei.stimmen,
+    stimmeSrc: zuege[0]?.src,
+    stimmen: zuege.length ? zuege : undefined,
   };
 }
 
