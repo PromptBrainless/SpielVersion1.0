@@ -30,6 +30,9 @@ const TATEN: Array<{ an: (held: Held) => boolean; npc: string; flag: string; ruf
   { an: (h) => h.loesungswegGasse === "vernichtet", npc: "grete", flag: "gasse-asche", ruf: -8 },
   { an: (h) => h.loesungswegGasse === "weitergegeben", npc: "holm", flag: "gasse-holm", ruf: 4 },
   { an: (h) => h.loesungswegGasse === "erpresst", npc: "vahl", flag: "gasse-erpresst", ruf: -6 },
+  { an: (h) => h.ungerufenerNameGeloest === "anvertraut", npc: "koehler", flag: "name-anvertraut", ruf: 6 },
+  { an: (h) => h.ungerufenerNameGeloest === "erzwungen", npc: "koehler", flag: "name-erzwungen", ruf: -4 },
+  { an: (h) => h.ungerufenerNameGeloest === "gefolgt", npc: "koehler", flag: "name-gefolgt", ruf: 0 },
 ];
 
 export function synchronisiereLog(held: Held, szeneId: string): void {

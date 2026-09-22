@@ -1,0 +1,10 @@
+{
+  "id": "glocke_vorteil",
+  "title": "Die Glocke am Hang bleibt still.",
+  "bild": "/art/wissen/glocke_vorteil.jpg",
+  "offen": false,
+  "lines": [
+    "Die Glocke am Hang bleibt still. Wer im Steinbruch auf ein Zeichen wartet, wartet umsonst.",
+    "Stille ist hier keine Gnade. Sie ist ein Vorsprung, den du bezahlt hast, bevor der erste Schlag fällt."
+  ]
+}

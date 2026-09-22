@@ -1,0 +1,10 @@
+{
+  "id": "intro-hang",
+  "title": "Am Hang",
+  "bild": "/art/intro-hang.jpg",
+  "offen": false,
+  "lines": [
+    "Oberhalb des Dorfes schneidet ein alter Weg den Hang, hart und schmal, der Schotter unter deinen Sohlen knirscht nass und gibt nach.",
+    "Eine kleine Glocke bewegt sich einmal über dem Geröll."
+  ]
+}

@@ -1,4 +1,5 @@
 import type { Entscheidung } from "./heldSchema";
+import type { StimmeZug } from "./stimme";
 
 export const LEICHT = 8;
 export const MITTEL = 12;
@@ -22,6 +23,7 @@ export type Loesungsweg =
 export type MuehleWeg = "kampf" | "schleich" | "verhandelt" | "verraten" | null;
 export type BrunnenWeg = "zerstoert" | "geoeffnet" | "verhandelt" | "bestochen" | null;
 export type GasseWeg = "veroeffentlicht" | "weitergegeben" | "erpresst" | "vernichtet" | null;
+export type UngerufenerNameWeg = "anvertraut" | "erzwungen" | "gefolgt" | null;
 export type Todesort = "steg" | "rennik" | "zisterne" | null;
 export type EffektId =
   | "ausgeschlafen"
@@ -155,6 +157,16 @@ export type Held = {
   kuesterGewarnt: boolean;
   vahlKonfrontiert: boolean;
   loesungswegGasse: GasseWeg;
+  fadenRinne: boolean;
+  fadenMehlsackSpan: boolean;
+  fadenBettlerSohn: boolean;
+  fadenMaraWarnung: boolean;
+  fadenHolm: boolean;
+  schnurLetzterKnoten: boolean;
+  glockeNamenGelesen: boolean;
+  koehlerBefragt: boolean;
+  ungerufenerNameGeloest: UngerufenerNameWeg;
+  fadenGeschlossen: boolean;
   todesort: Todesort;
   effekte: EffektId[];
   mal: string;
@@ -184,6 +196,8 @@ export type SceneView = {
   portrait?: PortraitKey;
   artSrc?: string;
   portraitSrc?: string;
+  stimmeSrc?: string;
+  stimmen?: StimmeZug[];
   lines: string[];
   held?: Held;
   probe?: ProbeResult;
@@ -274,6 +288,16 @@ export function createHeld(name: string, staerke: number, geschick: number, char
     kuesterGewarnt: false,
     vahlKonfrontiert: false,
     loesungswegGasse: null,
+    fadenRinne: false,
+    fadenMehlsackSpan: false,
+    fadenBettlerSohn: false,
+    fadenMaraWarnung: false,
+    fadenHolm: false,
+    schnurLetzterKnoten: false,
+    glockeNamenGelesen: false,
+    koehlerBefragt: false,
+    ungerufenerNameGeloest: null,
+    fadenGeschlossen: false,
     todesort: null,
     effekte: [],
     mal: "",

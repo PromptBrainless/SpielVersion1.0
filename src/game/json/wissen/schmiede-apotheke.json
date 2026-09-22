@@ -1,0 +1,10 @@
+{
+  "id": "schmiede-apotheke",
+  "title": "Schmiede und Apotheke",
+  "bild": "/art/wissen/schmiede-apotheke.jpg",
+  "offen": false,
+  "lines": [
+    "Schmiede und Apotheke teilen sich eine Mauer und sonst wenig.",
+    "Wer hier Hilfe sucht, muss sich entscheiden, ob er blutet oder fiebert."
+  ]
+}

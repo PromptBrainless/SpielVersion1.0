@@ -1,0 +1,9 @@
+{
+  "id": "rathaus",
+  "title": "Rathaus",
+  "bild": "/art/wissen/rathaus.jpg",
+  "offen": false,
+  "lines": [
+    "Du stehst im holzvertäfelten Kontor und spürst, wie die Kälte vom Boden durch die Sohlen kriecht."
+  ]
+}

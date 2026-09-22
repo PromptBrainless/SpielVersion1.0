@@ -1,0 +1,10 @@
+{
+  "id": "die-kapellenglocke",
+  "title": "Die Kapellenglocke",
+  "bild": "/art/wissen/die-kapellenglocke.jpg",
+  "offen": false,
+  "lines": [
+    "Die Glocke ist klein.",
+    "Das Seil wurde an einer Stelle neu geknotet."
+  ]
+}

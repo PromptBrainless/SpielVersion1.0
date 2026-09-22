@@ -1,0 +1,10 @@
+{
+  "id": "wasserrad",
+  "title": "Wasserrad",
+  "bild": "/art/wissen/wasserrad.jpg",
+  "offen": false,
+  "lines": [
+    "Das Wasserrad dreht sich, weil das Wasser muss, nicht weil jemand mahlen will.",
+    "Am Holz sind frische Schleifspuren, nass, als hätte jemand nachts ein Fass oder einen Sack die Böschung hinuntergezogen."
+  ]
+}

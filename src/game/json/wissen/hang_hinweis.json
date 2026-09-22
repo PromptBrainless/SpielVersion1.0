@@ -1,0 +1,10 @@
+{
+  "id": "hang_hinweis",
+  "title": "Der Hang über dem Dorf trägt eine Spur.",
+  "bild": "/art/wissen/hang_hinweis.jpg",
+  "offen": false,
+  "lines": [
+    "Der Hang über dem Dorf trägt eine Spur. Nicht eine, die man einem Kind erklärt. Eine, die man mit den Augen verfolgt, bis der Atem kürzer wird.",
+    "Oben hängt eine Glocke. Unten tun die Leute, als gehöre sie zum Wetter."
+  ]
+}

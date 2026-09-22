@@ -21,7 +21,8 @@ export type KnowledgeKey =
   | "versorgung_muster"
   | "gasse_leer"
   | "kesseljahr"
-  | "ilses_liste";
+  | "ilses_liste"
+  | "ungerufener_name";
 
 export type WissensTyp = "material" | "sozial" | "ort" | "übernatürlich";
 
@@ -47,6 +48,7 @@ export const KNOWLEDGE_META: Record<KnowledgeKey, { typ: WissensTyp; label: stri
   gasse_leer: { typ: "ort", label: "Hinter der Gerberei liegt eine leere Gasse." },
   kesseljahr: { typ: "sozial", label: "Im Kesseljahr wurde die Gasse abgeriegelt." },
   ilses_liste: { typ: "material", label: "Ilse Brandtner hat die Toten unter der Kirche versteckt." },
+  ungerufener_name: { typ: "sozial", label: "Jemand wurde aus dem Dorf fortgeschafft. Der Name fehlt." },
 };
 
 export type KnowledgeState = ReadonlySet<KnowledgeKey>;
@@ -82,6 +84,9 @@ export function deriveKnowledge(held: Held): KnowledgeState {
   if (held.gasseBesucht || held.loesungswegGasse) knowledge.add("gasse_leer");
   if (held.gasseGeschichteGehoert || held.vahlGrossvater || held.loesungswegGasse) knowledge.add("kesseljahr");
   if (held.ilsesAufzeichnungenGefunden || held.loesungswegGasse) knowledge.add("ilses_liste");
+  if (held.fadenGeschlossen || held.ungerufenerNameGeloest || held.koehlerBefragt || held.schnurLetzterKnoten) {
+    knowledge.add("ungerufener_name");
+  }
   return knowledge;
 }
 
@@ -141,6 +146,11 @@ export function knowledgeLabels(held: Held): { sicher: string[]; offen: string[]
     sicher.push("Im Kesseljahr wurde die Gerbereigasse abgeriegelt. Vahl will sie bebauen.");
   } else if (knowledge.has("gasse_leer")) {
     sicher.push("Hinter der Gerberei liegt eine Gasse, die niemand mehr als Weg benutzt.");
+  }
+  if (knowledge.has("ungerufener_name") && held.fadenGeschlossen) {
+    sicher.push("Du kennst einen Namen, den das Dorf nicht mehr ruft.");
+  } else if (knowledge.has("ungerufener_name")) {
+    sicher.push("Fäden, Wolle und ein abgeschabter Name gehören zusammen. Jemand fehlt.");
   }
 
   const offen: string[] = [];

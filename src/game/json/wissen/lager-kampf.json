@@ -1,0 +1,10 @@
+{
+  "id": "lager-kampf",
+  "title": "Steinbruch",
+  "bild": "/art/wissen/lager-kampf.jpg",
+  "offen": false,
+  "lines": [
+    "Kein Duell.",
+    "Der erste Schlag trifft nicht dort, wo du ihn erwartest."
+  ]
+}

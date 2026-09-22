@@ -14,6 +14,8 @@ export function mapKartenState(szene: SceneView | null, auflage: WeltAuflage): K
     choices: auflage.choices ?? szene.choices,
     artSrc: auflage.artSrc ?? szene.artSrc,
     portraitSrc: auflage.portraitSrc ?? szene.portraitSrc,
+    stimmeSrc: auflage.stimmeSrc ?? szene.stimmeSrc,
+    stimmen: auflage.stimmen ?? szene.stimmen,
     stand,
   };
 }

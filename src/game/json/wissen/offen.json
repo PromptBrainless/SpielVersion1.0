@@ -1,0 +1,10 @@
+{
+  "id": "offen",
+  "title": "Offene Frage",
+  "bild": "/art/wissen/offen.jpg",
+  "offen": true,
+  "lines": [
+    "Du hast darauf noch keine Antwort, die vor einem Zeugen bestehen würde.",
+    "Die Frage selbst bleibt. Sie legt sich an den Rand des nächsten Gesprächs und wartet, bis jemand den Satz zu Ende spricht."
+  ]
+}

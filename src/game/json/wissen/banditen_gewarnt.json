@@ -1,0 +1,10 @@
+{
+  "id": "banditen_gewarnt",
+  "title": "Die Banditen wissen, dass jemand kommt.",
+  "bild": "/art/wissen/banditen_gewarnt.jpg",
+  "offen": false,
+  "lines": [
+    "Sie wissen, dass jemand kommt. Nicht wer. Nur dass der Weg nicht mehr leer ist.",
+    "Eine Vorwarnung spart Blut auf einer Seite und kostet es auf der anderen. Du hast die Seite gewählt, ohne den Preis aufzuschreiben."
+  ]
+}

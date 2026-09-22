@@ -1,0 +1,10 @@
+{
+  "id": "gasse_leer",
+  "title": "Hinter der Gerberei liegt eine leere Gasse.",
+  "bild": "/art/wissen/gasse_leer.jpg",
+  "offen": false,
+  "lines": [
+    "Hinter der Gerberei liegt eine Gasse, die niemand mehr als Weg benutzt. Die Bretter an den Fenstern sind älter als die Ausreden, warum niemand dort wohnt.",
+    "Fenn hält ein Stück Lattenzaun in der Tasche, glatt wie ein Kiesel. Er wartet nicht auf eine Antwort."
+  ]
+}

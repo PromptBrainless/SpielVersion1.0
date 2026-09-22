@@ -1,0 +1,10 @@
+{
+  "id": "muehle-stumm",
+  "title": "Die stumme Mühle",
+  "bild": "/art/wissen/muehle-stumm.jpg",
+  "offen": false,
+  "lines": [
+    "Das große Wasserrad schlägt schwer gegen das Wasser und mahlt nichts.",
+    "Bertok bleibt am Mahlwerk, sein Blick konzentriert auf die beweglichen Teile gerichtet, während seine Hände die abgenutzten Oberflächen abtasten."
+  ]
+}

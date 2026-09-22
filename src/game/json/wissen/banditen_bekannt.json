@@ -1,0 +1,10 @@
+{
+  "id": "banditen_bekannt",
+  "title": "Banditen sitzen im Steinbruch.",
+  "bild": "/art/wissen/banditen_bekannt.jpg",
+  "offen": false,
+  "lines": [
+    "Im Steinbruch sitzen Leute, die nicht mahlen und nicht säen. Der Rauch dort ist kein Herdfeuer.",
+    "Du kannst so tun, als wüsstest du es nicht. Der Osten tut das nicht."
+  ]
+}

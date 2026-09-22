@@ -21,6 +21,7 @@ test("normalisiere: Lautstärken bleiben zwischen 0 und 1", () => {
   strictEqual(e.ton.gesamt, 1);
   strictEqual(e.ton.ambiente, 0);
   strictEqual(e.ton.effekte, 0.4);
+  strictEqual(e.ton.stimme, 1);
 });
 
 test("normalisiere: unbekannte Auswahl fällt auf den Standard zurück", () => {

@@ -1,0 +1,10 @@
+{
+  "id": "wald",
+  "title": "Wald",
+  "bild": "/art/wissen/wald.jpg",
+  "offen": false,
+  "lines": [
+    "Der Wald nimmt den Weg zurück, sobald das letzte Dach hinter dir bleibt.",
+    "Rauch im Osten, näher jetzt."
+  ]
+}

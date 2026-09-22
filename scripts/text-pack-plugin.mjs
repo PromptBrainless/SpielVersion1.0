@@ -26,16 +26,30 @@ function attach(server, root) {
         const raw = (await readBody(req)) || "{}";
         const body = JSON.parse(raw);
         const data = String(body.data ?? "");
-        if (!data || data.length > 3_500_000) {
+        const mime = String(body.mime ?? "image/jpeg");
+        const audio = mime.startsWith("audio/");
+        const max = audio ? 12_000_000 : 3_500_000;
+        if (!data || data.length > max) {
           res.statusCode = 400;
-          res.end(JSON.stringify({ ok: false, error: "Bild zu groß oder leer." }));
+          res.end(JSON.stringify({ ok: false, error: audio ? "Ton zu groß oder leer." : "Bild zu groß oder leer." }));
           return;
         }
-        const dir = join(root, "public/art/sl");
+        const dir = join(root, audio ? "public/art/sl/ton" : "public/art/sl");
         mkdirSync(dir, { recursive: true });
-        const name = `u${Date.now().toString(36)}.jpg`;
+        const ext = audio
+          ? mime.includes("mpeg") || mime.includes("mp3")
+            ? "mp3"
+            : mime.includes("ogg")
+              ? "ogg"
+              : mime.includes("wav")
+                ? "wav"
+                : mime.includes("mp4")
+                  ? "m4a"
+                  : "webm"
+          : "jpg";
+        const name = `u${Date.now().toString(36)}.${ext}`;
         writeFileSync(join(dir, name), Buffer.from(data, "base64"));
-        res.end(JSON.stringify({ ok: true, src: `/art/sl/${name}` }));
+        res.end(JSON.stringify({ ok: true, src: audio ? `/art/sl/ton/${name}` : `/art/sl/${name}` }));
       } catch (err) {
         res.statusCode = 500;
         res.end(JSON.stringify({ ok: false, error: String(err?.message ?? err) }));

@@ -5,6 +5,7 @@ import type { SceneView } from "@/game/types";
 import { auflageLeer, type WeltAuflage } from "@/game/welt";
 import { vorschauGmCommand } from "@/game/gm/gmCommand";
 import { formuliereText, legeKiSzeneAb } from "@/game/werkstatt.functions";
+import { StimmeFeld } from "./StimmeFeld";
 
 export function WeltEntwurf({
   szene,
@@ -110,7 +111,15 @@ export function WeltEntwurf({
   return (
     <div className="grid gap-3">
       <p className="text-xs text-muted-fg">{stand} · Stimme legt nur Auflage, keinen Held-State.</p>
-      <p className="text-sm text-muted-fg">Grok schreibt die Szene weiter. Legen speichert als Auflage.</p>
+      <StimmeFeld
+        src={auflage?.stimmeSrc ?? szene?.stimmeSrc}
+        stimmen={auflage?.stimmen ?? szene?.stimmen}
+        onStimmen={(stimmen) => {
+          if (!szene) return;
+          onChange?.({ ...(auflage ?? {}), stimmen, stimmeSrc: stimmen[0]?.src ?? "" });
+        }}
+      />
+      <p className="text-sm text-muted-fg">Grok schreibt die Szene weiter. Legen speichert als Auflage. Den gesprochenen Text nimmst du selbst auf.</p>
       <label className="text-xs text-muted-fg">
         Hinweis (optional)
         <input

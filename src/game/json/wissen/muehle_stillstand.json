@@ -1,0 +1,10 @@
+{
+  "id": "muehle_stillstand",
+  "title": "Die Mühle liefert kein Mehl.",
+  "bild": "/art/wissen/muehle_stillstand.jpg",
+  "offen": false,
+  "lines": [
+    "Das Rad schlägt gegen das Wasser und mahlt nichts. Mehlstaub fehlt in der Luft, obwohl die Hände der Müller weiß sind.",
+    "Mühlen stehen nicht still, weil das Wasser fehlt. Sie stehen still, weil jemand das Mehl woanders haben will."
+  ]
+}

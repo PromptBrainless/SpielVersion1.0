@@ -1,0 +1,10 @@
+{
+  "id": "wasser_truebung",
+  "title": "Das Brunnenwasser ist trüb.",
+  "bild": "/art/wissen/wasser_truebung.jpg",
+  "offen": false,
+  "lines": [
+    "Der Eimer am Brunnen hat die falsche Farbe. Graubraun, wie aufgewühlter Teichgrund. Die Kinder husten zuerst, dann die Alten.",
+    "Kern sagt, jemand habe den Brunnen angefasst. Dennek rührt im Kreis, als ließe sich die Frage glattstreichen."
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "kornkammer",
+  "title": "Kornkammer",
+  "bild": "/art/wissen/kornkammer.jpg",
+  "offen": false,
+  "lines": [
+    "Die Kornkammer riecht nach Mehl, das älter ist als die letzte Lieferung.",
+    "Eine Frau zählt."
+  ]
+}

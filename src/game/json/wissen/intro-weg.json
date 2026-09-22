@@ -1,0 +1,10 @@
+{
+  "id": "intro-weg",
+  "title": "Der Weg nach Lindendorf",
+  "bild": "/art/wissen/intro-weg.jpg",
+  "offen": false,
+  "lines": [
+    "Der Weg ins Tal ist kaum breit genug für zwei Wagen.",
+    "Du gehst allein."
+  ]
+}

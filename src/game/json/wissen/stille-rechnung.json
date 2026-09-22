@@ -1,0 +1,10 @@
+{
+  "id": "stille-rechnung",
+  "title": "Stille Rechnung",
+  "bild": "/art/wissen/stille-rechnung.jpg",
+  "offen": false,
+  "lines": [
+    "Vahl hat die Baumannschaft abbestellt.",
+    "Stille Rechnung: die Gasse bleibt leer, Vahl bleibt sitzen, und du trägst etwas, das wie ein Siegel wirkt, nur ohne Wachs."
+  ]
+}

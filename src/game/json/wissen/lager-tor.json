@@ -1,0 +1,10 @@
+{
+  "id": "lager-tor",
+  "title": "Seitentor",
+  "bild": "/art/wissen/lager-tor.jpg",
+  "offen": false,
+  "lines": [
+    "Der Schlüssel dreht sich schwer in deiner Faust.",
+    "Du kommst hinter dem Holzstapel raus — näher an der Kiste als am Feuer."
+  ]
+}

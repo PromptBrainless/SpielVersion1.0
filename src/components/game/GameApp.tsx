@@ -29,8 +29,8 @@ import {
   wendePatchAn,
   type KartePatch,
 } from "@/game/welt";
-import { deriveKnowledge } from "@/game/knowledge";
-import { neueQuest, neuesWissen, questGeschichte, wissenFokus, type FokusEintrag } from "@/game/fokus";
+import { wissenTafeln } from "@/game/wissen-tafeln";
+import { kartenFokus, neueKarten, neueQuest, neuesWissen, questGeschichte, wissenFokus, type FokusEintrag } from "@/game/fokus";
 import { loadFilePack } from "@/game/text-pack";
 import { introAlsSzene } from "@/game/content";
 import { CreateHero } from "./CreateHero";
@@ -155,7 +155,7 @@ export function GameApp() {
 
   useEffect(() => {
     if (mode !== "play" || !view) return;
-    const src = artSrcFor(view.art, view.artSrc);
+    const src = artSrcFor(view.art, view.artSrc, view.id);
     const stand = fokusStand.current;
     if (!stand.bereit) {
       fokusStand.current = { bereit: true, src, held: view.held ? cloneHeld(view.held) : null };
@@ -170,6 +170,7 @@ export function GameApp() {
     if (src !== stand.src) queue.push({ art: "bild", src, titel: view.title });
     if (view.held) {
       queue.push(...wissenFokus(neuesWissen(stand.held, view.held)));
+      queue.push(...kartenFokus(neueKarten(stand.held, view.held)));
       const quest = neueQuest(stand.held, view.held);
       if (quest) {
         const geschichte = questGeschichte(quest.quest, quest.wert);
@@ -558,7 +559,7 @@ export function GameApp() {
         onResetKarte={onResetKarte}
         onRueckgaengig={onRueckgaengig}
         authorMode={leiterOpen}
-        wissenAnzahl={shown.held ? (shown.held.karten?.length || deriveKnowledge(shown.held).size) : 0}
+        wissenAnzahl={shown.held ? wissenTafeln(shown.held).filter((t) => !t.offen).length : 0}
         weltAnzahl={anzahlAuflagen()}
         weltPunkt={!auflageLeer(kartenPatch)}
         onEffekt={onEffekt}

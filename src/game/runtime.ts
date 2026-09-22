@@ -1,5 +1,5 @@
 import { applyPatch, fingerprint, lookupPatch } from "./text-pack";
-import { PORTRAITS } from "./art";
+import { PORTRAITS, artSrcFor } from "./art";
 import { fundFuerSzene, zeilenAusKanon } from "./json/baum";
 import { loesePortrait } from "./portrait";
 import { sprecherAusZeilen } from "./sprecher";
@@ -96,7 +96,7 @@ export class Runtime {
       title: shown.title,
       art,
       portrait,
-      artSrc: input.artSrc,
+      artSrc: artSrcFor(art, input.artSrc, gefunden.id),
       portraitSrc: input.portraitSrc,
       lines: shown.lines,
       held: input.held ? cloneHeld(input.held) : undefined,

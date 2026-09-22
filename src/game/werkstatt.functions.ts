@@ -2,6 +2,7 @@ import { PORTRAITS as PORTRAIT_DATEIEN } from "./art";
 import { createServerFn } from "@tanstack/react-start";
 import { fundFuerSzene } from "./json/baum";
 import { SzeneSchema, type SzeneJson } from "./json/schema";
+import { WissenTafelSchema } from "./json/wissen-schema";
 import { WeltAuflageSchema } from "./welt";
 import { grokFassung, type RagEingabe } from "./werkstatt-rag";
 import { ART_SICHT, GROK_STIMME, GROK_SZENE } from "./werkstatt-vertrag";
@@ -296,6 +297,53 @@ export const legeKiSzeneAb = createServerFn({ method: "POST" })
       }
     }
     return { ok: true as const, id: szene.id, datei };
+  });
+
+export const legeWissenAb = createServerFn({ method: "POST" })
+  .validator((input: unknown) => {
+    const inner = innerOf(input);
+    return {
+      inhalt: String(inner.inhalt ?? "").slice(0, 80_000),
+      id: String(inner.id ?? "").replace(/[^a-zA-Z0-9._-]+/g, "-").slice(0, 80),
+    };
+  })
+  .handler(async ({ data }) => {
+    let roh: unknown;
+    try {
+      roh = JSON.parse(data.inhalt);
+    } catch {
+      return { ok: false as const, error: "Kein JSON zum Ablegen." };
+    }
+    const geprueft = WissenTafelSchema.safeParse({
+      ...(roh && typeof roh === "object" ? roh : {}),
+      id: data.id || (roh as { id?: string })?.id,
+    });
+    if (!geprueft.success) return { ok: false as const, error: "Wissen-JSON unvollständig." };
+    const tafel = geprueft.data;
+    const { mkdir, writeFile } = await import("node:fs/promises");
+    const { dirname, join } = await import("node:path");
+    const pfad = join(process.cwd(), "src/game/json/wissen", `${tafel.id}.json`);
+    await mkdir(dirname(pfad), { recursive: true });
+    await writeFile(pfad, `${JSON.stringify(tafel, null, 2)}\n`, "utf8");
+    return { ok: true as const, id: tafel.id, datei: `json/wissen/${tafel.id}.json` };
+  });
+
+export const loescheWissenAb = createServerFn({ method: "POST" })
+  .validator((input: unknown) => {
+    const inner = innerOf(input);
+    return { id: String(inner.id ?? "").replace(/[^a-zA-Z0-9._-]+/g, "-").slice(0, 80) };
+  })
+  .handler(async ({ data }) => {
+    if (!data.id) return { ok: false as const, error: "Keine Tafel." };
+    const { unlink } = await import("node:fs/promises");
+    const { join } = await import("node:path");
+    const pfad = join(process.cwd(), "src/game/json/wissen", `${data.id}.json`);
+    try {
+      await unlink(pfad);
+    } catch {
+      return { ok: false as const, error: "Datei nicht gefunden." };
+    }
+    return { ok: true as const, id: data.id };
   });
 
 function shaAus(data: unknown): string | undefined {

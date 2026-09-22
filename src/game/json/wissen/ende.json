@@ -1,0 +1,10 @@
+{
+  "id": "ende",
+  "title": "Ende",
+  "bild": "/art/wissen/ende.jpg",
+  "offen": false,
+  "lines": [
+    "Das Tal gibt dir den Weg zurück, denselben, nur dass du ihn kennst.",
+    "Lindendorf bleibt hinter den Hängen."
+  ]
+}

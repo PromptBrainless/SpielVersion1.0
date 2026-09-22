@@ -6,7 +6,9 @@ import { EFFEKT_IDS, effekteDerGruppe, type EffektId } from "@/game/effekte";
 import { ladeSpielleiterBild } from "@/game/sl-upload";
 import { kanonDiff, auflageLeer, type WeltAuflage } from "@/game/welt";
 import type { ArtKey, PortraitKey, SceneView } from "@/game/types";
+import { FIGUR_NAME } from "@/game/stimme";
 import { EffektChips } from "./EffektChips";
+import { StimmeFeld } from "./StimmeFeld";
 
 const ART_KEYS = Object.keys(ART) as ArtKey[];
 const PORTRAIT_KEYS = Object.keys(PORTRAITS) as PortraitKey[];
@@ -142,6 +144,12 @@ export function WeltKarte({
         label="Portrait — nur Auflage"
         src={auflage.portraitSrc ?? ""}
         onSrc={(portraitSrc) => onChange({ ...auflage, portraitSrc })}
+      />
+      <StimmeFeld
+        src={auflage.stimmeSrc}
+        stimmen={auflage.stimmen}
+        antwort={FIGUR_NAME[(auflage.portrait ?? szene.portrait) ?? ""] ?? "Antwort"}
+        onStimmen={(stimmen) => onChange({ ...auflage, stimmen, stimmeSrc: stimmen[0]?.src ?? "" })}
       />
       <p className="mb-1 text-xs text-muted-fg">Gunst — diese Karte gibt</p>
       <EffektChips ids={effekteDerGruppe("gunst")} an={(id) => gibt.includes(id)} onToggle={(id) => toggle(gibt, id, "effekte")} />

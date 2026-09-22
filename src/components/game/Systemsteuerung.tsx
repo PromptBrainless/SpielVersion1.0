@@ -180,12 +180,10 @@ function FachTon() {
         onChange={(ambiente) => setzeEinstellung("ton", { ambiente })}
       />
       <Regler
-        name="Rückmeldungen"
-        hinweis="Würfel, Wahl, Speichern, Treffer."
-        wert={ton.effekte}
-        aus={!ton.an}
-        onChange={(effekte) => setzeEinstellung("ton", { effekte })}
-        onFertig={() => spieleKlang("wuerfel")}
+        name="Stimme"
+        hinweis="Deine Sprecherfassung. Läuft auch, wenn die Umgebung still ist."
+        wert={ton.stimme}
+        onChange={(stimme) => setzeEinstellung("ton", { stimme })}
       />
       <div className="flex flex-wrap gap-2 pt-1">
         {(["wuerfel", "erfolg", "misserfolg", "seite", "treffer"] as const).map((name) => (

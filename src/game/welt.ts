@@ -2,6 +2,7 @@ import { z } from "zod";
 import { HERKUNFT_FRAGEN, lageLeer, mitLagen, type HerkunftFrage, type HerkunftPatch } from "./herkunft";
 import type { ArtKey, EffektId, PortraitKey, SceneView } from "./types";
 import { readLocalPack } from "./text-pack";
+import { alsZuege, type StimmeZug } from "./stimme";
 
 export const WELT_FLAG = "lindendorf.welt.an";
 export const WELT_STORE = "lindendorf.welt.v2";
@@ -22,6 +23,8 @@ export const WeltAuflageSchema = z.object({
   portrait: z.union([z.string(), z.null()]).optional(),
   artSrc: z.string().optional(),
   portraitSrc: z.string().optional(),
+  stimmeSrc: z.string().optional(),
+  stimmen: z.array(z.union([z.string(), z.object({ src: z.string(), name: z.string().optional() })])).optional(),
   lines: z.array(z.string()).optional(),
   choices: z.array(z.string()).optional(),
   effekte: z.array(z.string()).optional(),
@@ -54,6 +57,8 @@ export type WeltAuflage = {
   portrait?: PortraitKey | null;
   artSrc?: string;
   portraitSrc?: string;
+  stimmeSrc?: string;
+  stimmen?: StimmeZug[];
   lines?: string[];
   choices?: string[];
   effekte?: EffektId[];
@@ -63,7 +68,11 @@ export type WeltAuflage = {
 
 export type KartePatch = WeltAuflage;
 
-export type WeltPack = { version: 2; karten: Record<string, WeltAuflage>; lagen: Record<string, HerkunftPatch> };
+export type WeltPack = {
+  version: 2;
+  karten: Record<string, WeltAuflage>;
+  lagen: Record<string, HerkunftPatch>;
+};
 
 function leer(): WeltPack {
   return { version: 2, karten: {}, lagen: {} };
@@ -72,7 +81,11 @@ function leer(): WeltPack {
 function alsPack(value: unknown): WeltPack {
   const parsed = WeltPackSchema.safeParse(value);
   if (!parsed.success) return leer();
-  return { version: 2, karten: parsed.data.karten as WeltPack["karten"], lagen: parsed.data.lagen ?? {} };
+  return {
+    version: 2,
+    karten: parsed.data.karten as WeltPack["karten"],
+    lagen: parsed.data.lagen ?? {},
+  };
 }
 
 export function weltAktiv(): boolean {
@@ -307,6 +320,20 @@ export function wendePatchAn(view: SceneView, patch: WeltAuflage | null | undefi
     artSrc: patch.artSrc?.trim() || view.artSrc,
     portraitSrc:
       patch.portrait === null && !patch.portraitSrc?.trim() ? undefined : patch.portraitSrc?.trim() || view.portraitSrc,
+    stimmeSrc:
+      patch.stimmen !== undefined || patch.stimmeSrc !== undefined
+        ? alsZuege(
+            patch.stimmeSrc !== undefined ? patch.stimmeSrc : view.stimmeSrc,
+            patch.stimmen !== undefined ? patch.stimmen : view.stimmen,
+          )[0]?.src
+        : view.stimmeSrc,
+    stimmen:
+      patch.stimmen !== undefined || patch.stimmeSrc !== undefined
+        ? alsZuege(
+            patch.stimmeSrc !== undefined ? patch.stimmeSrc : view.stimmeSrc,
+            patch.stimmen !== undefined ? patch.stimmen : view.stimmen,
+          )
+        : view.stimmen,
     lines: patch.lines?.map((line) => line.trim()).filter(Boolean) ?? view.lines,
     choices,
     seiteHinzu: uniqueIds([...(view.seiteHinzu ?? []), ...((patch.effekte as EffektId[] | undefined) ?? [])]),

@@ -1,0 +1,10 @@
+{
+  "id": "morscher-steg",
+  "title": "Morscher Steg",
+  "bild": "/art/wissen/morscher-steg.jpg",
+  "offen": false,
+  "lines": [
+    "Der Steg ist morsch.",
+    "Darunter steht das Wasser dunkel."
+  ]
+}

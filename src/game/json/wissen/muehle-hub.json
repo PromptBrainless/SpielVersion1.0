@@ -1,0 +1,10 @@
+{
+  "id": "muehle-hub",
+  "title": "Mühle",
+  "bild": "/art/wissen/muehle-hub.jpg",
+  "offen": false,
+  "lines": [
+    "Das Rad schlägt gegen das Wasser und mahlt nichts.",
+    "Bertok bleibt am Mahlwerk, die Hände mehlweiß, obwohl seit Tagen kein Stein gearbeitet hat."
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "lager-hub",
+  "title": "Banditenlager",
+  "bild": "/art/wissen/lager-hub.jpg",
+  "offen": false,
+  "lines": [
+    "Der Steinbruch ist eine Wunde im Hügel.",
+    "Drei Zelte."
+  ]
+}

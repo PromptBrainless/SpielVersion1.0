@@ -1,0 +1,10 @@
+{
+  "id": "auftrag_erhalten",
+  "title": "Holm hat dir den Auftrag gegeben.",
+  "bild": "/art/wissen/auftrag_erhalten.jpg",
+  "offen": false,
+  "lines": [
+    "Holm hat dir den Auftrag gegeben. Banditen im Steinbruch. Rauch im Osten. Das Dorf soll schlafen können, ohne an die Glocke zu denken.",
+    "Er hat nicht gesagt, was er selbst schuldet. Aufträge dieser Art enthalten immer eine zweite Rechnung."
+  ]
+}

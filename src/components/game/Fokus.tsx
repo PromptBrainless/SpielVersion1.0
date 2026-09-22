@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { isMotion } from "@/game/art";
 import type { FokusEintrag } from "@/game/fokus";
 import { useEinstellungen } from "@/game/use-einstellungen";
+import { spieleStimmen, stoppeStimme } from "@/game/stimme";
 
 export function Fokus({ eintrag, onWeiter }: { eintrag: FokusEintrag; onWeiter: () => void }) {
   const bewegung = useEinstellungen().optik.bewegung;
@@ -14,6 +15,12 @@ export function Fokus({ eintrag, onWeiter }: { eintrag: FokusEintrag; onWeiter: 
     const t = window.setTimeout(onWeiter, bildDauer);
     return () => window.clearTimeout(t);
   }, [bildDauer, eintrag.art, onWeiter]);
+
+  useEffect(() => {
+    if (eintrag.art !== "wissen") return;
+    spieleStimmen(eintrag.stimmen);
+    return () => stoppeStimme();
+  }, [eintrag]);
 
   useEffect(() => {
     function taste(event: KeyboardEvent) {

@@ -1,0 +1,10 @@
+{
+  "id": "holm_besucht",
+  "title": "Du warst im Rathaus bei Holm.",
+  "bild": "/art/wissen/holm_besucht.jpg",
+  "offen": false,
+  "lines": [
+    "Im Rathaus riecht es nach nassem Tuch und altem Wachs. Holm spricht, als zähle jedes Wort, das den Raum verlässt, gegen ihn.",
+    "Du warst dort. Der Auftrag, wenn er kommt, kommt nicht als Bitte. Er kommt als Gewicht, das er dir in die Hand legt, damit es nicht in seiner bleibt."
+  ]
+}

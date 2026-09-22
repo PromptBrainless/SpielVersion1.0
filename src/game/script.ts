@@ -20,6 +20,15 @@ import { dorfMuehle } from "./quest-muehle";
 import { dorfTruebesWasser, kernWasser } from "./quest-brunnen";
 import { dorfGasse } from "./quest-kesseljahr";
 import {
+  epilogFadenBits,
+  fadenAnzahl,
+  jungerLetzterKnoten,
+  koehlerFaden,
+  rinneUntersuchen,
+  schliesseFadenAmLager,
+  waldFadenZeilen,
+} from "./quest-ungerufener-name";
+import {
   echoEpilogVersorgung,
   echoHolmVersorgung,
   echoMaraVersorgung,
@@ -88,6 +97,7 @@ async function szeneIntro(rt: Runtime, held: Held) {
     id: INTRO_HANG.id,
     title: INTRO_HANG.title,
     art: "chapel",
+    artSrc: "/art/intro-hang.jpg",
     portrait: null,
     held,
     lines: INTRO_HANG.lines,
@@ -742,6 +752,7 @@ async function dorfMaraHintertuer(rt: Runtime, held: Held) {
     const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "die markierte Hintertür prüfen", undefined, "wahrnehmung");
     if (ergebnis.erfolg) {
       held.maraGeholfen = true;
+      held.fadenMaraWarnung = true;
       await rt.present({
         title: "Hinter der Taverne",
         art: "tavern",
@@ -818,6 +829,9 @@ async function dorfPlatz(rt: Runtime, held: Held, rumorenGehoert: boolean): Prom
 }
 
 async function dorfSchmiedeApotheke(rt: Runtime, held: Held) {
+  const choices = ["Zum Schmied", "Zu Witwe Kern"];
+  if (!held.fadenRinne) choices.push("Die Abflussrinne untersuchen (Geschick, leicht)");
+  choices.push("Zurück zum Dorf");
   const wahl = await rt.present({
     title: "Schmiede und Apotheke",
     art: "village",
@@ -828,10 +842,12 @@ async function dorfSchmiedeApotheke(rt: Runtime, held: Held) {
       "Zwischen den Häusern läuft eine schmale Abflussrinne. Darin schwimmen Kohlenstaub, welke Blätter und ein Stück blutiger Wolle.",
       "Über der Schmiede hängt ein Hufeisen mit gebrochenem Nagel. Über Kerns Tür hängt nichts. Wer sie braucht, weiß ohnehin, wo sie wohnt.",
     ],
-    choices: ["Zum Schmied", "Zu Witwe Kern", "Zurück zum Dorf"],
+    choices,
   });
-  if (wahl === 0) await dorfSchmied(rt, held);
-  else if (wahl === 1) await dorfWitweKern(rt, held);
+  const gewaehlt = choices[wahl];
+  if (gewaehlt === "Zum Schmied") await dorfSchmied(rt, held);
+  else if (gewaehlt === "Zu Witwe Kern") await dorfWitweKern(rt, held);
+  else if (gewaehlt === "Die Abflussrinne untersuchen (Geschick, leicht)") await rinneUntersuchen(rt, held);
 }
 
 async function dorfWitweKern(rt: Runtime, held: Held) {
@@ -954,18 +970,23 @@ async function dorfHolmSiegel(rt: Runtime, held: Held) {
     const ergebnis = probe(held, attribut, wert, schwierigkeit, "das gebrochene Siegel verstehen", undefined, "wahrnehmung");
     if (ergebnis.erfolg) {
       held.holmSiegelGefunden = true;
+      held.fadenHolm = true;
+      const lines = [
+        "Das Wachs ist älter als der Brief. Jemand hat Holms Siegel benutzt, um sich Zeit zu kaufen.",
+        "Holm nimmt den Brief zurück. „Jetzt weißt du, warum ich niemandem gern Papier gebe.“",
+        "Der Abdruck ist an einer Stelle doppelt. Das Siegel wurde nicht nur gebrochen, sondern ein zweites Mal auf weicheres Wachs gedrückt.",
+        "Holm hält den Brief gegen das Fenster. „Jemand schreibt in meinem Namen“, sagt er. „Oder sorgt dafür, dass ich für sein Schweigen bezahle.“",
+      ];
+      if (held.fadenRinne) {
+        lines.push("Der schwarze Faden im Wachs ist kein Zufallsfund. Du hast dasselbe Material heute schon einmal gesehen — in der Rinne bei der Schmiede.");
+      }
       await rt.present({
         title: "Rathaus",
         art: "townhall",
         portrait: "holm",
         held,
         probe: ergebnis,
-        lines: [
-          "Das Wachs ist älter als der Brief. Jemand hat Holms Siegel benutzt, um sich Zeit zu kaufen.",
-          "Holm nimmt den Brief zurück. „Jetzt weißt du, warum ich niemandem gern Papier gebe.“",
-          "Der Abdruck ist an einer Stelle doppelt. Das Siegel wurde nicht nur gebrochen, sondern ein zweites Mal auf weicheres Wachs gedrückt.",
-          "Holm hält den Brief gegen das Fenster. „Jemand schreibt in meinem Namen“, sagt er. „Oder sorgt dafür, dass ich für sein Schweigen bezahle.“",
-        ],
+        lines,
       });
     } else {
       held.holmSiegelVerschwiegen = true;
@@ -978,6 +999,10 @@ async function dorfHolmSiegel(rt: Runtime, held: Held) {
 }
 
 async function dorfRoteSchnur(rt: Runtime, held: Held) {
+  if (held.schnurGeholfen && fadenAnzahl(held) >= 2 && !held.schnurLetzterKnoten) {
+    await jungerLetzterKnoten(rt, held);
+    return;
+  }
   if (held.schnurGeholfen || held.schnurAbgewiesen) {
     await rt.present({ held, lines: ["Der Junge mit der roten Schnur ist nicht mehr am Brunnen."] });
     return;
@@ -1181,19 +1206,24 @@ async function dorfFalscherMehlsack(rt: Runtime, held: Held) {
     const ergebnis = probe(held, "Geschicklichkeit", held.geschick, MITTEL, "die fremde Mehlsacknaht prüfen", undefined, "wahrnehmung");
     if (ergebnis.erfolg) {
       held.mehlsackGefunden = true;
+      held.fadenMehlsackSpan = true;
+      const lines = [
+        "Im Saum steckt feiner grauer Staub. Steinmehl.",
+        "Die Müllerin kennt den Geruch. „Aus dem alten Bruch.“",
+        "Du weißt jetzt, dass die Banditen ihren Weg nicht nur durch den Wald nehmen.",
+        "Zwischen zwei Stofflagen findest du einen dünnen Span aus schwarzem Holz und ein Haar, lang und weiß. Beides riecht nach kalter Asche.",
+        "Die Müllerin verbrennt den Span im Ofen. Die Flamme wird für einen Atemzug grün. Niemand kommentiert es.",
+      ];
+      if (held.salzGerettet || held.salzLiegenGelassen) {
+        lines.push("Der Span sieht aus wie das Stück Holz, das im Geröll am Glockenweg liegt — falls du schon dort warst, bist du sicher.");
+      }
       await rt.present({
         title: "Am Brunnen",
         art: "mill",
         portrait: "miller",
         held,
         probe: ergebnis,
-        lines: [
-          "Im Saum steckt feiner grauer Staub. Steinmehl.",
-          "Die Müllerin kennt den Geruch. „Aus dem alten Bruch.“",
-          "Du weißt jetzt, dass die Banditen ihren Weg nicht nur durch den Wald nehmen.",
-          "Zwischen zwei Stofflagen findest du einen dünnen Span aus schwarzem Holz und ein Haar, lang und weiß. Beides riecht nach kalter Asche.",
-          "Die Müllerin verbrennt den Span im Ofen. Die Flamme wird für einen Atemzug grün. Niemand kommentiert es.",
-        ],
+        lines,
       });
     } else {
       held.mehlsackGemeldet = true;
@@ -1307,6 +1337,7 @@ async function dorfBettler(rt: Runtime, held: Held) {
     const ergebnis = probe(held, "Charisma", held.charisma, MITTEL, "den Bettler ernst nehmen", undefined, "reden");
     if (ergebnis.erfolg) {
       held.bettlerGeholfen = true;
+      held.fadenBettlerSohn = true;
       await rt.present({
         title: "Am Brunnen",
         art: "well",
@@ -1467,13 +1498,13 @@ async function glockenwegSanna(rt: Runtime, held: Held) {
 
 async function glockenwegSalz(rt: Runtime, held: Held) {
   if (held.salzGerettet || held.salzLiegenGelassen) {
-    await rt.present({ held, lines: ["Jorren prüft den Knoten am Salzsack. Er hält. Diesmal."] });
+    await rt.present({ held, portrait: "jorren", lines: ["Jorren prüft den Knoten am Salzsack. Er hält. Diesmal."] });
     return;
   }
   const wahl = await rt.present({
     title: "Jorren im Geröll",
     art: "ditch",
-    portrait: null,
+    portrait: "jorren",
     held,
     lines: [
       "Jorren kniet neben einem aufgerissenen Sack.",
@@ -1489,7 +1520,7 @@ async function glockenwegSalz(rt: Runtime, held: Held) {
   });
   if (wahl === 2) {
     held.salzLiegenGelassen = true;
-    await rt.present({ held, lines: ["Der Salzstaub bleibt im Regen. Jorren bindet seinen leeren Sack zu."] });
+    await rt.present({ held, portrait: "jorren", lines: ["Der Salzstaub bleibt im Regen. Jorren bindet seinen leeren Sack zu."] });
     return;
   }
   const attribut = wahl === 0 ? "Stärke" : "Geschicklichkeit";
@@ -1499,10 +1530,10 @@ async function glockenwegSalz(rt: Runtime, held: Held) {
   if (ergebnis.erfolg) {
     held.salzGerettet = true;
     const gold = goldPlus(held, 2, "Jorrens Dank");
-    await rt.present({ held, probe: ergebnis, log: [gold], lines: ["Der Sack hält. Jorren zählt zwei Münzen ab.", "„Mehr habe ich nicht. Mehr wäre gelogen.“"] });
+    await rt.present({ held, portrait: "jorren", probe: ergebnis, log: [gold], lines: ["Der Sack hält. Jorren zählt zwei Münzen ab.", "„Mehr habe ich nicht. Mehr wäre gelogen.“"] });
   } else {
     held.salzLiegenGelassen = true;
-    await rt.present({ held, probe: ergebnis, lines: ["Der Stein rutscht zurück. Das Salz verschwindet im nassen Gras."] });
+    await rt.present({ held, portrait: "jorren", probe: ergebnis, lines: ["Der Stein rutscht zurück. Das Salz verschwindet im nassen Gras."] });
   }
 }
 
@@ -1511,6 +1542,11 @@ async function glockenwegGlocke(rt: Runtime, held: Held) {
     await rt.present({ held, lines: [held.glockeGestoppt ? "Das Glockenseil liegt sauber aufgerollt. Kein Wind bringt es mehr zum Sprechen." : "Das Glockenseil schwingt noch. Unten im Tal wartet man vielleicht schon."] });
     return;
   }
+  const choices = [
+    ...(held.glockeNamenGelesen ? [] : ["Die eingeritzten Namen genauer prüfen (Geschick, leicht)"]),
+    "Das Seil lösen (Geschick, mittel)",
+    "Die Glocke in Ruhe lassen",
+  ];
   const wahl = await rt.present({
     title: "Die Kapellenglocke",
     art: "chapel",
@@ -1522,9 +1558,35 @@ async function glockenwegGlocke(rt: Runtime, held: Held) {
       "Der Knoten besteht aus drei verschiedenen Fasern: Hanf, roter Wolle und etwas, das unter deinen Fingern kalt bleibt, obwohl es trocken ist.",
       "Auf der Innenseite der Glocke sind Namen eingeritzt. Einige wurden abgeschabt. Der letzte ist noch lesbar: kein Name, nur ein Datum.",
     ],
-    choices: ["Das Seil lösen (Geschick, mittel)", "Die Glocke in Ruhe lassen"],
+    choices,
   });
-  if (wahl === 1) {
+  const gewaehlt = choices[wahl];
+  if (gewaehlt === "Die eingeritzten Namen genauer prüfen (Geschick, leicht)") {
+    const ergebnis = probe(held, "Geschicklichkeit", held.geschick, LEICHT, "die eingeritzten Namen prüfen", undefined, "wahrnehmung");
+    const lines = ergebnis.erfolg
+      ? [
+          "Die Namen im Glockenrahmen sind älter als der Knoten. Einige wurden abgeschabt, bis nur noch das Datum bleibt.",
+          ...(held.fadenBettlerSohn
+            ? ["Unter der Asche im Glockenrahmen findest du einen zweiten, kleineren Abdruck — dieselbe Kerbe, die auf dem Groschen des Bettlers am Brunnen sitzt."]
+            : []),
+        ]
+      : ["Die Kerben im Metall geben keinen Sinn preis. Asche bleibt Asche."];
+    if (ergebnis.erfolg) held.glockeNamenGelesen = true;
+    await rt.present({ held, probe: ergebnis, lines });
+    if (held.glockeGestoppt || held.glockeGescheitert) return;
+    const weiter = await rt.present({
+      held,
+      lines: ["Das Seil hängt noch. Der Wind wartet nicht lange."],
+      choices: ["Das Seil lösen (Geschick, mittel)", "Die Glocke in Ruhe lassen"],
+    });
+    await glockeSeilOderRuhe(rt, held, weiter === 0);
+    return;
+  }
+  await glockeSeilOderRuhe(rt, held, gewaehlt === "Das Seil lösen (Geschick, mittel)");
+}
+
+async function glockeSeilOderRuhe(rt: Runtime, held: Held, seil: boolean) {
+  if (!seil) {
     held.glockeGescheitert = true;
     await rt.present({ held, lines: ["Du lässt das Seil hängen. Der Wind erledigt den Rest."] });
     return;
@@ -1583,6 +1645,7 @@ async function szeneWald(rt: Runtime, held: Held) {
   } else if (held.loesungswegGasse) {
     ankunftszeilen.push("Die Gerbereigasse bleibt leer. Offiziell aus Gründen, die das Dorf nicht vorliest.");
   }
+  ankunftszeilen.push(...waldFadenZeilen(held));
   await rt.present({
     id: "wald",
     title: "Wald",
@@ -1667,6 +1730,7 @@ async function szeneWald(rt: Runtime, held: Held) {
           "„Wenn du die Glocke hörst, bist du zu spät“, sagt er. Dann tritt er zurück in den Rauch, ohne zu erklären, ob das ein Rat oder eine Feststellung war.",
         ],
       });
+      if (fadenAnzahl(held) >= 3) await koehlerFaden(rt, held);
     } else {
       held.banditenGewarnt = true;
       await rt.present({
@@ -1877,7 +1941,7 @@ async function szeneLager(rt: Runtime, held: Held) {
       art: "camp",
       portrait: null,
       held,
-      lines: lager.nachspiel,
+      lines: [...lager.nachspiel, ...schliesseFadenAmLager(held)],
     });
   }
 }
@@ -2043,6 +2107,24 @@ async function lagerKampf(rt: Runtime, held: Held, ueberrascht = true) {
       probe: flucht,
       lines: flucht.erfolg ? weg.fluchtErfolg : weg.fluchtFail,
     });
+    if (flucht.erfolg && held.sannaGeholfen) {
+      await rt.present({
+        art: "forest",
+        portrait: null,
+        held,
+        lines: [
+          "Sannas Zeile ist noch da, unter dem Atem, den du nicht mehr hast: Wenn sie dich beim Namen rufen, antworte nicht. Du drehst dich nicht um.",
+        ],
+      });
+    }
+    if (flucht.erfolg && held.fadenMaraWarnung) {
+      await rt.present({
+        art: "forest",
+        portrait: null,
+        held,
+        lines: ["Maras Satz sitzt in der Hand: geh nicht nach dem ersten Geräusch. Du gehst nicht."],
+      });
+    }
   }
 }
 
@@ -2335,6 +2417,7 @@ function epilog(held: Held): string[] {
   if (held.holmSiegelGefunden) bits.push("Das gebrochene Siegel liegt noch auf Holms Tisch.");
   if (held.schnurGeholfen) bits.push("Am östlichen Zaun hängt kein roter Faden mehr.");
   if (held.bettlerGeholfen) bits.push("Über der Esse des Schmieds hängt ein durchbohrter Groschen.");
+  bits.push(...epilogFadenBits(held));
   if (held.sannaGeholfen) bits.push("Sanna trägt wieder einen Brief. Diesmal hält sie ihn fest.");
   if (held.salzGerettet) bits.push("Jorren zählt das Salz nach, obwohl er weiß, dass es nicht mehr wird.");
   if (held.glockeGestoppt) bits.push("Die Kapelle schweigt über dem Weg.");

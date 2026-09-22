@@ -18,6 +18,8 @@ export type KartenState = {
   choices: string[];
   artSrc?: string;
   portraitSrc?: string;
+  stimmeSrc?: string;
+  stimmen?: import("../stimme").StimmeZug[];
   stand: "kanon" | "auflage";
 };
 
@@ -69,6 +71,7 @@ export const SPIELER_VERBOTEN = [
   "loesungswegGasse",
   "artefaktWeg",
   "todesort",
+  "ungerufenerNameGeloest",
 ] as const;
 
 export type SpielerVerboten = (typeof SPIELER_VERBOTEN)[number];
@@ -146,6 +149,16 @@ export const HELD_STATE_FELDER = [
   "kuesterGewarnt",
   "vahlKonfrontiert",
   "loesungswegGasse",
+  "fadenRinne",
+  "fadenMehlsackSpan",
+  "fadenBettlerSohn",
+  "fadenMaraWarnung",
+  "fadenHolm",
+  "schnurLetzterKnoten",
+  "glockeNamenGelesen",
+  "koehlerBefragt",
+  "fadenGeschlossen",
+  "ungerufenerNameGeloest",
   "todesort",
   "effekte",
   "mal",
@@ -163,6 +176,8 @@ export const KARTEN_STATE_FELDER = [
   "choices",
   "artSrc",
   "portraitSrc",
+  "stimmeSrc",
+  "stimmen",
   "stand",
 ] as const;
 

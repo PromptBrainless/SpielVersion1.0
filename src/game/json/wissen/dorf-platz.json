@@ -1,0 +1,10 @@
+{
+  "id": "dorf-platz",
+  "title": "Dorfplatz",
+  "bild": "/art/wissen/dorf-platz.jpg",
+  "offen": false,
+  "lines": [
+    "Du stehst jetzt mitten in Lindendorf.",
+    "Vor dir liegen Rathaus, Taverne, Brunnen, die Mühle und der Weg zum Hang."
+  ]
+}

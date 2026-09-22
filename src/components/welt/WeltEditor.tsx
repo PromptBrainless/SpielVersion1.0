@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FlaskConical, LayoutGrid, MapPinned, ShieldCheck, ShieldQuestion, UserRound, Users2 } from "lucide-react";
+import { BookMarked, FlaskConical, LayoutGrid, MapPinned, ShieldCheck, ShieldQuestion, UserRound, Users2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { EffektId, Held, SceneView } from "@/game/types";
 import type { Tageszeit } from "@/game/tageszeit";
@@ -20,8 +20,9 @@ import { WeltPruefen } from "./WeltPruefen";
 import { WeltKampagne } from "./WeltKampagne";
 import { WeltQuest } from "./WeltQuest";
 import { WeltSpieler } from "./WeltSpieler";
+import { WeltWissen } from "./WeltWissen";
 
-type Fach = "karte" | "held" | "stimme" | "kampagne" | "quest" | "spieler" | "pruefen";
+type Fach = "karte" | "held" | "stimme" | "wissen" | "kampagne" | "quest" | "spieler" | "pruefen";
 
 export function WeltEditor({
   szene,
@@ -150,6 +151,7 @@ export function WeltEditor({
               ["karte", "Karte", MapPinned],
               ["held", "Held", UserRound],
               ["stimme", "Stimme", FlaskConical],
+              ["wissen", "Wissen", BookMarked],
               ["kampagne", "Kampagne", LayoutGrid],
               ["quest", "Quest", ShieldQuestion],
               ["spieler", "Partien", Users2],
@@ -199,6 +201,7 @@ export function WeltEditor({
         {fach === "stimme" ? (
           <WeltEntwurf szene={sicht} auflage={sichtAuflage} schluessel={sichtKey} onChange={speichere} />
         ) : null}
+        {fach === "wissen" ? <WeltWissen aktuell={sicht?.id} /> : null}
         {fach === "kampagne" ? <WeltKampagne aktuell={sicht?.id} onSeite={oeffneSeite} /> : null}
         {fach === "quest" ? <WeltQuest /> : null}
         {fach === "spieler" ? (

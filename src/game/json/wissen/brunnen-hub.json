@@ -1,0 +1,10 @@
+{
+  "id": "brunnen-hub",
+  "title": "Trübes Wasser",
+  "bild": "/art/wissen/brunnen-hub.jpg",
+  "offen": false,
+  "lines": [
+    "Das Wasser im Eimer bleibt trüb bis auf den Grund.",
+    "Kerns Tür steht einen Spalt offen, als warte sie auf jemanden, der endlich hineingeht, statt nur vorbeizulaufen."
+  ]
+}

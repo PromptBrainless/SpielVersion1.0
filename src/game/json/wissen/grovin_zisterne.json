@@ -1,0 +1,10 @@
+{
+  "id": "grovin_zisterne",
+  "title": "Grovin leitet Wasser in eine Zisterne.",
+  "bild": "/art/wissen/grovin_zisterne.jpg",
+  "offen": false,
+  "lines": [
+    "Außerhalb des Dorfes, wo der Graben im Gestrüpp endet, hält jemand Wasser fest, das klarer ist als alles, was der Platz noch zu bieten hat.",
+    "Grovin hat den Brunnen gebaut. Das Dorf hat ihn nicht bezahlt. Das Wasser nimmt sich, was ihm zusteht, und er hilft nach."
+  ]
+}

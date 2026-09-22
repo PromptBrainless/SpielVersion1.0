@@ -1,4 +1,4 @@
-import { Dices, PenLine, RotateCcw, Undo2 } from "lucide-react";
+import { Dices, PenLine, RotateCcw, Undo2, Volume2 } from "lucide-react";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ART, PORTRAITS, artSrcFor, isMotion, portraitSrcFor } from "@/game/art";
@@ -8,6 +8,8 @@ import type { EffektId, ProbeResult, SceneView } from "@/game/types";
 import { leseTageszeit, tageszeitSchleier, type Tageszeit } from "@/game/tageszeit";
 import { useEinstellungen } from "@/game/use-einstellungen";
 import { spieleKlang } from "@/game/klang";
+import { FIGUR_NAME, spieleStimmen, stoppeStimme, stimmenListe } from "@/game/stimme";
+import { StimmeFeld } from "@/components/welt/StimmeFeld";
 import {
   AnfassRahmen,
   KastenBild,
@@ -100,11 +102,17 @@ export function SceneStage({
     return () => window.removeEventListener("keydown", onKey);
   }, [an, leiterOpen, onChoose, spiel.ziffernwahl, view.choices.length]);
 
+  const zuege = stimmenListe(view.stimmeSrc, view.stimmen);
+  useEffect(() => {
+    spieleStimmen(zuege);
+    return () => stoppeStimme();
+  }, [view.id, zuege.join("|")]);
+
   function merke(teil: KartePatch) {
     onPatch({ ...patch, ...teil });
   }
 
-  const hintergrund = artSrcFor(view.art, view.artSrc);
+  const hintergrund = artSrcFor(view.art, view.artSrc, view.id);
   const hintergrundPoster = ART[view.art];
   const portrait = portraitSrcFor(view.portrait, view.portraitSrc);
   const portraitPoster = view.portrait ? PORTRAITS[view.portrait] : undefined;
@@ -198,7 +206,17 @@ export function SceneStage({
               an={an}
               name="Text"
               lage="unten"
-              kasten={() => <KastenText title={view.title} lines={view.lines} onPatch={merke} />}
+              kasten={() => (
+                <div className="grid gap-3">
+                  <KastenText title={view.title} lines={view.lines} onPatch={merke} />
+                  <StimmeFeld
+                    src={view.stimmeSrc}
+                    stimmen={view.stimmen}
+                    antwort={view.portrait ? FIGUR_NAME[view.portrait] ?? "Antwort" : "Antwort"}
+                    onStimmen={(stimmen) => merke({ stimmen, stimmeSrc: stimmen[0]?.src ?? "" })}
+                  />
+                </div>
+              )}
             >
               <h2
                 className="tafel-zeile mb-3 font-display text-xl font-semibold tracking-tight sm:text-2xl"
@@ -206,6 +224,16 @@ export function SceneStage({
               >
                 {view.title}
               </h2>
+              {stimmenListe(view.stimmeSrc, view.stimmen).length ? (
+                <button
+                  type="button"
+                  className="mb-3 inline-flex h-11 items-center gap-1.5 rounded-sm border border-border bg-surface px-3 text-xs text-fg"
+                  onClick={() => spieleStimmen(stimmenListe(view.stimmeSrc, view.stimmen))}
+                >
+                  <Volume2 className="size-3.5 text-accent" aria-hidden />
+                  {stimmenListe(view.stimmeSrc, view.stimmen).length > 1 ? "Gespräch noch einmal" : "Stimme noch einmal"}
+                </button>
+              ) : null}
               <div className="space-y-2.5 text-sm leading-relaxed text-fg sm:text-base">
                 {view.lines.map((line, index) => (
                   <p

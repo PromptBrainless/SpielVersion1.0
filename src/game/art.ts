@@ -1,4 +1,5 @@
 import type { ArtKey, PortraitKey } from "./types";
+import { szeneWissenPfad } from "./szene-bilder";
 
 export const ART: Record<ArtKey, string> = {
   title: "/art/title.jpg",
@@ -49,8 +50,12 @@ export function isMotion(src: string) {
   return /\.(mp4|webm)$/i.test(src);
 }
 
-export function artSrcFor(art: ArtKey, override?: string) {
-  return override || ART_MOTION[art] || ART[art];
+export function artSrcFor(art: ArtKey, override?: string, szeneId?: string) {
+  const extra = override?.trim();
+  if (extra) return extra;
+  const szene = szeneWissenPfad(szeneId);
+  if (szene) return szene;
+  return ART_MOTION[art] || ART[art];
 }
 
 export function portraitSrcFor(portrait: PortraitKey | undefined, override?: string) {

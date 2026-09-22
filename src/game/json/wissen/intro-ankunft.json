@@ -1,0 +1,10 @@
+{
+  "id": "intro-ankunft",
+  "title": "Ankunft",
+  "bild": "/art/wissen/intro-ankunft.jpg",
+  "offen": false,
+  "lines": [
+    "Du bleibst am Rand des Platzes stehen.",
+    "Das ist zunächst höflich."
+  ]
+}

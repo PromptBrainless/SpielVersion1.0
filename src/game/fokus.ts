@@ -2,10 +2,11 @@ import { ART } from "./art";
 import { QUESTS } from "./json/baum";
 import { deriveKnowledge, type KnowledgeKey } from "./knowledge";
 import type { ArtKey, Held } from "./types";
-import { wissenTafelFuer } from "./wissen-tafeln";
+import { szeneTafelFuer, wissenTafelFuer } from "./wissen-tafeln";
+import { stimmenListe } from "./stimme";
 
 export type FokusBild = { art: "bild"; src: string; titel: string };
-export type FokusWissen = { art: "wissen"; title: string; lines: string[]; hintergrund: string };
+export type FokusWissen = { art: "wissen"; title: string; lines: string[]; hintergrund: string; stimmen?: string[] };
 export type FokusQuest = { art: "quest"; title: string; lines: string[]; hintergrund: string };
 export type FokusEintrag = FokusBild | FokusWissen | FokusQuest;
 
@@ -45,6 +46,11 @@ export function neuesWissen(vorher: Held | null | undefined, jetzt: Held): Knowl
   const alt = vorher ? deriveKnowledge(vorher) : new Set<KnowledgeKey>(STAMM_WISSEN);
   const neu = deriveKnowledge(jetzt);
   return [...neu].filter((key) => !alt.has(key));
+}
+
+export function neueKarten(vorher: Held | null | undefined, jetzt: Held): string[] {
+  const alt = new Set(vorher?.karten ?? []);
+  return (jetzt.karten ?? []).filter((id) => !alt.has(id));
 }
 
 export function neueQuest(vorher: Held | null | undefined, jetzt: Held): { quest: string; wert: string } | null {
@@ -94,6 +100,23 @@ export function wissenFokus(keys: KnowledgeKey[]): FokusWissen[] {
       title: tafel.title,
       lines: tafel.lines,
       hintergrund: tafel.bild,
+      stimmen: stimmenListe(tafel.stimmeSrc, tafel.stimmen),
     };
   });
+}
+
+export function kartenFokus(ids: string[]): FokusWissen[] {
+  const liste: FokusWissen[] = [];
+  for (const id of ids) {
+    const tafel = szeneTafelFuer(id);
+    if (!tafel || tafel.offen) continue;
+    liste.push({
+      art: "wissen",
+      title: tafel.title,
+      lines: tafel.lines.slice(0, 3),
+      hintergrund: tafel.bild,
+      stimmen: stimmenListe(tafel.stimmeSrc, tafel.stimmen),
+    });
+  }
+  return liste;
 }

@@ -1,0 +1,10 @@
+{
+  "id": "intro-tal",
+  "title": "Das Tal",
+  "bild": "/art/wissen/intro-tal.jpg",
+  "offen": false,
+  "lines": [
+    "Der Wald steht dicht an den Hängen, so eng, dass die Stämme sich beinahe berühren und der Weg nur ein schmaler Streifen nasser Erde bleibt.",
+    "Weiter unten siehst du Rauch, der senkrecht steigt, eine graue Säule ohne Neigung."
+  ]
+}

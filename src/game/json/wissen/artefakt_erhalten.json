@@ -1,0 +1,10 @@
+{
+  "id": "artefakt_erhalten",
+  "title": "Das silberne Artefakt liegt bei dir.",
+  "bild": "/art/wissen/artefakt_erhalten.jpg",
+  "offen": false,
+  "lines": [
+    "Das Silber liegt bei dir. Es wärmt sich nicht an der Hand. Es bleibt bei der Temperatur des Steins, aus dem es genommen wurde.",
+    "In Lindendorf wird jemand wissen, woher es stammt. Du trägst die Frage, bevor du sie stellen kannst."
+  ]
+}

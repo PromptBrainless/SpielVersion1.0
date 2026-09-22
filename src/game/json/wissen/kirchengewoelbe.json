@@ -1,0 +1,10 @@
+{
+  "id": "kirchengewoelbe",
+  "title": "Kirchengewölbe",
+  "bild": "/art/wissen/kirchengewoelbe.jpg",
+  "offen": false,
+  "lines": [
+    "Unter der Kirche führt ein Gang, den man nicht von der Kanzel aus erklärt.",
+    "Feuchte Luft, Stein, der nach altem Wasser schmeckt."
+  ]
+}

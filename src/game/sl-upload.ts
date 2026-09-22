@@ -42,3 +42,24 @@ export async function ladeSpielleiterBild(file: File): Promise<string> {
   }
   return `data:image/jpeg;base64,${data}`;
 }
+
+export async function ladeSpielleiterTon(file: File): Promise<string> {
+  if (!file.type.startsWith("audio/") && !/\.(webm|mp3|ogg|wav|m4a)$/i.test(file.name)) {
+    throw new Error("Das ist kein Ton.");
+  }
+  if (file.size > 8_000_000) throw new Error("Ton zu groß. Unter acht Megabyte bleiben.");
+  const data = await blobAlsBase64(file);
+  const mime = file.type || "audio/webm";
+  try {
+    const res = await fetch("/__lindendorf/upload", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ mime, data }),
+    });
+    const json = (await res.json()) as { ok?: boolean; src?: string };
+    if (res.ok && json.ok && json.src) return json.src;
+  } catch {
+    /* Preview ohne Speicherweg: Data-URL */
+  }
+  return `data:${mime};base64,${data}`;
+}

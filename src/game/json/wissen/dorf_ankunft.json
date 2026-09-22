@@ -1,0 +1,10 @@
+{
+  "id": "dorf_ankunft",
+  "title": "Du bist in Lindendorf angekommen.",
+  "bild": "/art/wissen/dorf_ankunft.jpg",
+  "offen": false,
+  "lines": [
+    "Du bist angekommen. Der Platz ist klein genug, dass jedes Gespräch einen Zeugen findet, und groß genug, dass niemand zugeben muss, hingehört zu haben.",
+    "Die Dächer tropfen noch. Das Wasser sucht sich die Rillen zwischen den Steinen und nimmt Stroh, Asche und etwas Dunkles mit, das niemand benennt."
+  ]
+}

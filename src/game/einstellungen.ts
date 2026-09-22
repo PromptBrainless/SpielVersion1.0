@@ -20,6 +20,7 @@ export type Einstellungen = {
     gesamt: number;
     ambiente: number;
     effekte: number;
+    stimme: number;
   };
   optik: {
     textgroesse: Textgroesse;
@@ -42,7 +43,7 @@ export type Einstellungen = {
 };
 
 export const EINSTELLUNGEN_STANDARD: Einstellungen = {
-  ton: { an: false, gesamt: 0.7, ambiente: 0.5, effekte: 0.7 },
+  ton: { an: false, gesamt: 0.7, ambiente: 0.5, effekte: 0.7, stimme: 1 },
   optik: {
     textgroesse: "normal",
     zeilenabstand: 1.6,
@@ -110,6 +111,7 @@ export function normalisiere(roh: unknown): Einstellungen {
       gesamt: zahl(ton.gesamt, 0, 1, s.ton.gesamt),
       ambiente: zahl(ton.ambiente, 0, 1, s.ton.ambiente),
       effekte: zahl(ton.effekte, 0, 1, s.ton.effekte),
+      stimme: zahl(ton.stimme, 0, 1, s.ton.stimme),
     },
     optik: {
       textgroesse: wahl(
